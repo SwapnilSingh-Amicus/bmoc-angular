@@ -1,0 +1,137 @@
+$c-bar: #16283e;
+
+.top-bar {
+  height: 42px;
+  background-color: $c-bar;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  flex-shrink: 0;
+  gap: 12px;
+  position: relative;
+
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex: 1;
+  }
+
+  &__warn-icon {
+    color: #ed4e33;
+    flex-shrink: 0;
+  }
+
+  &__warn-text {
+    font-size: 11px;
+    font-weight: 700;
+    color: #ed4e33;
+    white-space: nowrap;
+    letter-spacing: 0.3px;
+  }
+
+  &__center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  &__title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-shrink: 0;
+  }
+
+  &__sep {
+    width: 1px;
+    height: 18px;
+    background-color: rgba(255,255,255,0.2);
+    margin: 0 6px;
+  }
+
+  &__user-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,0.85);
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 8px;
+    border-radius: 3px;
+    white-space: nowrap;
+    font-family: inherit;
+    transition: background 0.15s;
+
+    &:hover { background: rgba(255,255,255,0.08); }
+
+    lucide-icon { opacity: 0.7; }
+  }
+
+  &__lang-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,0.85);
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: 3px;
+    &:hover { background: rgba(255,255,255,0.08); }
+  }
+
+  .topbar-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 4px;
+    background: #ffffff;
+    border: 1px solid #d2ddea;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    padding: 4px 0;
+
+    button {
+      background: transparent;
+      border: none;
+      padding: 8px 16px;
+      font-size: 11px;
+      font-weight: 500;
+      color: #15273f;
+      text-align: left;
+      cursor: pointer;
+      white-space: nowrap;
+      font-family: inherit;
+      width: 100%;
+
+      &:hover {
+        background: #f6f8fb;
+      }
+    }
+
+    .divider {
+      height: 1px;
+      background: #edf1f7;
+      margin: 4px 0;
+    }
+  }
+}
+

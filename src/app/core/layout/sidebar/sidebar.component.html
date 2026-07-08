@@ -1,0 +1,91 @@
+<aside class="sidebar" [class.sidebar--collapsed]="collapsed()">
+
+  <!-- Logo -->
+  <div class="sidebar__logo">
+    <div class="sidebar__logo-mark">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" class="sidebar__logo-hex">
+        <path d="M14 1L26 7.5V20.5L14 27L2 20.5V7.5L14 1Z" stroke="#2795a8" stroke-width="2" fill="none"/>
+        <text x="14" y="18" text-anchor="middle" fill="#2795a8" font-size="9" font-weight="700" font-family="Inter,sans-serif">EAS</text>
+      </svg>
+      <span class="sidebar__logo-text" *ngIf="!collapsed()">EAS BMOC</span>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="sidebar__nav" aria-label="Main Navigation">
+    <ul class="sidebar__nav-list">
+      <ng-container *ngFor="let item of navItems">
+
+        <!-- Leaf item -->
+        <li *ngIf="!item.children" class="sidebar__nav-item" [id]="item.id">
+          <a
+            [routerLink]="item.route"
+            routerLinkActive="sidebar__nav-link--active"
+            [routerLinkActiveOptions]="{ exact: item.route === '/dashboard' }"
+            class="sidebar__nav-link"
+            [title]="collapsed() ? item.label : ''"
+          >
+            <ng-container [ngSwitch]="item.icon">
+              <svg *ngSwitchCase="'dashboard'" lucideLayoutDashboard size="18" class="sidebar__nav-icon"></svg>
+              <svg *ngSwitchCase="'requests'" lucideClipboardList size="18" class="sidebar__nav-icon"></svg>
+              <svg *ngSwitchCase="'workflow'" lucideGitBranch size="18" class="sidebar__nav-icon"></svg>
+              <svg *ngSwitchCase="'tasks'" lucideCheckSquare size="18" class="sidebar__nav-icon"></svg>
+              <svg *ngSwitchCase="'masters'" lucideBookOpen size="18" class="sidebar__nav-icon"></svg>
+              <svg *ngSwitchCase="'reports'" lucideBarChart2 size="18" class="sidebar__nav-icon"></svg>
+
+            </ng-container>
+            <span class="sidebar__nav-label" *ngIf="!collapsed()">{{ item.label }}</span>
+          </a>
+        </li>
+
+        <!-- Group item -->
+        <li *ngIf="item.children" class="sidebar__nav-item sidebar__nav-item--group" [id]="item.id">
+          <button
+            class="sidebar__nav-link sidebar__nav-link--group"
+            (click)="toggleExpand(item.label)"
+            [title]="collapsed() ? item.label : ''"
+          >
+            <ng-container [ngSwitch]="item.icon">
+              <svg *ngSwitchCase="'dashboard'" lucideLayoutDashboard size="18" class="sidebar__nav-icon"></svg>
+              <svg *ngSwitchCase="'requests'" lucideClipboardList size="18" class="sidebar__nav-icon"></svg>
+              <svg *ngSwitchCase="'workflow'" lucideGitBranch size="18" class="sidebar__nav-icon"></svg>
+              <svg *ngSwitchCase="'tasks'" lucideCheckSquare size="18" class="sidebar__nav-icon"></svg>
+              <svg *ngSwitchCase="'masters'" lucideBookOpen size="18" class="sidebar__nav-icon"></svg>
+              <svg *ngSwitchCase="'reports'" lucideBarChart2 size="18" class="sidebar__nav-icon"></svg>
+
+            </ng-container>
+            <span class="sidebar__nav-label" *ngIf="!collapsed()">{{ item.label }}</span>
+            <svg
+              *ngIf="!collapsed()"
+              lucideChevronRight
+              size="14"
+              class="sidebar__nav-caret"
+              [style.transform]="isExpanded(item.label) ? 'rotate(90deg)' : 'rotate(0deg)'"
+            ></svg>
+          </button>
+
+          <ul class="sidebar__sub-list" *ngIf="isExpanded(item.label) && !collapsed()">
+            <li *ngFor="let child of item.children">
+              <a
+                [routerLink]="child.route"
+                routerLinkActive="sidebar__sub-link--active"
+                class="sidebar__sub-link"
+              >{{ child.label }}</a>
+            </li>
+          </ul>
+        </li>
+
+      </ng-container>
+    </ul>
+  </nav>
+
+  <!-- Footer avatar -->
+  <div class="sidebar__footer">
+    <div class="sidebar__footer-avatar" title="Priya Sharma">PS</div>
+    <div class="sidebar__footer-info" *ngIf="!collapsed()">
+      <div class="sidebar__footer-name">Priya Sharma</div>
+      <div class="sidebar__footer-role">R&D Requestor</div>
+    </div>
+  </div>
+
+</aside>

@@ -1,0 +1,322 @@
+<div class="dash-page">
+
+  <!-- ── Page Heading Row ──────────────────────────────────────── -->
+  <div class="dash-heading-row">
+    <h2 class="dash-title">Dashboard</h2>
+    <div style="position: relative;">
+      <button class="add-request-btn" (click)="toggleAddDropdown()" id="btn-add-new-request">
+        <svg lucidePlus [size]="14"></svg>
+        ADD NEW REQUEST
+        <svg lucideChevronDown [size]="13"></svg>
+      </button>
+      
+      <div *ngIf="showAddDropdown()" class="dropdown-menu" style="position: absolute; top: 100%; right: 0; margin-top: 4px; background: #16283e; border-radius: 4px; width: 280px; z-index: 100; box-shadow: 0 4px 6px rgba(0,0,0,0.3); padding: 8px 0; color: white;">
+        <button (click)="addRequest('FINISHED PRODUCT')" style="display: block; width: 100%; text-align: left; padding: 10px 16px; background: transparent; border: none; color: white; font-size: 11px; font-weight: 700; cursor: pointer;">FINISHED PRODUCT</button>
+        <button (click)="addRequest('RAW MATERIAL')" style="display: block; width: 100%; text-align: left; padding: 10px 16px; background: transparent; border: none; color: white; font-size: 11px; font-weight: 700; cursor: pointer;">RAW MATERIAL</button>
+        <button (click)="addRequest('EXPERIMENTAL PRODUCT - NO ERP CREATION')" style="display: block; width: 100%; text-align: left; padding: 10px 16px; background: transparent; border: none; color: white; font-size: 11px; font-weight: 700; cursor: pointer;">EXPERIMENTAL PRODUCT – NO ERP CREATION</button>
+        <button (click)="addRequest('EXPERIMENTAL PRODUCT - WITH ERP CREATION')" style="display: block; width: 100%; text-align: left; padding: 10px 16px; background: transparent; border: none; color: white; font-size: 11px; font-weight: 700; cursor: pointer; border-bottom: 1px solid #23476c;">EXPERIMENTAL PRODUCT – WITH ERP CREATION</button>
+        
+        <button disabled style="display: block; width: 100%; text-align: left; padding: 10px 16px; background: transparent; border: none; color: #5c6c7e; font-size: 11px; font-weight: 700; cursor: not-allowed; margin-top: 4px;">PACKAGING CREATION</button>
+        <button disabled style="display: block; width: 100%; text-align: left; padding: 10px 16px; background: transparent; border: none; color: #5c6c7e; font-size: 11px; font-weight: 700; cursor: not-allowed;">PREPRINTED PACKAGING</button>
+        <button disabled style="display: block; width: 100%; text-align: left; padding: 10px 16px; background: transparent; border: none; color: #5c6c7e; font-size: 11px; font-weight: 700; cursor: not-allowed;">VERIFI, EQUIPMENTS AND OTHERS</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Filter Toolbar ───────────────────────────────────────── -->
+  <div class="filter-toolbar">
+    <div class="filter-toolbar__left">
+      <span class="filter-toolbar__count">
+        Showing <strong>{{ showCount() }}</strong> of <strong>{{ totalCount() }}</strong> Requests
+      </span>
+      <button class="xlsx-btn" title="Export XLSX">
+        <svg lucideDownload [size]="13"></svg>
+        XLSX
+      </button>
+    </div>
+    <div class="filter-toolbar__right">
+      <label class="my-req-checkbox">
+        <input type="checkbox" [ngModel]="myRequestsOnly()" (ngModelChange)="myRequestsOnly.set($event); currentPage.set(1)" />
+        My Requests
+      </label>
+      <button class="filter-btn" (click)="openFilterModal()" style="position: relative;">
+        <svg lucideFilter [size]="13"></svg>
+        FILTER
+        <span *ngIf="activeFilterCount() > 0" style="position: absolute; top: -7px; right: -7px; width: 17px; height: 17px; border-radius: 50%; background-color: #2795a8; color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center;">
+          {{ activeFilterCount() }}
+        </span>
+      </button>
+      <div class="date-range">
+        <svg lucideCalendar [size]="13" class="date-range__icon"></svg>
+        <app-date-picker placeholder="dd-mm-yyyy" (valueChange)="startDate.set($event)"></app-date-picker>
+        <span class="date-range__sep">–</span>
+        <app-date-picker placeholder="dd-mm-yyyy" (valueChange)="endDate.set($event)"></app-date-picker>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter Modal -->
+  <div class="modal-backdrop" *ngIf="showFilterModal()" (click)="showFilterModal.set(false)">
+    <div class="modal" style="width: 600px; max-width: 90vw;" (click)="$event.stopPropagation()">
+      <!-- Modal Header -->
+      <div class="modal__header" style="background-color: #16283e; border-bottom: 1px solid #2a4763; padding: 13px 20px;">
+        <h3 class="modal__header-title" style="font-size: 15px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 8px;">
+          <svg lucideFilter [size]="15" style="color: #fff;"></svg> Filter Requests
+        </h3>
+        <button (click)="showFilterModal.set(false)" style="background: none; border: none; cursor: pointer; color: #fff; display: flex; align-items: center; padding: 2px;">
+          <svg lucideX [size]="16"></svg>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal__body" style="padding: 24px 24px 16px; display: flex; flex-direction: column; gap: 16px;">
+        <!-- Request Title -->
+        <div style="display: flex; flex-direction: column; gap: 4px;">
+          <label style="font-size: 12px; font-weight: 600; color: #15273f;">Request Title</label>
+          <input
+            type="text"
+            placeholder="Search request title..."
+            [(ngModel)]="tempFilterReqTitle"
+            style="height: 36px; border: 1.5px solid #e0e5ec; border-radius: 3px; padding: 0 10px; font-size: 13px; color: #15273f; outline: none; font-family: inherit; background-color: #fff;"
+          />
+        </div>
+
+        <!-- Request Type -->
+        <div style="display: flex; flex-direction: column; gap: 4px;">
+          <label style="font-size: 12px; font-weight: 600; color: #15273f;">Request Type</label>
+          <select
+            [(ngModel)]="tempFilterReqType"
+            style="height: 36px; border: 1.5px solid #e0e5ec; border-radius: 3px; padding: 0 10px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff;"
+            [style.color]="tempFilterReqType() ? '#15273f' : '#aaa'"
+          >
+            <option value="">— Select Type —</option>
+            <option *ngFor="let t of REQ_TYPES" [value]="t">{{ t }}</option>
+          </select>
+        </div>
+
+        <!-- Location -->
+        <div style="display: flex; flex-direction: column; gap: 4px;">
+          <label style="font-size: 12px; font-weight: 600; color: #15273f;">Location</label>
+          <select
+            [(ngModel)]="tempFilterLocation"
+            style="height: 36px; border: 1.5px solid #e0e5ec; border-radius: 3px; padding: 0 10px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff;"
+            [style.color]="tempFilterLocation() ? '#15273f' : '#aaa'"
+          >
+            <option value="">— Select Location —</option>
+            <option *ngFor="let l of LOCATIONS" [value]="l">{{ l }}</option>
+          </select>
+        </div>
+
+        <!-- Requestor -->
+        <div style="display: flex; flex-direction: column; gap: 4px; position: relative;">
+          <label style="font-size: 12px; font-weight: 600; color: #15273f;">Requestor</label>
+          <div style="position: relative;">
+            <svg lucideSearch [size]="12" style="position: absolute; left: 9px; top: 50%; transform: translateY(-50%); color: #b0b8c4; pointer-events: none;"></svg>
+            <input
+              type="text"
+              placeholder="Search requestor..."
+              [value]="tempFilterRequestor() || tempFilterRequestorSearch()"
+              (input)="tempFilterRequestorSearch.set($any($event.target).value); tempFilterRequestor.set(''); filterRequestorOpen.set(true);"
+              (focus)="filterRequestorOpen.set(true)"
+              (blur)="onRequestorBlur()"
+              style="height: 36px; border: 1.5px solid #e0e5ec; border-radius: 3px; padding: 0 10px 0 28px; font-size: 13px; color: #15273f; outline: none; font-family: inherit; width: 100%; box-sizing: border-box; background-color: #fff;"
+            />
+            <button *ngIf="tempFilterRequestor()" (click)="clearRequestor()" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #77858c; padding: 0;">
+              <svg lucideX [size]="13"></svg>
+            </button>
+          </div>
+          <div *ngIf="filterRequestorOpen() && filteredRequestors().length > 0" style="position: absolute; top: 100%; left: 0; right: 0; background-color: #fff; border: 1px solid #e0e5ec; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,.12); max-height: 160px; overflow-y: auto; margin-top: 4px;">
+            <div *ngFor="let r of filteredRequestors()" (mousedown)="selectRequestor(r)"
+              style="padding: 8px 12px; font-size: 13px; cursor: pointer; color: #15273f; border-bottom: 1px solid #f4f6f9;"
+              class="hover:bg-[#e7eef8]">
+              {{ r }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Stage -->
+        <div style="display: flex; flex-direction: column; gap: 4px;">
+          <label style="font-size: 12px; font-weight: 600; color: #15273f;">Stage</label>
+          <select
+            [(ngModel)]="tempFilterStage"
+            style="height: 36px; border: 1.5px solid #e0e5ec; border-radius: 3px; padding: 0 10px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff;"
+            [style.color]="tempFilterStage() ? '#15273f' : '#aaa'"
+          >
+            <option value="">— Select Stage —</option>
+            <option *ngFor="let s of STAGES" [value]="s">{{ s }}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal__footer" style="padding: 12px 24px 20px; display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid #d2ddea;">
+        <button (click)="clearFilters()" class="pill-btn pill-btn--outlined" style="height: 34px; padding: 0 18px; border-radius: 15px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+          CLEAR ALL
+        </button>
+        <button (click)="applyFilters()" class="pill-btn" style="height: 34px; padding: 0 22px; border-radius: 15px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; background-color: #16283e;">
+          Apply Filters
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── My Requests Table ────────────────────────────────────── -->
+  <div class="dash-widget">
+    <div class="dash-widget__section-title">My Requests</div>
+
+    <div class="table-wrapper">
+      <table class="req-table">
+        <thead>
+          <tr>
+            <th>Req. ID</th>
+            <th>Request Title</th>
+            <th>Type</th>
+            <th>Sub Category</th>
+            <th>Location</th>
+            <th>Requestor</th>
+            <th>Request Date</th>
+            <th>Stage</th>
+            <th>Status</th>
+            <th>Priority</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="pageRows().length === 0">
+            <td colspan="10" class="empty-row">No requests found.</td>
+          </tr>
+          <tr
+            *ngFor="let r of pageRows(); let i = index"
+            class="req-row"
+            (click)="openRequest(r)"
+            [id]="'req-row-' + r.id"
+          >
+            <td><a class="req-id-link">{{ r.id }}</a></td>
+            <td class="req-title">{{ r.title }}</td>
+            <td class="req-type">{{ r.type }}</td>
+            <td>{{ r.subCategory }}</td>
+            <td>{{ r.location }}</td>
+            <td>{{ r.requestor }}</td>
+            <td class="nowrap">{{ r.reqDate }}</td>
+            <td>{{ r.stage }}</td>
+            <td>
+              <span class="status-cell">
+                <span class="status-dot" [style.background]="statusColor(r.status)"></span>
+                <span class="status-text" [style.color]="statusColor(r.status)">{{ r.status }}</span>
+              </span>
+            </td>
+            <td>
+              <span class="priority-cell">
+                <span class="priority-dot" [style.background]="priorityColor(r.priority)"></span>
+                {{ r.priority }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Table Footer Pagination -->
+    <div class="table-footer">
+      <div class="table-footer__left">
+        Show
+        <select class="page-size-select" [ngModel]="pageSize()" (ngModelChange)="pageSize.set(+$event); currentPage.set(1)">
+          <option [value]="5">5</option>
+          <option [value]="10">10</option>
+          <option [value]="20">20</option>
+        </select>
+        rows &nbsp; {{ paginationInfo() }}
+      </div>
+      <div class="table-footer__right">
+        <button class="pag-btn" (click)="prevPage()" [disabled]="currentPage() === 1">
+          <svg lucideChevronLeft [size]="13"></svg>
+        </button>
+        <button
+          *ngFor="let p of pages()"
+          class="pag-btn"
+          [class.pag-btn--active]="p === currentPage()"
+          (click)="setPage(p)"
+        >{{ p }}</button>
+        <button class="pag-btn" (click)="nextPage()" [disabled]="currentPage() === totalPages()">
+          <svg lucideChevronRight [size]="13"></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Bottom Charts Row ─────────────────────────────────────── -->
+  <div class="charts-row">
+
+    <!-- Bar Chart: Global Requests by Quarter -->
+    <div class="chart-widget">
+      <div class="chart-widget__header">
+        <span class="chart-widget__title">Global Requests by Quarter</span>
+        <button class="this-year-btn">This Year</button>
+      </div>
+      <div class="bar-chart">
+        <!-- Y-axis grid -->
+        <div class="bar-chart__y-axis">
+          <span *ngFor="let g of gridLines.slice().reverse()">{{ g }}</span>
+        </div>
+        <!-- Bars -->
+        <div class="bar-chart__plot">
+          <div class="bar-chart__gridlines">
+            <div class="bar-chart__gridline" *ngFor="let g of gridLines"></div>
+          </div>
+          <div class="bar-chart__bars-container">
+            <div class="bar-chart__group" *ngFor="let d of chartData" (mouseenter)="hoveredBar.set(d.q)" (mouseleave)="hoveredBar.set(null)">
+              <div class="bar-chart__group-bars">
+                <div
+                  class="bar dark"
+                  [style.height.px]="barPx(d.dark)"
+                  [attr.data-quarter]="d.q"
+                  [attr.data-scc]="d.dark"
+                  [attr.data-srm]="d.teal"
+                ></div>
+                <div
+                  class="bar teal"
+                  [style.height.px]="barPx(d.teal)"
+                  [attr.data-quarter]="d.q"
+                  [attr.data-scc]="d.dark"
+                  [attr.data-srm]="d.teal"
+                ></div>
+                <div class="bar-tooltip" *ngIf="hoveredBar() === d.q">
+                  <div class="bar-tooltip__title">{{ d.q }}</div>
+                  <div class="bar-tooltip__item">SCC: {{ d.dark }}</div>
+                  <div class="bar-tooltip__item">SRM: {{ d.teal }}</div>
+                </div>
+              </div>
+              <div class="bar-chart__label">{{ d.q }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Donut Chart: Requests by Region -->
+    <div class="chart-widget">
+      <div class="chart-widget__header">
+        <span class="chart-widget__title">Requests by Region</span>
+        <button class="this-year-btn">This Year</button>
+      </div>
+      <div class="donut-chart">
+        <div class="donut-chart__ring-wrap">
+          <div
+            class="donut-chart__ring"
+            [style.background]="donutGradient()"
+          ></div>
+          <div class="donut-chart__hole">
+            <span class="donut-chart__center-label">Regions</span>
+          </div>
+        </div>
+        <div class="donut-chart__legend">
+          <div class="donut-chart__legend-item" *ngFor="let r of regions">
+            <span class="donut-chart__legend-dot" [style.background]="r.color"></span>
+            <span class="donut-chart__legend-label">{{ r.label }}</span>
+            <span class="donut-chart__legend-pct">— {{ r.pct }}%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

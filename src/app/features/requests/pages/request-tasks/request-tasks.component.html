@@ -1,0 +1,254 @@
+<div class="page-body">
+  <!-- Page Heading -->
+  <h2 class="page-title" style="margin-bottom: 24px;">Add New "Finished Product" Request</h2>
+  
+  <!-- Stepper -->
+  <div class="stepper">
+    <div class="stepper__step stepper__step--active">
+      <div class="stepper__step-circle" style="background-color: #29b931; border-color: #29b931;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <div class="stepper__step-label">Step 1 : Request Details</div>
+    </div>
+    <div class="stepper__line"></div>
+    <div class="stepper__step stepper__step--active">
+      <div class="stepper__step-circle">2</div>
+      <div class="stepper__step-label">Step 2 : Submit Request</div>
+    </div>
+  </div>
+
+  <!-- Request Tasks Header -->
+  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+    <span style="font-size: 16px; font-weight: 700; color: #15273f;">Request Tasks</span>
+    <button class="pill-btn" style="gap: 6px; padding: 8px 18px; font-size: 12px;" (click)="addTask()">
+      ADD TASK
+    </button>
+  </div>
+
+  <!-- Task Groups -->
+  <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px;">
+    <div *ngFor="let group of taskGroups(); let groupIndex = index" style="background: #fff; border: 1px solid #d2ddea; overflow: hidden;">
+      <!-- Group Header -->
+      <div style="display: flex; align-items: center; gap: 10px; padding: 10px 16px; background: #fff; border-bottom: 1px solid #d2ddea;">
+        <!-- Red X button -->
+        <button 
+          (click)="removeGroup(groupIndex)"
+          style="background: none; border: none; cursor: pointer; color: #ed4e33; padding: 0; line-height: 1; flex-shrink: 0; display: flex; align-items: center;">
+          <svg lucideX [size]="14" style="stroke-width: 2.8;"></svg>
+        </button>
+
+        <!-- Stage name -->
+        <span style="flex: 1; font-size: 14px; font-weight: 600; color: #15273f;">{{ group.name }}</span>
+
+        <!-- Move down button -->
+        <button 
+          *ngIf="groupIndex < taskGroups().length - 1"
+          (click)="moveGroupDown(groupIndex)"
+          style="background: none; border: none; cursor: pointer; color: #77858c; padding: 2px; line-height: 1; display: flex; align-items: center;">
+          <svg lucideChevronDown [size]="16"></svg>
+        </button>
+
+        <!-- Move up button -->
+        <button 
+          *ngIf="groupIndex > 0"
+          (click)="moveGroupUp(groupIndex)"
+          style="background: none; border: none; cursor: pointer; color: #77858c; padding: 2px; line-height: 1; display: flex; align-items: center;">
+          <svg lucideChevronUp [size]="16"></svg>
+        </button>
+      </div>
+
+      <!-- Tasks Table -->
+      <table style="width: 100%; border-collapse: collapse;">
+        <colgroup>
+          <col style="width: 52px;" />
+          <col style="width: 28%;" />
+          <col style="width: 38%;" />
+          <col />
+        </colgroup>
+        <thead>
+          <tr style="background: #f6f8fb;">
+            <th style="padding: 8px 14px; font-size: 12px; font-weight: 600; color: #77858c; text-align: left; border-bottom: 1px solid #edf1f7;"></th>
+            <th style="padding: 8px 14px; font-size: 12px; font-weight: 600; color: #77858c; text-align: left; border-bottom: 1px solid #edf1f7;">Task Title</th>
+            <th style="padding: 8px 14px; font-size: 12px; font-weight: 600; color: #77858c; text-align: left; border-bottom: 1px solid #edf1f7;">Responsibility</th>
+            <th style="padding: 8px 14px; font-size: 12px; font-weight: 600; color: #77858c; text-align: left; border-bottom: 1px solid #edf1f7;">User <span style="color: #ed4e33;">*</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let task of group.tasks; let taskIndex = index" style="background: #fff;">
+            <!-- Indented red X button -->
+            <td style="padding: 10px 8px 10px 28px; border-bottom: 1px solid #edf1f7; vertical-align: middle;">
+              <button 
+                (click)="removeTask(groupIndex, taskIndex)"
+                style="background: none; border: none; cursor: pointer; color: #ed4e33; padding: 0; line-height: 1; display: flex; align-items: center;">
+                <svg lucideX [size]="13" style="stroke-width: 2.8;"></svg>
+              </button>
+            </td>
+
+            <!-- Task Title -->
+            <td style="padding: 10px 14px; font-size: 13px; font-weight: 500; color: #15273f; border-bottom: 1px solid #edf1f7; text-align: left; vertical-align: middle;">
+              {{ task.title }}
+            </td>
+
+            <!-- Responsibility -->
+            <td style="padding: 10px 14px; font-size: 13px; color: #77858c; border-bottom: 1px solid #edf1f7; text-align: left; vertical-align: middle;">
+              {{ task.responsibility }}
+            </td>
+
+            <!-- User input -->
+            <td style="padding: 8px 16px 8px 8px; border-bottom: 1px solid #edf1f7; vertical-align: middle;">
+              <input
+                type="text"
+                [ngModel]="task.user"
+                (ngModelChange)="updateUser(groupIndex, taskIndex, $event)"
+                style="width: 100%; height: 32px; border: 1px solid #e0e5ec; border-radius: 3px; padding: 0 10px; font-size: 13px; font-family: inherit; color: #15273f; background-color: #f7f9fc; outline: none; box-sizing: border-box;"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="form-actions" style="margin-top: 24px; border-top: 1px solid #d2ddea; padding-top: 16px;">
+    <button class="pill-btn pill-btn--outlined" (click)="previous()">← PREVIOUS</button>
+    <div style="flex:1"></div>
+    <button class="pill-btn pill-btn--outlined" (click)="saveDraft()" style="margin-right: 8px;">SAVE AS DRAFT</button>
+    <button class="pill-btn" (click)="next()">SUBMIT REQUEST →</button>
+  </div>
+</div>
+
+<!-- Success Modal -->
+<div class="modal-backdrop" *ngIf="showSuccessModal()" style="background-color: rgba(0, 0, 0, 0.6); z-index: 10000;">
+  <div class="modal" style="width: 500px; max-width: 90vw; text-align: center; border-radius: 8px; padding: 40px 30px;" (click)="$event.stopPropagation()">
+    <!-- Success Icon -->
+    <div style="margin-bottom: 20px;">
+      <div style="width: 80px; height: 80px; border-radius: 50%; background: #29b931; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+        <svg lucideCheck [size]="48" style="color: #fff; stroke-width: 3;"></svg>
+      </div>
+    </div>
+
+    <!-- Title -->
+    <h2 style="font-size: 22px; font-weight: 700; color: #15273f; margin: 0 0 16px 0;">Request Submitted Successfully!</h2>
+
+    <!-- Request ID Badge -->
+    <div style="display: inline-block; background: #2795a8; color: #fff; font-size: 15px; font-weight: 700; padding: 8px 20px; border-radius: 4px; margin-bottom: 20px;">
+      BMOC-2024-0045
+    </div>
+
+    <!-- Description -->
+    <p style="font-size: 14px; color: #77858c; margin: 0 0 8px 0; line-height: 1.6;">
+      New Waterproofing Compound WP-250 — Bangalore has been submitted.
+    </p>
+    <p style="font-size: 14px; color: #77858c; margin: 0 0 8px 0; line-height: 1.6;">
+      The workflow is now active and assignees have been notified.
+    </p>
+    <p style="font-size: 13px; color: #77858c; margin: 0 0 24px 0;">
+      Stage: Pre Approval · Priority: P2 Medium
+    </p>
+
+    <!-- Button -->
+    <button class="pill-btn" (click)="viewRequestSummary()" style="padding: 10px 28px; font-size: 12px; font-weight: 700;">
+      VIEW REQUEST SUMMARY
+    </button>
+  </div>
+</div>
+
+<!-- Email Notification Modal -->
+<div class="modal-backdrop" *ngIf="showEmailModal()" (click)="closeEmailModal()" style="z-index: 9999;">
+  <div class="modal" style="width: 580px; max-width: 90vw;" (click)="$event.stopPropagation()">
+    
+    <!-- Email Sent Success View -->
+    <div *ngIf="emailSent()" style="padding: 32px; text-align: center;">
+      <div style="width: 52px; height: 52px; border-radius: 50%; background-color: #e8faf0; border: 2px solid #29b931; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#29b931" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <div style="font-size: 15px; font-weight: 700; color: #15273f; margin-bottom: 8px;">Email Sent</div>
+      <div style="font-size: 13px; color: #77858c; margin-bottom: 20px;">Notification sent to {{ toTags().length }} recipient(s).</div>
+    </div>
+
+    <!-- Email Compose View -->
+    <div *ngIf="!emailSent()">
+      <div class="modal__header" style="padding: 14px 20px 12px; background-color: #f6f8fb; border-bottom: 1px solid #d2ddea; display: flex; align-items: center; justify-content: space-between;">
+        <h3 style="font-size: 15px; font-weight: 700; color: #15273f; margin: 0;">Send Email Notification</h3>
+        <button (click)="closeEmailModal()" style="background: none; border: none; cursor: pointer; color: #77858c; display: flex; align-items: center; padding: 0;">
+          <svg lucideX [size]="18"></svg>
+        </button>
+      </div>
+
+      <div style="padding: 20px;">
+        <!-- To Field -->
+        <div style="margin-bottom: 14px;">
+          <label style="font-size: 12px; font-weight: 600; color: #15273f; display: block; margin-bottom: 5px;">To</label>
+          <div style="border: 2px solid #e0e5ec; border-radius: 3px; padding: 6px; min-height: 40px; display: flex; flex-wrap: wrap; gap: 6px; background: #fff;">
+            <span *ngFor="let email of toTags()" 
+              style="display: inline-flex; align-items: center; gap: 6px; background: #2795a8; color: #fff; padding: 4px 10px; border-radius: 15px; font-size: 12px; font-weight: 500;">
+              {{ email }}
+              <button (click)="removeToTag(email)" style="background: none; border: none; cursor: pointer; color: #fff; padding: 0; display: flex; align-items: center; line-height: 1;">
+                <svg lucideX [size]="12"></svg>
+              </button>
+            </span>
+            <input 
+              type="email" 
+              [ngModel]="newToEmail()"
+              (ngModelChange)="newToEmail.set($event)"
+              (keyup.enter)="addToTag()"
+              placeholder="recipient@company.com"
+              style="flex: 1; min-width: 150px; border: none; outline: none; font-size: 13px; font-family: inherit; color: #15273f; padding: 4px;" />
+          </div>
+        </div>
+
+        <!-- CC Field -->
+        <div style="margin-bottom: 14px;">
+          <label style="font-size: 12px; font-weight: 600; color: #15273f; display: block; margin-bottom: 5px;">CC</label>
+          <div style="border: 2px solid #e0e5ec; border-radius: 3px; padding: 6px; min-height: 40px; display: flex; flex-wrap: wrap; gap: 6px; background: #fff;">
+            <span *ngFor="let email of ccTags()" 
+              style="display: inline-flex; align-items: center; gap: 6px; background: #2795a8; color: #fff; padding: 4px 10px; border-radius: 15px; font-size: 12px; font-weight: 500;">
+              {{ email }}
+              <button (click)="removeCcTag(email)" style="background: none; border: none; cursor: pointer; color: #fff; padding: 0; display: flex; align-items: center; line-height: 1;">
+                <svg lucideX [size]="12"></svg>
+              </button>
+            </span>
+            <input 
+              type="email" 
+              [ngModel]="newCcEmail()"
+              (ngModelChange)="newCcEmail.set($event)"
+              (keyup.enter)="addCcTag()"
+              placeholder="cc@company.com"
+              style="flex: 1; min-width: 150px; border: none; outline: none; font-size: 13px; font-family: inherit; color: #15273f; padding: 4px;" />
+          </div>
+        </div>
+
+        <!-- Subject Field -->
+        <div style="margin-bottom: 14px;">
+          <label style="font-size: 12px; font-weight: 600; color: #15273f; display: block; margin-bottom: 5px;">Subject</label>
+          <input 
+            type="text"
+            [ngModel]="emailSubject()"
+            (ngModelChange)="emailSubject.set($event)"
+            style="width: 100%; height: 36px; border: 2px solid #e0e5ec; border-radius: 3px; padding: 0 10px; font-size: 13px; font-family: inherit; color: #15273f; outline: none; box-sizing: border-box;" />
+        </div>
+
+        <!-- Message Field -->
+        <div style="margin-bottom: 20px;">
+          <label style="font-size: 12px; font-weight: 600; color: #15273f; display: block; margin-bottom: 5px;">Message</label>
+          <textarea 
+            [ngModel]="emailBody()"
+            (ngModelChange)="emailBody.set($event)"
+            rows="7"
+            style="width: 100%; border: 2px solid #e0e5ec; border-radius: 3px; padding: 10px; font-size: 13px; font-family: inherit; resize: vertical; box-sizing: border-box; color: #15273f; outline: none; line-height: 1.6;"></textarea>
+        </div>
+
+        <!-- Action Buttons -->
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button class="pill-btn pill-btn--outlined" (click)="closeEmailModal()">CANCEL</button>
+          <button class="pill-btn" (click)="sendEmail()" [disabled]="toTags().length === 0">SEND EMAIL</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

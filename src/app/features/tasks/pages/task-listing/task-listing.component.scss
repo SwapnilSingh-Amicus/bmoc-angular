@@ -1,0 +1,53 @@
+.task-search-input {
+  height: 32px;
+  border: 1.5px solid #e0e5ec;
+  border-radius: 15px;
+  padding: 0 14px;
+  font-size: 12px;
+  color: #15273f;
+  outline: none;
+  min-width: 260px;
+  flex: 1;
+  &:focus { border-color: #2795a8; }
+}
+
+.task-filter-select {
+  height: 32px;
+  border: 1.5px solid #e0e5ec;
+  border-radius: 3px;
+  padding: 0 8px;
+  font-size: 12px;
+  color: #15273f;
+  background-color: #fff;
+  outline: none;
+}
+
+.task-count {
+  padding: 7px 16px;
+  font-size: 11px;
+  color: #77858c;
+  background-color: #f6f8fb;
+  border-bottom: 1px solid #d2ddea;
+}
+
+.task-row-hover {
+  transition: background-color 0.15s ease;
+  
+  &:hover {
+    background-color: #fafbfc !important;
+  }
+}
+
+// Make table rows clickable with hover effect
+tbody tr {
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  
+  &:hover {
+    background-color: #e8f4f8 !important;
+  }
+  
+  &.selected {
+    background-color: #d0e7ef !important;
+  }
+}

@@ -1,0 +1,285 @@
+<div class="page-body">
+  <!-- Page Heading -->
+  <div class="page-heading-row">
+    <div class="title-group">
+      <h2 class="page-title">Requests</h2>
+      <span class="header-count">Showing {{ filtered().length }} of {{ allRequests.length }} items</span>
+    </div>
+  </div>
+
+  <div class="widget" style="border: none; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+    <!-- Actions Toolbar -->
+    <div class="toolbar" style="border-bottom: none; background: white; padding: 16px;">
+      <div style="position: relative;">
+        <button class="pill-btn" style="gap: 8px;" (click)="toggleAddDropdown()">
+          <svg lucidePlus [size]="13"></svg> ADD NEW REQUEST <svg lucideChevronDown [size]="13"></svg>
+        </button>
+        
+        <div *ngIf="showAddDropdown()" class="dropdown-menu" style="position: absolute; top: 100%; left: 0; margin-top: 4px; background: #16283e; border-radius: 4px; width: 280px; z-index: 100; box-shadow: 0 4px 6px rgba(0,0,0,0.3); padding: 8px 0; color: white;">
+          <button (click)="addNew('FINISHED PRODUCT')" style="display: block; width: 100%; text-align: left; padding: 10px 16px; background: transparent; border: none; color: white; font-size: 11px; font-weight: 700; cursor: pointer;">FINISHED PRODUCT</button>
+          <button (click)="addNew('RAW MATERIAL')" style="display: block; width: 100%; text-align: left; padding: 10px 16px; background: transparent; border: none; color: white; font-size: 11px; font-weight: 700; cursor: pointer;">RAW MATERIAL</button>
+          <button (click)="addNew('EXPERIMENTAL PRODUCT - NO ERP CREATION')" style="display: block; width: 100%; text-align: left; padding: 10px 16px; background: transparent; border: none; color: white; font-size: 11px; font-weight: 700; cursor: pointer;">EXPERIMENTAL PRODUCT – NO ERP CREATION</button>
+          <button (click)="addNew('EXPERIMENTAL PRODUCT - WITH ERP CREATION')" style="display: block; width: 100%; text-align: left; padding: 10px 16px; background: transparent; border: none; color: white; font-size: 11px; font-weight: 700; cursor: pointer; border-bottom: 1px solid #23476c;">EXPERIMENTAL PRODUCT – WITH ERP CREATION</button>
+          
+          <button disabled style="display: block; width: 100%; text-align: left; padding: 10px 16px; background: transparent; border: none; color: #5c6c7e; font-size: 11px; font-weight: 700; cursor: not-allowed; margin-top: 4px;">PACKAGING CREATION</button>
+          <button disabled style="display: block; width: 100%; text-align: left; padding: 10px 16px; background: transparent; border: none; color: #5c6c7e; font-size: 11px; font-weight: 700; cursor: not-allowed;">PREPRINTED PACKAGING</button>
+          <button disabled style="display: block; width: 100%; text-align: left; padding: 10px 16px; background: transparent; border: none; color: #5c6c7e; font-size: 11px; font-weight: 700; cursor: not-allowed;">VERIFI, EQUIPMENTS AND OTHERS</button>
+        </div>
+      </div>
+      <button class="pill-btn pill-btn--outlined" 
+        [disabled]="!hasSelectedItems()" 
+        [style.color]="hasSelectedItems() ? '#ed4e33' : '#5c6c7e'"
+        [style.border-color]="hasSelectedItems() ? '#ed4e33' : '#d2ddea'"
+        [style.cursor]="hasSelectedItems() ? 'pointer' : 'not-allowed'"
+        [style.opacity]="hasSelectedItems() ? '1' : '0.6'"
+        (click)="deleteSelectedItems()">
+        <svg lucideTrash2 [size]="13"></svg> DELETE
+      </button>
+      <button class="pill-btn pill-btn--outlined" style="color: #16283e; border-color: #d2ddea;" (click)="exportToXLSX()" [disabled]="isExporting()">
+        <svg lucideDownload [size]="13"></svg> 
+        <span *ngIf="!isExporting()">XLSX</span>
+        <span *ngIf="isExporting()">Exporting...</span>
+      </button>
+    </div>
+
+    <!-- Filters Bar -->
+    <div class="filter-bar" style="background: #fcfdfe; border-top: 1px solid #d2ddea; border-bottom: none;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <label style="color: #9ba7b0;">From:</label>
+        <app-date-picker placeholder="mm/dd/yyyy"></app-date-picker>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <label style="color: #9ba7b0;">To:</label>
+        <app-date-picker placeholder="mm/dd/yyyy"></app-date-picker>
+      </div>
+      <div style="position: relative;">
+        <select style="width: 140px; border: 1px solid #e0e5ec; color: #9ba7b0;" [(ngModel)]="quickSelect" (ngModelChange)="onQuickSelect($event)">
+          <option value="">Quick Select...</option>
+          <option value="today">Today</option>
+          <option value="yesterday">Yesterday</option>
+          <option value="last-7-days">Last 7 Days</option>
+          <option value="last-30-days">Last 30 Days</option>
+          <option value="this-month">This Month</option>
+          <option value="last-month">Last Month</option>
+          <option value="this-quarter">This Quarter</option>
+          <option value="this-year">This Year</option>
+        </select>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px; margin-left: 12px;">
+        <input type="checkbox" style="accent-color: #16283e;" [(ngModel)]="myRequestsOnly" />
+        <label style="color: #5c6c7e; font-weight: 600;">My Requests Only</label>
+      </div>
+      <div style="flex: 1;"></div>
+      <button class="pill-btn" style="gap: 6px; padding: 6px 16px; position: relative;" (click)="openFilterModal()">
+        <svg lucideFilter [size]="13"></svg> FILTER
+        <span *ngIf="activeFilterCount() > 0" style="position: absolute; top: -7px; right: -7px; width: 17px; height: 17px; border-radius: 50%; background-color: #2795a8; color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center;">
+          {{ activeFilterCount() }}
+        </span>
+      </button>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 40px; text-align: center;">
+              <input type="checkbox" class="table-checkbox" (change)="toggleSelectAll($event)" />
+            </th>
+            <th>Request ID <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+            <th>Request Title <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+            <th>Customer <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+            <th>Type <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+            <th>Site <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+            <th>Requestor <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+            <th>Request Date <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+            <th>Stage <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+            <th>Status <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+            <th>Amount <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+            <th>Priority <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="pageRows().length === 0">
+            <td colspan="12" style="text-align:center;padding:24px;color:#aaa">No requests found.</td>
+          </tr>
+          <tr
+            *ngFor="let r of pageRows(); let i = index"
+            class="cursor-pointer"
+            [class.row-dropdown-open]="openRowDropdown() === r.id"
+            (click)="openRequest(r)"
+          >
+            <td style="text-align: center;" (click)="$event.stopPropagation()">
+              <input type="checkbox" class="table-checkbox" 
+                [checked]="isItemSelected(r.id)"
+                (change)="toggleItemSelection(r.id, $event)" />
+            </td>
+            <!-- Request ID cell with inline dropdown -->
+            <td (click)="$event.stopPropagation()">
+              <div class="req-id-cell">
+                <span class="text-teal fw-600 cursor-pointer" (click)="toggleRowDropdown(r.id, $event)">{{ r.id }}</span>
+                <svg
+                  class="req-id-chevron"
+                  [style.color]="'#2795a8'"
+                  [style.width]="'14px'"
+                  [style.height]="'14px'"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  (click)="toggleRowDropdown(r.id, $event)"
+                >
+                  <polyline *ngIf="openRowDropdown() !== r.id" points="6 9 12 15 18 9"></polyline>
+                  <polyline *ngIf="openRowDropdown() === r.id" points="18 15 12 9 6 15"></polyline>
+                </svg>
+                <div class="req-id-dropdown" *ngIf="openRowDropdown() === r.id">
+                  <button *ngFor="let opt of ROW_DROPDOWN_OPTS" (click)="openRequest(r)">{{ opt }}</button>
+                </div>
+              </div>
+            </td>
+            <td class="text-dark fw-600">{{ r.title }}</td>
+            <td style="color: #9ba7b0;">Internal</td>
+            <td style="color: #9ba7b0;">{{ r.type }}</td>
+            <td style="color: #9ba7b0;">{{ r.site }}</td>
+            <td style="color: #9ba7b0;">{{ r.requestor }}</td>
+            <td class="nowrap" style="color: #9ba7b0;">{{ r.date }}</td>
+            <td style="color: #9ba7b0;">{{ r.stage || '-' }}</td>
+            <td>
+              <span class="status-badge">
+                <span class="dot" [style.background]="statusColor(r.status)"></span>
+                {{ r.status }}
+              </span>
+            </td>
+            <td class="nowrap" style="font-weight: 600;">{{ r.amount }}</td>
+            <td>
+              <span class="priority-dot">
+                <span class="dot" [style.background]="priorityColor(r.priority)"></span>
+                {{ r.priority }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination" *ngIf="totalPages() > 1">
+      <span>Page {{ currentPage() }} of {{ totalPages() }}</span>
+      <div class="pagination__buttons">
+        <button (click)="prevPage()" [disabled]="currentPage() === 1">
+          <svg lucideChevronLeft [size]="12"></svg>
+        </button>
+        <button *ngFor="let p of pages()" [class.active]="p === currentPage()" (click)="setPage(p)" [id]="'page-btn-' + p">{{ p }}</button>
+        <button (click)="nextPage()" [disabled]="currentPage() === totalPages()">
+          <svg lucideChevronRight [size]="12"></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Filter Modal -->
+<div class="modal-backdrop" *ngIf="showFilterModal()" (click)="closeFilterModal()">
+  <div class="modal" style="width: 600px; max-width: 90vw;" (click)="$event.stopPropagation()">
+    <!-- Modal Header -->
+    <div class="modal__header" style="background-color: #16283e; border-bottom: 1px solid #2a4763; padding: 13px 20px;">
+      <h3 class="modal__header-title" style="font-size: 15px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 8px;">
+        <svg lucideFilter [size]="15" style="color: #fff;"></svg> Filter Requests
+      </h3>
+      <button (click)="closeFilterModal()" style="background: none; border: none; cursor: pointer; color: #fff; display: flex; align-items: center; padding: 2px;">
+        <svg lucideX [size]="16"></svg>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="modal__body" style="padding: 24px 24px 16px; display: flex; flex-direction: column; gap: 16px;">
+      <!-- Request Title -->
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <label style="font-size: 12px; font-weight: 600; color: #15273f;">Request Title</label>
+        <input
+          type="text"
+          placeholder="Search request title..."
+          [(ngModel)]="tempFilterReqTitle"
+          style="height: 36px; border: 1.5px solid #e0e5ec; border-radius: 3px; padding: 0 10px; font-size: 13px; color: #15273f; outline: none; font-family: inherit; background-color: #fff;"
+        />
+      </div>
+
+      <!-- Request Type -->
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <label style="font-size: 12px; font-weight: 600; color: #15273f;">Request Type</label>
+        <select
+          [(ngModel)]="tempFilterReqType"
+          style="height: 36px; border: 1.5px solid #e0e5ec; border-radius: 3px; padding: 0 10px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff;"
+          [style.color]="tempFilterReqType() ? '#15273f' : '#aaa'"
+        >
+          <option value="">— Select Type —</option>
+          <option *ngFor="let t of REQ_TYPES" [value]="t">{{ t }}</option>
+        </select>
+      </div>
+
+      <!-- Location -->
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <label style="font-size: 12px; font-weight: 600; color: #15273f;">Location</label>
+        <select
+          [(ngModel)]="tempFilterLocation"
+          style="height: 36px; border: 1.5px solid #e0e5ec; border-radius: 3px; padding: 0 10px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff;"
+          [style.color]="tempFilterLocation() ? '#15273f' : '#aaa'"
+        >
+          <option value="">— Select Location —</option>
+          <option *ngFor="let l of LOCATIONS" [value]="l">{{ l }}</option>
+        </select>
+      </div>
+
+      <!-- Requestor -->
+      <div style="display: flex; flex-direction: column; gap: 4px; position: relative;">
+        <label style="font-size: 12px; font-weight: 600; color: #15273f;">Requestor</label>
+        <div style="position: relative;">
+          <svg lucideSearch [size]="12" style="position: absolute; left: 9px; top: 50%; transform: translateY(-50%); color: #b0b8c4; pointer-events: none;"></svg>
+          <input
+            type="text"
+            placeholder="Search requestor..."
+            [value]="tempFilterRequestor() || tempFilterRequestorSearch()"
+            (input)="tempFilterRequestorSearch.set($any($event.target).value); tempFilterRequestor.set(''); filterRequestorOpen.set(true);"
+            (focus)="filterRequestorOpen.set(true)"
+            (blur)="onRequestorBlur()"
+            style="height: 36px; border: 1.5px solid #e0e5ec; border-radius: 3px; padding: 0 10px 0 28px; font-size: 13px; color: #15273f; outline: none; font-family: inherit; width: 100%; box-sizing: border-box; background-color: #fff;"
+          />
+          <button *ngIf="tempFilterRequestor()" (click)="clearRequestor()" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #77858c; padding: 0;">
+            <svg lucideX [size]="13"></svg>
+          </button>
+        </div>
+        <div *ngIf="filterRequestorOpen() && filteredRequestors().length > 0" style="position: absolute; top: 100%; left: 0; right: 0; background-color: #fff; border: 1px solid #e0e5ec; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,.12); max-height: 160px; overflow-y: auto; margin-top: 4px;">
+          <div *ngFor="let r of filteredRequestors()" (mousedown)="selectRequestor(r)"
+            style="padding: 8px 12px; font-size: 13px; cursor: pointer; color: #15273f; border-bottom: 1px solid #f4f6f9;"
+            class="hover:bg-[#e7eef8]">
+            {{ r }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage -->
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <label style="font-size: 12px; font-weight: 600; color: #15273f;">Stage</label>
+        <select
+          [(ngModel)]="tempFilterStage"
+          style="height: 36px; border: 1.5px solid #e0e5ec; border-radius: 3px; padding: 0 10px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff;"
+          [style.color]="tempFilterStage() ? '#15273f' : '#aaa'"
+        >
+          <option value="">— Select Stage —</option>
+          <option *ngFor="let s of STAGES" [value]="s">{{ s }}</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="modal__footer" style="padding: 12px 24px 20px; display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid #d2ddea;">
+      <button (click)="clearFilters()" class="pill-btn pill-btn--outlined" style="height: 34px; padding: 0 18px; border-radius: 15px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+        CLEAR ALL
+      </button>
+      <button (click)="applyFilters()" class="pill-btn" style="height: 34px; padding: 0 22px; border-radius: 15px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; background-color: #16283e;">
+        Apply Filters
+      </button>
+    </div>
+  </div>
+</div>

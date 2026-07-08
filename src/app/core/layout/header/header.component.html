@@ -1,0 +1,57 @@
+<header class="top-bar">
+  <!-- Left: Testing Notice -->
+  <div class="top-bar__left">
+    <svg lucideAlertTriangle [size]="13" class="top-bar__warn-icon"></svg>
+    <span class="top-bar__warn-text">THIS SYSTEM IS FOR TESTING PURPOSES ONLY</span>
+  </div>
+
+  <!-- Centre: App Title -->
+  <div class="top-bar__center">
+    <span class="top-bar__title">Business MOC</span>
+  </div>
+
+  <!-- Right: User Controls -->
+  <div class="top-bar__right">
+    <div style="position: relative;">
+      <button class="top-bar__user-btn" id="btn-user-name" (click)="toggleUser()">
+        Pandey, Pranjal
+        <svg lucideChevronDown [size]="13"></svg>
+      </button>
+      <div *ngIf="userOpen()" class="topbar-dropdown" style="min-width: 180px;">
+        <button (click)="userOpen.set(false)">My Profile</button>
+        <button (click)="userOpen.set(false)">Login Different User</button>
+        <div class="divider"></div>
+        <button (click)="userOpen.set(false)">Logout</button>
+      </div>
+    </div>
+
+    <div class="top-bar__sep"></div>
+
+    <div style="position: relative;">
+      <button class="top-bar__user-btn" id="btn-user-role" (click)="toggleModule()">
+        Business MOC &bull; Process Owner
+        <svg lucideChevronDown [size]="13"></svg>
+      </button>
+      <div *ngIf="moduleOpen()" class="topbar-dropdown" style="min-width: 220px;">
+        <button (click)="moduleOpen.set(false)">Business MOC &bull; Process Owner</button>
+        <button (click)="moduleOpen.set(false)">Business MOC &bull; Requestor</button>
+        <button (click)="moduleOpen.set(false)">Business MOC &bull; Admin</button>
+      </div>
+    </div>
+
+    <div class="top-bar__sep"></div>
+
+    <div style="position: relative;">
+      <button class="top-bar__lang-btn" id="btn-lang" (click)="toggleLang()">
+        <svg lucideGlobe [size]="13"></svg>
+        EN
+        <svg lucideChevronDown [size]="13"></svg>
+      </button>
+      <div *ngIf="langOpen()" class="topbar-dropdown" style="min-width: 80px;">
+        <button (click)="langOpen.set(false)">EN</button>
+        <button (click)="langOpen.set(false)">FR</button>
+        <button (click)="langOpen.set(false)">DE</button>
+      </div>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,93 @@
+<div class="page-body">
+  <!-- Page Heading -->
+  <div class="page-heading-row">
+    <div class="title-group">
+      <h2 class="page-title">Location</h2>
+      <span class="header-count">Showing {{ filtered().length }} of {{ rows().length }} locations</span>
+    </div>
+    <div class="header-actions">
+      <button class="pill-btn">
+        <svg lucidePlus [size]="13"></svg> ADD LOCATION
+      </button>
+      <button class="pill-btn pill-btn--outlined" [disabled]="!hasSelection()">
+        <svg lucideTrash2 [size]="13"></svg> DELETE
+      </button>
+    </div>
+  </div>
+
+  <div class="widget" style="border: none; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+    <div class="overflow-x-auto">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 40px; text-align: center;">
+              <input type="checkbox" class="table-checkbox" [checked]="allSelected()" (change)="toggleAll($event)" />
+            </th>
+            <th>Site Code</th>
+            <th>Plant Name</th>
+            <th>City</th>
+            <th>Business</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let r of filtered()" class="cursor-pointer" (click)="openEdit(r)">
+            <td style="text-align: center;" (click)="$event.stopPropagation()">
+              <input type="checkbox" class="table-checkbox" [checked]="isSelected(r.code)" (change)="toggleSelect(r.code)" />
+            </td>
+            <td><span class="text-teal fw-600">{{ r.code }}</span></td>
+            <td class="text-dark fw-600">{{ r.name }}</td>
+            <td style="color: #77858c;">{{ r.city }}</td>
+            <td>
+              <span class="request-header-badge" style="background-color: #23476c; padding: 3px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; color: #fff;" *ngIf="r.business === 'SCC'">{{ r.business }}</span>
+              <span class="request-header-badge" style="background-color: #2795a8; padding: 3px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; color: #fff;" *ngIf="r.business === 'SBM'">{{ r.business }}</span>
+            </td>
+          </tr>
+          <tr *ngIf="filtered().length === 0">
+            <td colspan="5" style="text-align:center; padding: 24px; color: #aaa;">No locations found.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal Backdrop -->
+  <div class="modal-backdrop" *ngIf="editRow()" (click)="closeEdit()"></div>
+
+  <!-- Edit Modal -->
+  <div class="modal" style="width: 480px; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:901;" *ngIf="editRow()" (click)="$event.stopPropagation()">
+    <div class="modal__header">
+      <span class="modal__header-title">Edit Location – {{ editRow()?.code }}</span>
+      <button (click)="closeEdit()" style="background:none;border:none;cursor:pointer;color:#77858c;display:flex;align-items:center;"><svg lucideX [size]="18"></svg></button>
+    </div>
+    <div class="modal__body" style="display:flex;flex-direction:column;gap:16px;">
+      <div class="form-field">
+        <label>Site Code</label>
+        <input type="text" [value]="editRow()?.code" disabled />
+      </div>
+      <div class="form-field">
+        <label>Plant Name <span class="required">*</span></label>
+        <input type="text" [ngModel]="editName()" (ngModelChange)="editName.set($event)" />
+      </div>
+      <div class="form-field">
+        <label>City <span class="required">*</span></label>
+        <input type="text" [ngModel]="editCity()" (ngModelChange)="editCity.set($event)" />
+      </div>
+      <div class="form-field">
+        <label>Business <span class="required">*</span></label>
+        <select [ngModel]="editBiz()" (ngModelChange)="editBiz.set($event)">
+          <option value="SCC">SCC</option>
+          <option value="SBM">SBM</option>
+        </select>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:10px;padding-top:8px;border-top:1px solid #d2ddea;">
+        <button class="pill-btn pill-btn--outlined" (click)="closeEdit()">Cancel</button>
+        <button class="pill-btn" (click)="saveEdit()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" *ngIf="toast()">
+    <svg lucideCheck [size]="14"></svg> {{ toast() }}
+  </div>
+</div>

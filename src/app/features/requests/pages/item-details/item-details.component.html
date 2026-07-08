@@ -1,0 +1,103 @@
+<div class="page-body">
+  <!-- Tabs -->
+  <div class="item-tabs">
+    <button 
+      class="item-tab" 
+      [class.item-tab--active]="activeTab() === 'request-info'"
+      (click)="switchTab('request-info')"
+    >
+      Request Info
+    </button>
+    <button 
+      class="item-tab" 
+      [class.item-tab--active]="activeTab() === 'item-1'"
+      (click)="switchTab('item-1')"
+    >
+      Item 1
+    </button>
+    <button class="item-tab-add" (click)="addNewItem()">
+      <svg lucidePlus [size]="14"></svg> ADD NEW ITEM
+    </button>
+  </div>
+
+  <!-- Content -->
+  <div class="item-content">
+    <!-- General Info Section -->
+    <div class="item-section" *ngFor="let section of sections()">
+      <div class="item-section__header" (click)="toggleSection(section.id)">
+        <svg *ngIf="!section.isExpanded" lucideChevronDown [size]="16" style="margin-right: 8px;"></svg>
+        <svg *ngIf="section.isExpanded" lucideChevronUp [size]="16" style="margin-right: 8px;"></svg>
+        <span class="item-section__title">{{ section.name }}</span>
+        <button 
+          *ngIf="!section.isExpanded" 
+          class="enable-edit-btn"
+          (click)="enableEdit(section.id); $event.stopPropagation()"
+        >
+          ENABLE EDIT
+        </button>
+      </div>
+
+      <!-- General Info Content (Only expanded by default) -->
+      <div class="item-section__body" *ngIf="section.isExpanded && section.id === 'general'">
+        <div class="form-row">
+          <div class="form-field">
+            <label>
+              Description 1 <span class="required">*</span>
+            </label>
+            <input 
+              type="text" 
+              placeholder="Enter description 1..." 
+              [(ngModel)]="description1"
+              class="form-input"
+            />
+          </div>
+          <div class="form-field">
+            <label>Description 2</label>
+            <input 
+              type="text" 
+              placeholder="Enter description 2..." 
+              [(ngModel)]="description2"
+              class="form-input"
+            />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label>Item Reference Number</label>
+            <input 
+              type="text" 
+              placeholder="Optional — typeahead" 
+              [(ngModel)]="itemRefNumber"
+              class="form-input"
+            />
+          </div>
+          <div class="form-field">
+            <!-- Empty column for spacing -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Collapsed sections show ENABLE EDIT button -->
+      <div class="item-section__body" *ngIf="section.isExpanded && section.id !== 'general'">
+        <div style="padding: 20px; text-align: center; color: #77858c; font-size: 13px;">
+          {{ section.name }} content will appear here when editing is enabled.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Actions -->
+  <div class="item-footer">
+    <button class="pill-btn pill-btn--outlined" (click)="saveAsDraft()">
+      SAVE AS DRAFT
+    </button>
+    <div style="flex: 1;"></div>
+    <button class="pill-btn pill-btn--outlined" (click)="goToPrevious()">
+      &larr; PREVIOUS
+    </button>
+    <button class="pill-btn" (click)="goToNext()">
+      NEXT &rarr;
+    </button>
+  </div>
+</div>

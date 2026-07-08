@@ -1,0 +1,91 @@
+<div class="page-body">
+  <!-- Page Heading -->
+  <div class="page-heading-row">
+    <div class="title-group">
+      <h2 class="page-title">Task Master</h2>
+      <span class="header-count">Showing {{ filtered().length }} of {{ allWorkflowTasks.length }} items</span>
+    </div>
+  </div>
+
+  <div class="widget" style="border: none; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+    <!-- Actions Toolbar -->
+    <div class="toolbar" style="border-bottom: none; background: white; padding: 16px;">
+      <button class="pill-btn" style="gap: 8px;" (click)="openCreateTaskPage()">
+        <svg lucidePlus [size]="13"></svg> CREATE NEW TASK
+      </button>
+      
+      <button class="pill-btn pill-btn--outlined" 
+        [disabled]="!hasSelectedItems()" 
+        [style.color]="hasSelectedItems() ? '#ed4e33' : '#5c6c7e'"
+        [style.border-color]="hasSelectedItems() ? '#ed4e33' : '#d2ddea'"
+        [style.cursor]="hasSelectedItems() ? 'pointer' : 'not-allowed'"
+        [style.opacity]="hasSelectedItems() ? '1' : '0.6'"
+        (click)="deleteSelectedItems()">
+        <svg lucideTrash2 [size]="13"></svg> DELETE
+      </button>
+      <button class="pill-btn pill-btn--outlined" style="color: #16283e; border-color: #d2ddea;" (click)="exportToXLSX()" [disabled]="isExporting()">
+        <svg lucideDownload [size]="13"></svg> 
+        <span *ngIf="!isExporting()">XLSX</span>
+        <span *ngIf="isExporting()">Exporting...</span>
+      </button>
+    </div>
+
+    <div class="filter-bar" style="background: #fcfdfe; border-top: 1px solid #d2ddea; border-bottom: none; padding: 12px 16px;">
+      <div style="position: relative; display: flex; align-items: center; gap: 8px; flex: 1;">
+        <svg lucideSearch [size]="14" style="color: #9ba7b0;"></svg>
+        <input 
+          type="text" 
+          placeholder="Search tasks..." 
+          class="search-input"
+          [value]="search()"
+          (input)="onSearch($any($event.target).value)"
+        />
+      </div>
+      <button class="pill-btn" style="gap: 6px; padding: 6px 16px;">
+        <svg lucideFilter [size]="13"></svg> FILTER
+      </button>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 40px; text-align: center;">
+              <input type="checkbox" class="table-checkbox" (change)="toggleSelectAll($event)" />
+            </th>
+            <th>Stage <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+            <th>Task Title/Instructions <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+            <th>User/Role <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+            <th>Type <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+            <th>Reason Code <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+            <th>Business <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+            <th>Location <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+            <th>Updated On <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="filtered().length === 0">
+            <td colspan="9" style="text-align:center;padding:24px;color:#aaa">No tasks found.</td>
+          </tr>
+          <tr *ngFor="let t of filtered()" 
+              [class.selected]="isItemSelected(t.id)"
+              style="cursor: pointer;">
+            <td style="text-align: center;" (click)="$event.stopPropagation()">
+              <input type="checkbox" class="table-checkbox" 
+                     [checked]="isItemSelected(t.id)"
+                     (change)="toggleItemSelection(t.id, $event)" />
+            </td>
+            <td class="text-teal fw-700">{{ t.stage }}</td>
+            <td class="text-dark fw-600">{{ t.taskTitle }}</td>
+            <td style="color: #9ba7b0;">{{ t.userRole }}</td>
+            <td style="color: #9ba7b0;">{{ t.type }}</td>
+            <td style="color: #9ba7b0;">{{ t.reasonCode }}</td>
+            <td style="color: #9ba7b0;">{{ t.business }}</td>
+            <td style="color: #9ba7b0;">{{ t.location }}</td>
+            <td class="nowrap" style="color: #9ba7b0;">{{ t.updatedOn }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

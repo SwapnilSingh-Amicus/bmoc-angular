@@ -1,0 +1,231 @@
+$c-primary: #16283e;
+$c-teal: #2795a8;
+$c-border: #d8e2ec;
+$c-bg: #e7eef8;
+$c-white: #ffffff;
+$c-body: #77858c;
+$c-body-dark: #15273f;
+
+.page-body {
+  padding: 0;
+  background: $c-bg;
+  min-height: calc(100vh - 42px);
+}
+
+// ─── Tabs ────────────────────────────────────────────────────────
+.item-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: #f6f8fb;
+  border-bottom: 1px solid $c-border;
+  padding: 0 28px;
+}
+
+.item-tab {
+  padding: 14px 24px;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  font-size: 14px;
+  font-weight: 600;
+  color: $c-body;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+
+  &:hover {
+    color: $c-body-dark;
+  }
+
+  &--active {
+    color: $c-teal;
+    border-bottom-color: $c-teal;
+  }
+}
+
+.item-tab-add {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  padding: 7px 14px;
+  background: $c-primary;
+  color: $c-white;
+  border: none;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+// ─── Content ─────────────────────────────────────────────────────
+.item-content {
+  padding: 24px 28px;
+  max-width: 1200px;
+}
+
+// ─── Sections ────────────────────────────────────────────────────
+.item-section {
+  background: $c-white;
+  border: 1px solid $c-border;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  overflow: hidden;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    padding: 14px 20px;
+    background: #fafbfc;
+    border-bottom: 1px solid $c-border;
+    cursor: pointer;
+    transition: background 0.15s;
+
+    &:hover {
+      background: #f4f6f8;
+    }
+  }
+
+  &__title {
+    font-size: 14px;
+    font-weight: 700;
+    color: $c-primary;
+    flex: 1;
+  }
+
+  &__body {
+    padding: 24px;
+    background: $c-white;
+  }
+}
+
+.enable-edit-btn {
+  padding: 6px 14px;
+  background: transparent;
+  color: $c-body;
+  border: 1px solid #d8e2ec;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #f4f6f8;
+    border-color: #c2cfd9;
+  }
+}
+
+// ─── Form ────────────────────────────────────────────────────────
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 20px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  label {
+    font-size: 13px;
+    font-weight: 600;
+    color: $c-body-dark;
+
+    .required {
+      color: #ed4e33;
+      margin-left: 2px;
+    }
+  }
+}
+
+.form-input {
+  padding: 10px 12px;
+  border: 1px solid $c-border;
+  border-radius: 4px;
+  font-size: 13px;
+  color: $c-body-dark;
+  font-family: inherit;
+  transition: border-color 0.2s;
+
+  &::placeholder {
+    color: #9ba7b0;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $c-teal;
+  }
+
+  &:disabled {
+    background: #f6f8fb;
+    color: $c-body;
+    cursor: not-allowed;
+  }
+}
+
+// ─── Footer ──────────────────────────────────────────────────────
+.item-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 28px;
+  background: $c-white;
+  border-top: 1px solid $c-border;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+}
+
+.pill-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  background: $c-primary;
+  color: $c-white;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &--outlined {
+    background: transparent;
+    color: $c-primary;
+    border: 1px solid $c-border;
+
+    &:hover {
+      background: #f4f6f8;
+      opacity: 1;
+    }
+  }
+}

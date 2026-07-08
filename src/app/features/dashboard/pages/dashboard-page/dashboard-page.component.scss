@@ -1,0 +1,579 @@
+$c-primary:      #16283e;
+$c-teal:         #2795a8;
+$c-body:         #77858c;
+$c-border:       #d8e2ec;
+$c-bg:           #e7eef8;
+$c-white:        #ffffff;
+
+.dash-page {
+  padding: 22px 28px 28px;
+  background: $c-bg;
+  min-height: calc(100vh - 42px);
+}
+
+// ── Heading Row ──────────────────────────────────────────────────
+.dash-heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.dash-title {
+  font-size: 30px;
+  font-weight: 700;
+  color: $c-primary;
+  margin: 0;
+}
+
+.add-request-btn {
+  background-color: $c-primary;
+  color: #fff;
+  border: none;
+  padding: 9px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: inherit;
+  border-radius: 3px;
+  transition: opacity 0.15s;
+
+  &:hover { opacity: 0.88; }
+}
+
+// ── Filter Toolbar ───────────────────────────────────────────────
+.filter-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: $c-white;
+  border: 1px solid $c-border;
+  padding: 8px 14px;
+  margin-bottom: 12px;
+  gap: 10px;
+
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__count {
+    font-size: 12px;
+    color: $c-body;
+  }
+}
+
+.xlsx-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid $c-border;
+  background: $c-white;
+  color: $c-primary;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+
+  &:hover { background: #f4f7fa; }
+}
+
+.my-req-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: $c-primary;
+  cursor: pointer;
+
+  input[type='checkbox'] { cursor: pointer; accent-color: $c-primary; }
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid $c-border;
+  background: $c-white;
+  color: $c-primary;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+
+  &:hover { background: #f4f7fa; }
+}
+
+.date-range {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid $c-border;
+  background: $c-white;
+  padding: 4px 10px;
+  border-radius: 3px;
+
+  &__icon { color: $c-body; }
+  &__sep { color: $c-body; font-size: 12px; }
+}
+
+.date-input {
+  border: none;
+  outline: none;
+  font-size: 11px;
+  color: $c-body;
+  font-family: inherit;
+  width: 95px;
+  background: transparent;
+}
+
+// Responsive adjustments
+@media (max-width: 1024px) {
+  .filter-toolbar {
+    flex-wrap: wrap;
+    
+    &__right {
+      flex-wrap: wrap;
+    }
+  }
+  
+  .date-range {
+    flex-wrap: nowrap;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-toolbar {
+    &__left, &__right {
+      width: 100%;
+      flex-wrap: wrap;
+    }
+  }
+  
+  .date-range {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .charts-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ── Widget Card ──────────────────────────────────────────────────
+.dash-widget {
+  background: $c-white;
+  border: 1px solid $c-border;
+  margin-bottom: 18px;
+
+  &__section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: $c-primary;
+    padding: 12px 16px 10px;
+    border-bottom: 1px solid $c-border;
+  }
+}
+
+// ── Table ────────────────────────────────────────────────────────
+.table-wrapper { overflow-x: auto; }
+
+.req-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead tr {
+    background-color: $c-primary;
+    th {
+      padding: 9px 12px;
+      color: #fff;
+      font-size: 11.5px;
+      font-weight: 700;
+      text-align: left;
+      white-space: nowrap;
+      border: none;
+    }
+  }
+
+  tbody .req-row {
+    cursor: pointer;
+    border-bottom: 1px solid #eef1f6;
+
+    &:hover { background-color: #f6f9fc; }
+
+    td { padding: 8px 12px; font-size: 12px; color: $c-primary; }
+  }
+
+  .empty-row { padding: 24px; text-align: center; color: #aaa; font-size: 13px; }
+}
+
+.req-id-link {
+  color: #0066cc;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover { text-decoration: underline; }
+}
+
+.req-title { font-weight: 600; color: $c-primary; }
+.req-type  { font-size: 11px; font-weight: 600; color: $c-body; }
+
+.status-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.status-text { font-weight: 700; font-size: 12px; }
+
+.priority-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: $c-primary;
+}
+
+.priority-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+// ── Table Footer ─────────────────────────────────────────────────
+.table-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 14px;
+  border-top: 1px solid $c-border;
+  background: #fafbfd;
+
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: $c-body;
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+.page-size-select {
+  height: 26px;
+  border: 1px solid $c-border;
+  border-radius: 3px;
+  padding: 0 6px;
+  font-size: 12px;
+  background: $c-white;
+  outline: none;
+}
+
+.pag-btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid $c-border;
+  background: $c-white;
+  color: $c-primary;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.14s;
+
+  &:hover:not(:disabled) { background: #f0f4f8; }
+  &:disabled { opacity: 0.4; cursor: default; }
+
+  &--active {
+    background: $c-primary;
+    color: #fff;
+    border-color: $c-primary;
+  }
+}
+
+.pag-ellipsis {
+  font-size: 12px;
+  color: $c-body;
+  padding: 0 3px;
+}
+
+// ── Charts Row ───────────────────────────────────────────────────
+.charts-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.chart-widget {
+  background: $c-white;
+  border: 1px solid $c-border;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid $c-border;
+  }
+
+  &__title {
+    font-size: 13px;
+    font-weight: 700;
+    color: $c-primary;
+  }
+}
+
+.this-year-btn {
+  border: 1px solid $c-border;
+  background: #f4f7fa;
+  color: $c-body;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+// ── Bar Chart ────────────────────────────────────────────────────
+.bar-chart {
+  display: flex;
+  padding: 14px 16px 10px;
+  gap: 6px;
+  height: 190px;
+  box-sizing: border-box;
+
+  &__y-axis {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+    padding-bottom: 22px;
+    padding-right: 6px;
+    width: 26px;
+    text-align: right;
+
+    span {
+      font-size: 10px;
+      color: #aaa;
+      line-height: 1;
+    }
+  }
+
+  &__plot {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__gridlines {
+    position: absolute;
+    inset: 0 0 22px 0;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+    pointer-events: none;
+  }
+
+  &__gridline {
+    width: 100%;
+    border-top: 1px solid #e8edf3;
+  }
+
+  &__bars-container {
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
+    flex: 1;
+    padding-bottom: 22px;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+    position: relative;
+  }
+
+  &__group-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 120px;
+    position: relative;
+  }
+
+  &__label {
+    font-size: 9.5px;
+    color: #aaa;
+    white-space: nowrap;
+    text-align: center;
+  }
+}
+
+.bar {
+  width: 16px;
+  border-radius: 2px 2px 0 0;
+  transition: opacity 0.15s;
+
+  &:hover { opacity: 0.75; }
+  &.dark { background-color: #16283e; }
+  &.teal { background-color: #2795a8; }
+}
+
+// ── Bar Chart Tooltip ────────────────────────────────────────────
+.bar-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2d3e50;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+  z-index: 1000;
+  pointer-events: none;
+  font-size: 11px;
+  min-width: 100px;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: #2d3e50;
+  }
+
+  &__title {
+    font-weight: 700;
+    margin-bottom: 4px;
+    font-size: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 4px;
+  }
+
+  &__item {
+    font-size: 11px;
+    padding: 2px 0;
+    color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+// ── Donut Chart ──────────────────────────────────────────────────
+.donut-chart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  padding: 20px 16px;
+
+  &__ring-wrap {
+    position: relative;
+    width: 130px;
+    height: 130px;
+    flex-shrink: 0;
+  }
+
+  &__ring {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  }
+
+  &__hole {
+    position: absolute;
+    inset: 20%;
+    background: $c-white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__center-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: $c-body;
+  }
+
+  &__legend {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    color: $c-primary;
+  }
+
+  &__legend-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  &__legend-label {
+    font-weight: 600;
+    min-width: 80px;
+  }
+
+  &__legend-pct {
+    color: $c-body;
+    font-size: 11px;
+  }
+}
+
+.hover\:bg-\[#e7eef8\]:hover {
+  background-color: #e7eef8;
+}

@@ -1,0 +1,103 @@
+<div class="page-body">
+  <!-- Page Heading -->
+  <div class="page-heading-row">
+    <div class="title-group">
+      <h2 class="page-title">My Tasks</h2>
+      <span class="header-count">Showing {{ filtered().length }} of {{ allTasks.length }} items</span>
+    </div>
+  </div>
+
+  <div class="widget" style="border: none; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+    <!-- Actions Toolbar -->
+    <div class="toolbar" style="border-bottom: none; background: white; padding: 16px;">
+      <div style="position: relative;">
+        <button class="pill-btn" style="gap: 8px;" (click)="toggleAddDropdown()" id="task-add-btn">
+          <svg lucidePlus [size]="13"></svg> ADD NEW REQUEST <svg lucideChevronDown [size]="13"></svg>
+        </button>
+        
+        <div *ngIf="showAddDropdown()" class="dropdown-menu" style="position: absolute; top: 100%; left: 0; margin-top: 4px; background: #16283e; border-radius: 4px; width: 280px; z-index: 100; box-shadow: 0 4px 6px rgba(0,0,0,0.3); padding: 8px 0; color: white;">
+          <button (click)="addNew('FINISHED PRODUCT')" style="display: block; width: 100%; text-align: left; padding: 10px 16px; background: transparent; border: none; color: white; font-size: 11px; font-weight: 700; cursor: pointer;">FINISHED PRODUCT</button>
+          <button (click)="addNew('RAW MATERIAL')" style="display: block; width: 100%; text-align: left; padding: 10px 16px; background: transparent; border: none; color: white; font-size: 11px; font-weight: 700; cursor: pointer;">RAW MATERIAL</button>
+          <button (click)="addNew('EXPERIMENTAL PRODUCT - NO ERP CREATION')" style="display: block; width: 100%; text-align: left; padding: 10px 16px; background: transparent; border: none; color: white; font-size: 11px; font-weight: 700; cursor: pointer;">EXPERIMENTAL PRODUCT – NO ERP CREATION</button>
+          <button (click)="addNew('EXPERIMENTAL PRODUCT - WITH ERP CREATION')" style="display: block; width: 100%; text-align: left; padding: 10px 16px; background: transparent; border: none; color: white; font-size: 11px; font-weight: 700; cursor: pointer; border-bottom: 1px solid #23476c;">EXPERIMENTAL PRODUCT – WITH ERP CREATION</button>
+          
+          <button disabled style="display: block; width: 100%; text-align: left; padding: 10px 16px; background: transparent; border: none; color: #5c6c7e; font-size: 11px; font-weight: 700; cursor: not-allowed; margin-top: 4px;">PACKAGING CREATION</button>
+          <button disabled style="display: block; width: 100%; text-align: left; padding: 10px 16px; background: transparent; border: none; color: #5c6c7e; font-size: 11px; font-weight: 700; cursor: not-allowed;">PREPRINTED PACKAGING</button>
+          <button disabled style="display: block; width: 100%; text-align: left; padding: 10px 16px; background: transparent; border: none; color: #5c6c7e; font-size: 11px; font-weight: 700; cursor: not-allowed;">VERIFI, EQUIPMENTS AND OTHERS</button>
+        </div>
+      </div>
+      <button class="pill-btn pill-btn--outlined" 
+        [disabled]="!hasSelectedItems()" 
+        [style.color]="hasSelectedItems() ? '#ed4e33' : '#5c6c7e'"
+        [style.border-color]="hasSelectedItems() ? '#ed4e33' : '#d2ddea'"
+        [style.cursor]="hasSelectedItems() ? 'pointer' : 'not-allowed'"
+        [style.opacity]="hasSelectedItems() ? '1' : '0.6'"
+        (click)="deleteSelectedItems()">
+        <svg lucideTrash2 [size]="13"></svg> DELETE
+      </button>
+      <button class="pill-btn pill-btn--outlined" 
+        [disabled]="!hasSelectedItems()" 
+        [style.color]="hasSelectedItems() ? '#16283e' : '#5c6c7e'"
+        [style.border-color]="hasSelectedItems() ? '#16283e' : '#d2ddea'"
+        [style.cursor]="hasSelectedItems() ? 'pointer' : 'not-allowed'"
+        [style.opacity]="hasSelectedItems() ? '1' : '0.6'"
+        (click)="duplicateSelectedItems()">
+        <svg lucideCopy [size]="13"></svg> DUPLICATE
+      </button>
+      <button class="pill-btn pill-btn--outlined" style="color: #16283e; border-color: #d2ddea;" (click)="exportToXLSX()" [disabled]="isExporting()">
+        <svg lucideDownload [size]="13"></svg> 
+        <span *ngIf="!isExporting()">XLSX</span>
+        <span *ngIf="isExporting()">Exporting...</span>
+      </button>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 40px; text-align: center;">
+              <input type="checkbox" class="table-checkbox" (change)="toggleSelectAll($event)" />
+            </th>
+            <th>Task ID <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+            <th>Request ID <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+            <th>Task Name <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+            <th>Type <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+            <th>Assigned To <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+            <th>Due Date <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+            <th>Status <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="filtered().length === 0">
+            <td colspan="8" style="text-align:center;padding:24px;color:#aaa">No tasks found.</td>
+          </tr>
+          <tr *ngFor="let t of filtered(); let i = index" 
+              (click)="viewTaskDetails(t)" 
+              [class.selected]="isItemSelected(t.id)"
+              style="cursor: pointer;">
+            <td style="text-align: center;" (click)="$event.stopPropagation()">
+              <input type="checkbox" class="table-checkbox" 
+                     [checked]="isItemSelected(t.id)"
+                     (change)="toggleItemSelection(t.id, $event)" />
+            </td>
+            <!-- Task ID cell without dropdown -->
+            <td>
+              <span class="text-teal fw-700">{{ t.id }}</span>
+            </td>
+            <td><span class="fw-600">{{ t.reqId }}</span></td>
+            <td class="text-dark fw-600">{{ t.taskName }}</td>
+            <td style="color: #9ba7b0;">{{ t.type }}</td>
+            <td style="color: #9ba7b0;">{{ t.assignedTo }}</td>
+            <td class="nowrap" style="color: #9ba7b0;">{{ t.dueDate }}</td>
+            <td>
+              <span class="status-badge">
+                <span class="dot" [style.background]="statusColor(t.status)"></span>
+                {{ t.status }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

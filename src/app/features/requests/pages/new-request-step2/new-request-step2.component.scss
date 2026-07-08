@@ -1,0 +1,107 @@
+.wf-container {
+  padding: 16px;
+  background-color: #fafbfc;
+}
+
+.wf-stage {
+  background-color: #fff;
+  border: 1px solid #d2ddea;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+
+  &:last-child { margin-bottom: 0; }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background-color: #f6f8fb;
+    border-bottom: 1px solid #d2ddea;
+  }
+
+  &__num {
+    width: 24px;
+    height: 24px;
+    background-color: #16283e;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  &__title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #15273f;
+  }
+}
+
+.wf-task {
+  display: flex;
+  align-items: center;
+  padding: 12px 14px;
+  border-bottom: 1px solid #edf1f7;
+  gap: 16px;
+
+  &:last-child { border-bottom: none; }
+  &:hover { background-color: #fcfdfe; }
+
+  &__info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #15273f;
+  }
+
+  &__resp {
+    font-size: 11px;
+    color: #77858c;
+  }
+
+  &__assignee {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #f0f7f9;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid #dce4ef;
+    min-width: 160px;
+  }
+
+  &__user {
+    font-size: 11px;
+    font-weight: 600;
+    color: #2795a8;
+    flex: 1;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  &__icon-btn {
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    color: #a0aab2;
+    cursor: pointer;
+    padding: 4px;
+    transition: color 0.15s;
+
+    &:hover { color: #16283e; }
+  }
+}
