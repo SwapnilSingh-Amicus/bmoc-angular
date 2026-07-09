@@ -112,7 +112,7 @@ R&D Requestor — SCC`);
   navigateToRequestInfo() {
     // Navigate to New MOC Request page (Step 1) for editing
     const reqId = this.reqId();
-    this.router.navigate(['/requests/new/step1'], { queryParams: { edit: reqId } });
+    this.router.navigate(['/requests/new/step1'], { queryParams: { edit: reqId, activeTab: 'Item 1', autoEdit: '1' } });
   }
 
   onTaskAttachmentSelected(event: Event) {

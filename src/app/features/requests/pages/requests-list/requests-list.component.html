@@ -94,13 +94,12 @@
             <th>Request Date <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
             <th>Stage <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
             <th>Status <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
-            <th>Amount <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
             <th>Priority <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
           </tr>
         </thead>
         <tbody>
           <tr *ngIf="pageRows().length === 0">
-            <td colspan="12" style="text-align:center;padding:24px;color:#aaa">No requests found.</td>
+            <td colspan="11" style="text-align:center;padding:24px;color:#aaa">No requests found.</td>
           </tr>
           <tr
             *ngFor="let r of pageRows(); let i = index"
@@ -151,7 +150,6 @@
                 {{ r.status }}
               </span>
             </td>
-            <td class="nowrap" style="font-weight: 600;">{{ r.amount }}</td>
             <td>
               <span class="priority-dot">
                 <span class="dot" [style.background]="priorityColor(r.priority)"></span>

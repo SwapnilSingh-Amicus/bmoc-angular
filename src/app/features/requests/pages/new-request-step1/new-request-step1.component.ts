@@ -66,6 +66,16 @@ export class NewRequestStep1Component {
     }
   });
 
+  itemSectionEditEnabled = signal<{[itemKey: string]: {[section: string]: boolean}}>({
+    'Item 1': {
+      'productManagement': false,
+      'tradeCompliance': false,
+      'logistics': false,
+      'operation': false,
+      'tco': false
+    }
+  });
+
   readonly familyList    = computed(() => this.families[this.topFamily()] || []);
   readonly categoryList  = computed(() => this.categories[this.family()] || []);
 
@@ -120,6 +130,37 @@ export class NewRequestStep1Component {
     
     const expanded = this.itemSectionsExpanded();
     return expanded[currentTab]?.[section] ?? false;
+  }
+
+  isSectionEditable(section: string): boolean {
+    const currentTab = this.activeTab();
+    if (currentTab === 'request-info') return false;
+    const editState = this.itemSectionEditEnabled();
+    return editState[currentTab]?.[section] ?? false;
+  }
+
+  enableSectionEdit(section: string) {
+    const tab = this.activeTab();
+    if (tab === 'request-info') return;
+    const current = this.itemSectionEditEnabled();
+    const updatedTab = { ...(current[tab] || {}), [section]: true };
+    this.itemSectionEditEnabled.set({ ...current, [tab]: updatedTab });
+  }
+
+  enableAllSectionsForCurrentTab() {
+    const tab = this.activeTab();
+    if (tab === 'request-info') return;
+    const current = this.itemSectionEditEnabled();
+    this.itemSectionEditEnabled.set({
+      ...current,
+      [tab]: {
+        productManagement: true,
+        tradeCompliance: true,
+        logistics: true,
+        operation: true,
+        tco: true
+      }
+    });
   }
 
   onFileSelected(event: Event) {
@@ -204,6 +245,15 @@ export class NewRequestStep1Component {
     this.route.queryParams.subscribe(params => {
       if (params['type']) {
         this.selectedOption.set(params['type']);
+      }
+      if (params['edit'] && !params['activeTab']) {
+        this.switchTab('Item 1');
+      }
+      if (params['activeTab']) {
+        this.switchTab(params['activeTab']);
+      }
+      if (params['autoEdit']) {
+        this.enableAllSectionsForCurrentTab();
       }
     });
   }

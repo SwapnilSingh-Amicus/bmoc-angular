@@ -303,7 +303,7 @@ export class RequestsListComponent {
     
     // Create CSV data (you can use a library like xlsx for actual Excel export)
     const data = this.filtered();
-    const headers = ['Request ID', 'Title', 'Type', 'Site', 'Requestor', 'Date', 'Stage', 'Status', 'Amount', 'Priority'];
+    const headers = ['Request ID', 'Title', 'Type', 'Site', 'Requestor', 'Date', 'Stage', 'Status', 'Priority'];
     const csvContent = [
       headers.join(','),
       ...data.map(r => [
@@ -315,7 +315,6 @@ export class RequestsListComponent {
         r.date,
         r.stage || '-',
         r.status,
-        r.amount,
         r.priority
       ].join(','))
     ].join('\n');

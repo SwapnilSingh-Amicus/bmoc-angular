@@ -308,26 +308,26 @@
             <svg *ngIf="isSectionExpanded('productManagement')" lucideMinus [size]="16" style="color: #15273f;"></svg>
             <span style="font-size: 13px; font-weight: 700; color: #15273f;">Product Management</span>
           </div>
-          <button class="pill-btn pill-btn--outlined pill-btn--sm" style="font-size: 10px; padding: 4px 12px;" (click)="$event.stopPropagation()">ENABLE EDIT</button>
+          <button class="pill-btn pill-btn--outlined pill-btn--sm" style="font-size: 10px; padding: 4px 12px;" (click)="$event.stopPropagation(); enableSectionEdit('productManagement')">ENABLE EDIT</button>
         </div>
         <div *ngIf="isSectionExpanded('productManagement')" style="padding: 16px;">
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px 20px;">
             <!-- Min. rem. Shelf life -->
             <div class="form-field">
               <label>Min. rem. Shelf life</label>
-              <input type="text" placeholder="In days" disabled />
+              <input type="text" placeholder="In days" [disabled]="!isSectionEditable('productManagement')" />
             </div>
 
             <!-- Temp contr (Freight) -->
             <div class="form-field">
               <label style="margin-bottom: 6px;">Temp contr (Freight) <span style="font-size: 11px; font-weight: 400; color: #77858c; margin-left: 6px;">Thermo truck required?</span></label>
               <div style="display: flex; gap: 24px;">
-                <label style="display: flex; align-items: center; gap: 7px; font-size: 13px; color: #15273f; cursor: not-allowed; opacity: 0.6;">
-                  <input type="radio" name="tempContrFreight" value="Yes" disabled />
+                <label style="display: flex; align-items: center; gap: 7px; font-size: 13px; color: #15273f;">
+                  <input type="radio" name="tempContrFreight" value="Yes" [disabled]="!isSectionEditable('productManagement')" />
                   Yes
                 </label>
-                <label style="display: flex; align-items: center; gap: 7px; font-size: 13px; color: #15273f; cursor: not-allowed; opacity: 0.6;">
-                  <input type="radio" name="tempContrFreight" value="No" disabled />
+                <label style="display: flex; align-items: center; gap: 7px; font-size: 13px; color: #15273f;">
+                  <input type="radio" name="tempContrFreight" value="No" [disabled]="!isSectionEditable('productManagement')" />
                   No
                 </label>
               </div>
@@ -336,73 +336,73 @@
             <!-- Matl Grp Pack. Matls -->
             <div class="form-field">
               <label>Matl Grp Pack. Matls</label>
-              <input type="text" placeholder="Stackable type - see Info tab" disabled />
+              <input type="text" placeholder="Stackable type - see Info tab" [disabled]="!isSectionEditable('productManagement')" />
             </div>
 
             <!-- Temp. Conditions -->
             <div class="form-field">
               <label>Temp. Conditions</label>
-              <input type="text" placeholder="See info tab" disabled />
+              <input type="text" placeholder="See info tab" [disabled]="!isSectionEditable('productManagement')" />
             </div>
 
             <!-- Plants required -->
             <div class="form-field">
               <label>Plants required</label>
-              <input type="text" placeholder="No SAP field" disabled />
+              <input type="text" placeholder="No SAP field" [disabled]="!isSectionEditable('productManagement')" />
             </div>
 
             <!-- Strategy Group -->
             <div class="form-field">
               <label>Strategy Group</label>
-              <input type="text" placeholder="Supply Strategy - MTS/MTO? See info tab" disabled />
+              <input type="text" placeholder="Supply Strategy - MTS/MTO? See info tab" [disabled]="!isSectionEditable('productManagement')" />
             </div>
 
             <!-- Min. order qty -->
             <div class="form-field">
               <label>Min. order qty</label>
-              <input type="text" placeholder="Minimum Order Quantity MOQ" disabled />
+              <input type="text" placeholder="Minimum Order Quantity MOQ" [disabled]="!isSectionEditable('productManagement')" />
             </div>
 
             <!-- Delivery Unit -->
             <div class="form-field">
               <label>Delivery Unit</label>
-              <input type="text" placeholder="See info tab" disabled />
+              <input type="text" placeholder="See info tab" [disabled]="!isSectionEditable('productManagement')" />
             </div>
 
             <!-- Haz. material number -->
             <div class="form-field">
               <label>Haz. material number</label>
-              <input type="text" placeholder="See WGK in SDS" disabled />
+              <input type="text" placeholder="See WGK in SDS" [disabled]="!isSectionEditable('productManagement')" />
             </div>
 
             <!-- Total Shelf Life -->
             <div class="form-field">
               <label>Total Shelf Life</label>
-              <input type="text" placeholder="In days" disabled />
+              <input type="text" placeholder="In days" [disabled]="!isSectionEditable('productManagement')" />
             </div>
 
             <!-- Material Description -->
             <div class="form-field">
               <label>Material Description</label>
-              <input type="text" placeholder="Enter material description…" disabled />
+              <input type="text" placeholder="Enter material description…" [disabled]="!isSectionEditable('productManagement')" />
             </div>
 
             <!-- Remarks -->
             <div class="form-field">
               <label>Remarks</label>
-              <input type="text" placeholder="Enter remarks…" disabled />
+              <input type="text" placeholder="Enter remarks…" [disabled]="!isSectionEditable('productManagement')" />
             </div>
 
             <!-- Post to insp. stock -->
             <div class="form-field" style="grid-column: 1 / -1;">
               <label style="margin-bottom: 6px;">Post to insp. stock</label>
               <div style="display: flex; gap: 24px;">
-                <label style="display: flex; align-items: center; gap: 7px; font-size: 13px; color: #15273f; cursor: not-allowed; opacity: 0.6;">
-                  <input type="radio" name="postToInspStock" value="Yes" disabled />
+                <label style="display: flex; align-items: center; gap: 7px; font-size: 13px; color: #15273f;">
+                  <input type="radio" name="postToInspStock" value="Yes" [disabled]="!isSectionEditable('productManagement')" />
                   Yes
                 </label>
-                <label style="display: flex; align-items: center; gap: 7px; font-size: 13px; color: #15273f; cursor: not-allowed; opacity: 0.6;">
-                  <input type="radio" name="postToInspStock" value="No" disabled />
+                <label style="display: flex; align-items: center; gap: 7px; font-size: 13px; color: #15273f;">
+                  <input type="radio" name="postToInspStock" value="No" [disabled]="!isSectionEditable('productManagement')" />
                   No
                 </label>
               </div>
@@ -412,12 +412,12 @@
             <div class="form-field" style="grid-column: 1 / -1;">
               <label style="margin-bottom: 6px;">Special Label Required</label>
               <div style="display: flex; gap: 24px;">
-                <label style="display: flex; align-items: center; gap: 7px; font-size: 13px; color: #15273f; cursor: not-allowed; opacity: 0.6;">
-                  <input type="radio" name="specialLabelRequired" value="Yes" disabled />
+                <label style="display: flex; align-items: center; gap: 7px; font-size: 13px; color: #15273f;">
+                  <input type="radio" name="specialLabelRequired" value="Yes" [disabled]="!isSectionEditable('productManagement')" />
                   Yes
                 </label>
-                <label style="display: flex; align-items: center; gap: 7px; font-size: 13px; color: #15273f; cursor: not-allowed; opacity: 0.6;">
-                  <input type="radio" name="specialLabelRequired" value="No" disabled />
+                <label style="display: flex; align-items: center; gap: 7px; font-size: 13px; color: #15273f;">
+                  <input type="radio" name="specialLabelRequired" value="No" [disabled]="!isSectionEditable('productManagement')" />
                   No
                 </label>
               </div>
@@ -426,7 +426,7 @@
             <!-- Packaging Variant or New Product? -->
             <div class="form-field">
               <label>Packaging Variant or New Product?</label>
-              <select disabled>
+              <select [disabled]="!isSectionEditable('productManagement')">
                 <option value="">— Select —</option>
                 <option value="Packaging Variant">Packaging Variant</option>
                 <option value="New Product">New Product</option>
@@ -446,20 +446,20 @@
             <svg *ngIf="isSectionExpanded('tradeCompliance')" lucideMinus [size]="16" style="color: #15273f;"></svg>
             <span style="font-size: 13px; font-weight: 700; color: #15273f;">Trade Compliance</span>
           </div>
-          <button class="pill-btn pill-btn--outlined pill-btn--sm" style="font-size: 10px; padding: 4px 12px;" (click)="$event.stopPropagation()">ENABLE EDIT</button>
+          <button class="pill-btn pill-btn--outlined pill-btn--sm" style="font-size: 10px; padding: 4px 12px;" (click)="$event.stopPropagation(); enableSectionEdit('tradeCompliance')">ENABLE EDIT</button>
         </div>
         <div *ngIf="isSectionExpanded('tradeCompliance')" style="padding: 16px;">
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px 20px;">
             <!-- Country of Origin -->
             <div class="form-field">
               <label>Country of Origin</label>
-              <input type="text" placeholder="Enter country of origin…" disabled />
+              <input type="text" placeholder="Enter country of origin…" [disabled]="!isSectionEditable('tradeCompliance')" />
             </div>
 
             <!-- Region of Origin -->
             <div class="form-field">
               <label>Region of Origin</label>
-              <input type="text" placeholder="Enter region of origin…" disabled />
+              <input type="text" placeholder="Enter region of origin…" [disabled]="!isSectionEditable('tradeCompliance')" />
             </div>
           </div>
         </div>
@@ -475,80 +475,80 @@
             <svg *ngIf="isSectionExpanded('logistics')" lucideMinus [size]="16" style="color: #15273f;"></svg>
             <span style="font-size: 13px; font-weight: 700; color: #15273f;">Logistics</span>
           </div>
-          <button class="pill-btn pill-btn--outlined pill-btn--sm" style="font-size: 10px; padding: 4px 12px;" (click)="$event.stopPropagation()">ENABLE EDIT</button>
+          <button class="pill-btn pill-btn--outlined pill-btn--sm" style="font-size: 10px; padding: 4px 12px;" (click)="$event.stopPropagation(); enableSectionEdit('logistics')">ENABLE EDIT</button>
         </div>
         <div *ngIf="isSectionExpanded('logistics')" style="padding: 16px;">
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px 20px;">
             <!-- Stock Placement -->
             <div class="form-field">
               <label>Stock Placement</label>
-              <input type="text" placeholder="Enter stock placement…" disabled />
+              <input type="text" placeholder="Enter stock placement…" [disabled]="!isSectionEditable('logistics')" />
             </div>
 
             <!-- Stackable (Freight) -->
             <div class="form-field">
               <label>Stackable (Freight)</label>
-              <input type="text" placeholder="Enter stackable info…" disabled />
+              <input type="text" placeholder="Enter stackable info…" [disabled]="!isSectionEditable('logistics')" />
             </div>
 
             <!-- Name of the Label -->
             <div class="form-field">
               <label>Name of the Label</label>
-              <input type="text" placeholder="Enter label name…" disabled />
+              <input type="text" placeholder="Enter label name…" [disabled]="!isSectionEditable('logistics')" />
             </div>
 
             <!-- Barcode Labeltext 1 -->
             <div class="form-field">
               <label>Barcode Labeltext 1</label>
-              <input type="text" placeholder="Enter barcode label text 1…" disabled />
+              <input type="text" placeholder="Enter barcode label text 1…" [disabled]="!isSectionEditable('logistics')" />
             </div>
 
             <!-- Barcode Labeltext 2 -->
             <div class="form-field">
               <label>Barcode Labeltext 2</label>
-              <input type="text" placeholder="Enter barcode label text 2…" disabled />
+              <input type="text" placeholder="Enter barcode label text 2…" [disabled]="!isSectionEditable('logistics')" />
             </div>
 
             <!-- Barcode Leer Field -->
             <div class="form-field">
               <label>Barcode Leer Field</label>
-              <input type="text" placeholder="Enter barcode leer field…" disabled />
+              <input type="text" placeholder="Enter barcode leer field…" [disabled]="!isSectionEditable('logistics')" />
             </div>
 
             <!-- Packtype 1 -->
             <div class="form-field">
               <label>Packtype 1</label>
-              <input type="text" placeholder="Enter pack type…" disabled />
+              <input type="text" placeholder="Enter pack type…" [disabled]="!isSectionEditable('logistics')" />
             </div>
 
             <!-- Packtype 2 -->
             <div class="form-field">
               <label>Packtype 2</label>
-              <input type="text" placeholder="Enter pack type 2…" disabled />
+              <input type="text" placeholder="Enter pack type 2…" [disabled]="!isSectionEditable('logistics')" />
             </div>
 
             <!-- Label Type -->
             <div class="form-field">
               <label>Label Type</label>
-              <input type="text" placeholder="Enter label type…" disabled />
+              <input type="text" placeholder="Enter label type…" [disabled]="!isSectionEditable('logistics')" />
             </div>
 
             <!-- Lab. Form -->
             <div class="form-field">
               <label>Lab. Form</label>
-              <input type="text" placeholder="Enter lab form…" disabled />
+              <input type="text" placeholder="Enter lab form…" [disabled]="!isSectionEditable('logistics')" />
             </div>
 
             <!-- MRP Controller -->
             <div class="form-field">
               <label>MRP Controller</label>
-              <input type="text" placeholder="Enter MRP controller…" disabled />
+              <input type="text" placeholder="Enter MRP controller…" [disabled]="!isSectionEditable('logistics')" />
             </div>
 
             <!-- Tot. repl. lead time -->
             <div class="form-field">
               <label>Tot. repl. lead time</label>
-              <input type="text" placeholder="Enter total replenishment lead time…" disabled />
+              <input type="text" placeholder="Enter total replenishment lead time…" [disabled]="!isSectionEditable('logistics')" />
             </div>
           </div>
         </div>
@@ -564,38 +564,38 @@
             <svg *ngIf="isSectionExpanded('operation')" lucideMinus [size]="16" style="color: #15273f;"></svg>
             <span style="font-size: 13px; font-weight: 700; color: #15273f;">Operation</span>
           </div>
-          <button class="pill-btn pill-btn--outlined pill-btn--sm" style="font-size: 10px; padding: 4px 12px;" (click)="$event.stopPropagation()">ENABLE EDIT</button>
+          <button class="pill-btn pill-btn--outlined pill-btn--sm" style="font-size: 10px; padding: 4px 12px;" (click)="$event.stopPropagation(); enableSectionEdit('operation')">ENABLE EDIT</button>
         </div>
         <div *ngIf="isSectionExpanded('operation')" style="padding: 16px;">
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px 20px;">
             <!-- Gross Weight (kg) -->
             <div class="form-field">
               <label>Gross Weight (kg)</label>
-              <input type="text" placeholder="Total weight of 1 kg of product incl. Packaging." disabled />
+              <input type="text" placeholder="Total weight of 1 kg of product incl. Packaging." [disabled]="!isSectionEditable('operation')" />
             </div>
 
             <!-- SUT -->
             <div class="form-field">
               <label>SUT</label>
-              <input type="text" placeholder="Pallet type. See info tab." disabled />
+              <input type="text" placeholder="Pallet type. See info tab." [disabled]="!isSectionEditable('operation')" />
             </div>
 
             <!-- Pallet size length (cm) -->
             <div class="form-field">
               <label>Pallet size length (cm)</label>
-              <input type="text" disabled />
+              <input type="text" [disabled]="!isSectionEditable('operation')" />
             </div>
 
             <!-- Pallet size width (cm) -->
             <div class="form-field">
               <label>Pallet size width (cm)</label>
-              <input type="text" disabled />
+              <input type="text" [disabled]="!isSectionEditable('operation')" />
             </div>
 
             <!-- Pallet size height (cm) -->
             <div class="form-field">
               <label>Pallet size height (cm)</label>
-              <input type="text" disabled />
+              <input type="text" [disabled]="!isSectionEditable('operation')" />
             </div>
           </div>
         </div>
@@ -611,32 +611,32 @@
             <svg *ngIf="isSectionExpanded('tco')" lucideMinus [size]="16" style="color: #15273f;"></svg>
             <span style="font-size: 13px; font-weight: 700; color: #15273f;">TCO</span>
           </div>
-          <button class="pill-btn pill-btn--outlined pill-btn--sm" style="font-size: 10px; padding: 4px 12px;" (click)="$event.stopPropagation()">ENABLE EDIT</button>
+          <button class="pill-btn pill-btn--outlined pill-btn--sm" style="font-size: 10px; padding: 4px 12px;" (click)="$event.stopPropagation(); enableSectionEdit('tco')">ENABLE EDIT</button>
         </div>
         <div *ngIf="isSectionExpanded('tco')" style="padding: 16px;">
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px 20px;">
             <!-- TCO Reference -->
             <div class="form-field">
               <label>TCO Reference</label>
-              <input type="text" placeholder="Enter TCO reference…" disabled />
+              <input type="text" placeholder="Enter TCO reference…" [disabled]="!isSectionEditable('tco')" />
             </div>
 
             <!-- TCO Category -->
             <div class="form-field">
               <label>TCO Category</label>
-              <input type="text" placeholder="Enter TCO category…" disabled />
+              <input type="text" placeholder="Enter TCO category…" [disabled]="!isSectionEditable('tco')" />
             </div>
 
             <!-- TCO Approval Date -->
             <div class="form-field">
               <label>TCO Approval Date</label>
-              <input type="text" placeholder="Enter approval date…" disabled />
+              <input type="text" placeholder="Enter approval date…" [disabled]="!isSectionEditable('tco')" />
             </div>
 
             <!-- TCO Remarks -->
             <div class="form-field">
               <label>TCO Remarks</label>
-              <input type="text" placeholder="Enter TCO remarks…" disabled />
+              <input type="text" placeholder="Enter TCO remarks…" [disabled]="!isSectionEditable('tco')" />
             </div>
           </div>
         </div>
