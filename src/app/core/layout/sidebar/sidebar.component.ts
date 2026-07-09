@@ -39,25 +39,45 @@ export class SidebarComponent {
   navItems: NavItem[] = [
     { icon: 'dashboard', label: 'Dashboard', route: '/dashboard' },
     { icon: 'requests', label: 'Requests', route: '/requests/list', id: 'nav-requests' },
-    { icon: 'workflow', label: 'Workflow', route: '/workflow', id: 'nav-workflow' },
     { icon: 'tasks', label: 'Tasks', route: '/tasks', id: 'nav-tasks' },
+
     {
-      icon: 'masters', label: 'Master Data', route: null, id: 'nav-masters',
+      icon: 'masters',
+      label: 'Master Data',
+      route: null,
+      id: 'nav-masters',
       children: [
         { label: 'Business', route: '/masters/business' },
-        { label: 'Location', route: '/masters/location' }
-      ]
+        { label: 'Location', route: '/masters/location' },
+      ],
     },
+
     {
-      icon: 'reports', label: 'Reports', route: null, id: 'nav-reports',
+      icon: 'workflow',
+      label: 'Admin Option',
+      route: null,
+      id: 'nav-admin',
       children: [
-        { label: 'Cycle Time', route: '/reports/cycle-time' },
-        { label: 'Summary Stats', route: '/reports/summary-stats' }
-      ]
+        { label: 'Workflow', route: '/workflow' },
+        { label: 'Business Role', route: null },
+        { label: 'Role Mapping', route: null },
+      ],
+    },
+
+    {
+      icon: 'reports',
+      label: 'Reports',
+      route: null,
+      id: 'nav-reports',
+      children: [
+        { label: 'Cycle Time', route: null },
+        { label: 'Summary Stats', route: null },
+      ],
     },
   ];
 
-  expandedGroups = signal<Set<string>>(new Set(['Requests', 'Master Data']));
+  expandedGroups = signal<Set<string>>(new Set(['Requests', 'Master Data', 'Admin Option', 'Reports']));
+
 
   @HostListener('mouseenter')
   onMouseEnter() {
