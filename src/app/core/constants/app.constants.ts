@@ -16,7 +16,7 @@ export const C = {
 };
 
 // ─── Current User ─────────────────────────────────────────────────────────────
-export const CURRENT_USER = { name: 'Priya Sharma', role: 'Requestor', business: 'SCC', site: 'INPL001' };
+export const CURRENT_USER = { name: 'Pranjal Panday', role: 'Requestor', business: 'SCC', site: 'INPL001' };
 
 // ─── Dashboard Data ───────────────────────────────────────────────────────────
 export const DASHBOARD_TASKS: DashboardTask[] = [

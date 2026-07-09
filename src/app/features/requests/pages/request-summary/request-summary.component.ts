@@ -35,17 +35,17 @@ export class RequestSummaryComponent implements OnInit {
   // Email form fields
   toTags = signal<string[]>(['rahul.verma@saintgobain.com']);
   ccTags = signal<string[]>(['anjali.mehta@saintgobain.com']);
-  emailSubject = signal('EAS BMOC-2024-0045 — Action Required: New Waterproofing Compound WP-250');
+  emailSubject = signal(' BMOC-2024-0045 — Action Required: New Waterproofing Compound WP-250');
 
   getExternalRequestSummaryUrl(reqId: string) {
-    return `https://bmoc-angular.vercel.app/requests/${reqId}/summary`;
+    return `/requests/${reqId}/summary`;
   }
 
   // Keep body as plain text (current UI binds with textarea [ngModel])
   emailBody = computed(() => {
     const id = this.reqId() || 'BMOC-2024-0045';
     const url = this.getExternalRequestSummaryUrl(id);
-    const requestor = this.request()?.requestor ?? 'Priya Sharma';
+    const requestor = this.request()?.requestor ?? 'Pranjal Panday';
     const title = this.request()?.title ?? 'New Waterproofing Compound WP-250';
 
     return `Dear Team,\n\nThis is a notification regarding ${title} (Bangalore).\n\nPlease review the request and complete your assigned tasks at the earliest.\n\nRequest Summary: ${url}\n\nRegards,\n${requestor}\nR&D Requestor — SCC`;
