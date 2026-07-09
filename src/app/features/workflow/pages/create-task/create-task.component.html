@@ -2,14 +2,18 @@
   <!-- Page Header -->
   <div class="page-header">
     <div class="header-left">
-      <h2 class="page-title">Create New Task</h2>
+      <h2 class="page-title" style="margin-bottom: 4px;">Create New Task</h2>
       <p class="header-subtitle">Fill in the required information to create a new workflow task</p>
     </div>
   </div>
 
-  <!-- Form Content -->
-  <div class="form-content">
-    <div class="form-section">
+  <!-- Form Content --> 
+   <div
+    class="form-content"
+    style="background-color: #fff; border: 1px solid #e0e5ec; border-radius: 6px; box-shadow: 0 1px 2px rgba(21,39,63,0.04); overflow: hidden;"
+  >
+
+    <div class="form-section" style="padding: 24px;">
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
         <!-- Stage Name -->
         <div style="display: flex; flex-direction: column; gap: 6px;">
@@ -20,7 +24,7 @@
             [(ngModel)]="stageName"
             style="height: 38px; border: 1.5px solid #e0e5ec; border-radius: 4px; padding: 0 12px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff; color: #15273f; transition: all 0.15s;"
           >
-            <option value="">Select Stage</option>
+            <option value="">--Select Stage --</option>
             <option value="R&D Approval">R&D Approval</option>
             <option value="TCO Approval Stage">TCO Approval Stage</option>
             <option value="Marketing">Marketing / Product Mgt</option>
@@ -38,7 +42,7 @@
             [(ngModel)]="taskType"
             style="height: 38px; border: 1.5px solid #e0e5ec; border-radius: 4px; padding: 0 12px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff; color: #15273f; transition: all 0.15s;"
           >
-            <option value="">Select Task Type</option>
+            <option value="">— Select Task Type —</option>
             <option value="NP">NP</option>
             <option value="Multi">Multi</option>
             <option value="Auto">Auto</option>
@@ -67,7 +71,7 @@
             [(ngModel)]="responsibility"
             style="height: 38px; border: 1.5px solid #e0e5ec; border-radius: 4px; padding: 0 12px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff; color: #15273f; transition: all 0.15s;"
           >
-            <option value="">Select Responsibility</option>
+            <option value="">— Select Responsibility —</option>
             <option value="R&D">R&D</option>
             <option value="Marketing">Marketing</option>
             <option value="Quality">Quality</option>
@@ -85,7 +89,7 @@
             [(ngModel)]="requestType"
             style="height: 38px; border: 1.5px solid #e0e5ec; border-radius: 4px; padding: 0 12px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff; color: #15273f; transition: all 0.15s;"
           >
-            <option value="">Select Request Type</option>
+            <option value="">— Select Request Type —</option>
             <option value="Finished Product">Finished Product</option>
             <option value="Raw Material">Raw Material</option>
             <option value="Experimental">Experimental</option>
@@ -130,7 +134,7 @@
             [(ngModel)]="businessRole"
             style="height: 38px; border: 1.5px solid #e0e5ec; border-radius: 4px; padding: 0 12px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff; color: #15273f; transition: all 0.15s;"
           >
-            <option value="">Select Role</option>
+            <option value="">— Select Role —</option>
             <option value="Admin">Admin</option>
             <option value="Manager">Manager</option>
             <option value="User">User</option>
@@ -145,15 +149,14 @@
             [(ngModel)]="reasonCode"
             style="height: 38px; border: 1.5px solid #e0e5ec; border-radius: 4px; padding: 0 12px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff; color: #15273f; transition: all 0.15s;"
           >
-            <option value="All">All</option>
-            <option value="Selected">Selected</option>
+            <option value="All">— Select Reason Code —</option>            
             <option value="RM001">RM001</option>
             <option value="RM002">RM002</option>
           </select>
         </div>
       </div>
 
-      <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 30px;">
+      <div style="display: flex; flex-direction: column; gap: 6px;">
         <!-- Location -->
         <label style="font-size: 12px; font-weight: 600; color: #15273f;">Location</label>
         <div style="display: flex; gap: 20px; align-items: center; padding-top: 8px;">
@@ -175,19 +178,22 @@
   </div>
 
   <!-- Page Footer with Action Buttons -->
-  <div class="page-footer">
-    <button 
+  <div
+    class="page-footer"
+    style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px;"
+  >
+    <button
       (click)="cancelCreate()"
-      style="height: 40px; padding: 0 24px; font-size: 12px; font-weight: 700; border: 1.5px solid #d2ddea; border-radius: 4px; background-color: #fff; color: #15273f; cursor: pointer; font-family: inherit; transition: all 0.15s;"
+      style="height: 40px; padding: 0 28px; font-size: 12px; font-weight: 700; border: 1.5px solid #d2ddea; border-radius: 20px; background-color: #fff; color: #15273f; cursor: pointer; font-family: inherit; transition: all 0.15s;"
     >
       CANCEL
     </button>
-    <button 
+    <button
       (click)="saveNewTask()"
       [disabled]="isSaving()"
       [style.opacity]="isSaving() ? '0.6' : '1'"
       [style.cursor]="isSaving() ? 'not-allowed' : 'pointer'"
-      style="height: 40px; padding: 0 24px; font-size: 12px; font-weight: 700; border: none; border-radius: 4px; background-color: #16283e; color: #fff; font-family: inherit; transition: all 0.15s;"
+      style="height: 40px; padding: 0 28px; font-size: 12px; font-weight: 700; border: none; border-radius: 20px; background-color: #16283e; color: #fff; font-family: inherit; transition: all 0.15s;"
     >
       {{ isSaving() ? 'SAVING...' : 'SUBMIT' }}
     </button>

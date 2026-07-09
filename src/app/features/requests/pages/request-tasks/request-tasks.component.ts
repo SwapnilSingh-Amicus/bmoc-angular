@@ -42,7 +42,7 @@ Please review the request and complete your assigned tasks at the earliest.
 Request Summary: http://qa-enterpriseapproval.za.if.atcsg.net/requestsummary/BMOC-2024-0045
 
 Regards,
-Priya Sharma
+Pranjal Panday
 R&D Requestor — SCC`);
   newToEmail = signal('');
   newCcEmail = signal('');
