@@ -41,10 +41,78 @@
           (input)="onSearch($any($event.target).value)"
         />
       </div>
-      <button class="pill-btn" style="gap: 6px; padding: 6px 16px;">
+      <button class="pill-btn" style="gap: 6px; padding: 6px 16px; position: relative;" (click)="showFilterModal.set(true)">
         <svg lucideFilter [size]="13"></svg> FILTER
+        <span *ngIf="filterStage() || filterType() || filterReasonCode() || filterBusiness() || filterLocation()" style="position: absolute; top: -7px; right: -7px; width: 17px; height: 17px; border-radius: 50%; background-color: #2795a8; color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center;">
+          1
+        </span>
       </button>
     </div>
+
+    <!-- Filter Popup -->
+    <div class="modal-backdrop" *ngIf="showFilterModal()" (click)="showFilterModal.set(false)">
+    <div class="modal" style="width: 600px; max-width: 90vw;" (click)="$event.stopPropagation()">
+      <!-- Modal Header -->
+      <div class="modal__header" style="background-color: #16283e; border-bottom: 1px solid #2a4763; padding: 13px 20px;">
+        <h3 class="modal__header-title" style="font-size: 15px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 8px;">
+          <svg lucideFilter [size]="15" style="color: #fff;"></svg> Filter Requests
+        </h3>
+        <button (click)="showFilterModal.set(false)" style="background: none; border: none; cursor: pointer; color: #fff; display: flex; align-items: center; padding: 2px;">
+          
+        </button>
+      </div>
+
+        <div class="modal__body" style="padding: 24px 24px 16px; display: flex; flex-direction: column; gap: 16px;">
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <label style="font-size: 12px; font-weight: 600; color: #15273f;">Stage</label>
+            <select [(ngModel)]="tempFilterStage" style="height: 36px; border: 1.5px solid #e0e5ec; border-radius: 3px; padding: 0 10px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff;">
+              <option value="">— Select Stage —</option>
+              <option *ngFor="let opt of stageOptions()" [value]="opt">{{ opt }}</option>
+            </select>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <label style="font-size: 12px; font-weight: 600; color: #15273f;">Type</label>
+            <select [(ngModel)]="tempFilterType" style="height: 36px; border: 1.5px solid #e0e5ec; border-radius: 3px; padding: 0 10px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff;">
+              <option value="">— Select Type —</option>
+              <option *ngFor="let opt of typeOptions()" [value]="opt">{{ opt }}</option>
+            </select>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <label style="font-size: 12px; font-weight: 600; color: #15273f;">Reason Code</label>
+            <select [(ngModel)]="tempFilterReasonCode" style="height: 36px; border: 1.5px solid #e0e5ec; border-radius: 3px; padding: 0 10px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff;">
+              <option value="">— Select Reason Code —</option>
+              <option *ngFor="let opt of reasonCodeOptions()" [value]="opt">{{ opt }}</option>
+            </select>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <label style="font-size: 12px; font-weight: 600; color: #15273f;">Business</label>
+            <select [(ngModel)]="tempFilterBusiness" style="height: 36px; border: 1.5px solid #e0e5ec; border-radius: 3px; padding: 0 10px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff;">
+              <option value="">— Select Business —</option>
+              <option *ngFor="let opt of businessOptions()" [value]="opt">{{ opt }}</option>
+            </select>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <label style="font-size: 12px; font-weight: 600; color: #15273f;">Location</label>
+            <select [(ngModel)]="tempFilterLocation" style="height: 36px; border: 1.5px solid #e0e5ec; border-radius: 3px; padding: 0 10px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff;">
+              <option value="">— Select Location —</option>
+              <option *ngFor="let opt of locationOptions()" [value]="opt">{{ opt }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal__footer" style="padding: 12px 24px 20px; display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid #d2ddea;">
+          <button (click)="clearFilters()" class="pill-btn pill-btn--outlined" style="height: 34px; padding: 0 18px; border-radius: 15px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">CLEAR ALL</button>
+          <button (click)="applyFilters()" class="pill-btn" style="height: 34px; padding: 0 22px; border-radius: 15px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; background-color: #16283e;">
+            Apply Filters
+          </button>
+        </div>
+      </div>
+    </div>
+
 
     <div class="overflow-x-auto">
       <table>

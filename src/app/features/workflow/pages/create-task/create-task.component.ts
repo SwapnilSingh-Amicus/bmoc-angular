@@ -30,6 +30,7 @@ export class CreateTaskComponent {
   location            = signal('All');
   isSaving            = signal(false);
 
+
   saveNewTask() {
     // Validate form
     if (!this.stageName() || !this.taskType() || !this.taskTitle()) {

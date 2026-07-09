@@ -28,11 +28,11 @@ export const DASHBOARD_TASKS: DashboardTask[] = [
 ];
 
 export const DASHBOARD_REQUESTS: DashboardRequest[] = [
-  { id: '700719', title: '"Finished Product"',          type: 'NFP', subCategory: 'Blends/Catalysts',              location: 'INPL001 - Bangalore', requestor: 'Pandey, Pranjal',  reqDate: '24 Mar 2025', stage: 'FP - Manual Approval',  status: 'In Progress', priority: 'P3' },
-  { id: '700700', title: 'Test test pointing',           type: 'NRM', subCategory: 'CO Promoter',                  location: 'INPL002 - Chennai',   requestor: 'Pandey, Pranjal',  reqDate: '24 Mar 2025', stage: 'RM - Purchasing',        status: 'In Progress', priority: 'P3' },
-  { id: '700688', title: 'RM',                           type: 'NFP', subCategory: 'Competitive FCC Additives',  location: 'INPL003 - Mumbai',     requestor: 'Pandey, Pranjal',  reqDate: '24 Mar 2025', stage: 'FP - Manual Approval',  status: 'In Progress', priority: 'P3' },
-  { id: '700698', title: 'RM creation',                  type: 'NRM', subCategory: 'Cracking Catalysts',        location: 'INPL004 - Delhi',      requestor: 'Pandey, Pranjal',  reqDate: '22 Mar 2025', stage: 'RM - Purchasing',        status: 'In Progress', priority: 'P3' },
-  { id: '700695', title: 'NewFP 22Mar',                  type: 'NFP', subCategory: 'FlowMotion',                 location: 'INPL007 - Kolkata',    requestor: 'Pandey, Pranjal',  reqDate: '22 Mar 2025', stage: 'FP - Manual Approval',  status: 'In Progress', priority: 'P3' },
+  { id: '700719', title: '"Finished Product"',          type: 'NFP', subCategory: 'Blends/Catalysts',              location: 'Bangalore', requestor: 'Pandey, Pranjal',  reqDate: '24 Mar 2025', stage: 'FP - Manual Approval',  status: 'In Progress', priority: 'P3' },
+  { id: '700700', title: 'Test test pointing',           type: 'NRM', subCategory: 'CO Promoter',                  location: 'Chennai',   requestor: 'Pandey, Pranjal',  reqDate: '24 Mar 2025', stage: 'RM - Purchasing',        status: 'In Progress', priority: 'P3' },
+  { id: '700688', title: 'RM',                           type: 'NFP', subCategory: 'Competitive FCC Additives',  location: 'Mumbai',     requestor: 'Pandey, Pranjal',  reqDate: '24 Mar 2025', stage: 'FP - Manual Approval',  status: 'In Progress', priority: 'P3' },
+  { id: '700698', title: 'RM creation',                  type: 'NRM', subCategory: 'Cracking Catalysts',        location: 'Delhi',      requestor: 'Pandey, Pranjal',  reqDate: '22 Mar 2025', stage: 'RM - Purchasing',        status: 'In Progress', priority: 'P3' },
+  { id: '700695', title: 'NewFP 22Mar',                  type: 'NFP', subCategory: 'FlowMotion',                 location: 'Kolkata',    requestor: 'Pandey, Pranjal',  reqDate: '22 Mar 2025', stage: 'FP - Manual Approval',  status: 'In Progress', priority: 'P3' },
 ];
 
 
@@ -86,21 +86,21 @@ export const ALL_TASKS: Task[] = [
 
 // ─── Workflow Task Master ─────────────────────────────────────────────────────
 export const WORKFLOW_TASKS = [
-  { id: 'WF-001', stage: 'R&D Approval', taskTitle: 'R&D', userRole: 'R&D', type: 'NP', reasonCode: '(RM001) Cr...', business: 'Multiple', location: 'Multiple', updatedOn: '23Jun2026' },
-  { id: 'WF-002', stage: 'TCO Approval Stage', taskTitle: 'test04', userRole: 'Test Regional Manager', type: 'Multi...', reasonCode: '(RM001) Cr...', business: 'Multiple', location: 'Multiple', updatedOn: '23Jun2026' },
-  { id: 'WF-003', stage: 'TCO Approval Stage', taskTitle: 'TCO', userRole: 'TCO', type: 'NP', reasonCode: 'All', business: 'All', location: 'All', updatedOn: '23Jun2026' },
-  { id: 'WF-004', stage: 'Marketing / Product ...', taskTitle: 'Marketing / Product Mgt', userRole: 'Marketing', type: 'NP', reasonCode: 'All', business: 'All', location: 'All', updatedOn: '23Jun2026' },
-  { id: 'WF-005', stage: 'Manufacturing Appr...', taskTitle: 'Manufacturing', userRole: 'Manufacturing', type: 'NP', reasonCode: 'All', business: 'All', location: 'All', updatedOn: '23Jun2026' },
-  { id: 'WF-006', stage: 'Purchasing Approval', taskTitle: 'Purchasing', userRole: 'Purchasing', type: 'NP', reasonCode: 'All', business: 'All', location: 'All', updatedOn: '23Jun2026' },
-  { id: 'WF-007', stage: 'PSS', taskTitle: 'PSS', userRole: 'PSS (Regional)', type: 'NP', reasonCode: 'All', business: 'All', location: 'All', updatedOn: '23Jun2026' },
-  { id: 'WF-008', stage: 'PSS Trade Compliance', taskTitle: 'PSS Trade Compliance', userRole: 'PSS Review', type: 'NP', reasonCode: 'All', business: 'All', location: 'All', updatedOn: '23Jun2026' },
-  { id: 'WF-009', stage: 'PSS Approval', taskTitle: 'PSS Approval', userRole: 'PSS Regional Manager', type: 'NP', reasonCode: 'All', business: 'All', location: 'All', updatedOn: '23Jun2026' },
-  { id: 'WF-010', stage: 'Operation Approval', taskTitle: 'Safety operational/plant', userRole: 'EHS', type: 'NP', reasonCode: 'All', business: 'All', location: 'All', updatedOn: '23Jun2026' },
-  { id: 'WF-011', stage: 'Operation Approval', taskTitle: 'Quality', userRole: 'Quality Admin', type: 'NP', reasonCode: 'All', business: 'All', location: 'All', updatedOn: '23Jun2026' },
-  { id: 'WF-012', stage: 'Automatic QAD Inte...', taskTitle: 'API call Auto', userRole: 'Demo, User', type: 'Multi...', reasonCode: 'Multiple', business: 'Multiple', location: 'Multiple', updatedOn: '05Dec2024' },
-  { id: 'WF-013', stage: 'Automatic QAD Inte...', taskTitle: 'Automatic QAD Integration', userRole: 'Multiple', type: 'NP', reasonCode: 'All', business: 'All', location: 'All', updatedOn: '23Jun2026' },
-  { id: 'WF-014', stage: 'Manual QAD integrat...', taskTitle: 'API manual integration', userRole: 'Sharma, Munish', type: 'Multi...', reasonCode: 'Multiple', business: 'Multiple', location: 'Multiple', updatedOn: '09Dec2024' },
-  { id: 'WF-015', stage: 'Manual QAD integrat...', taskTitle: 'Overall product validation, including Costing valida...', userRole: 'Multiple', type: 'NP', reasonCode: 'All', business: 'All', location: 'All', updatedOn: '23Jun2026' },
+  { id: 'WF-001', stage: 'R&D Approval', taskTitle: 'R&D', userRole: 'R&D', type: 'NP', reasonCode: 'P01 - Create a new Product', business: 'Additives', location: 'Bangalore', updatedOn: '23Jun2026' },
+  { id: 'WF-002', stage: 'TCO Approval Stage', taskTitle: 'test04', userRole: 'Test Regional Manager', type: 'Multi...', reasonCode: 'P02 - Customer Request', business: 'Clean Fuels', location: 'Chennai', updatedOn: '23Jun2026' },
+  { id: 'WF-003', stage: 'TCO Approval Stage', taskTitle: 'TCO', userRole: 'TCO', type: 'NP', reasonCode: 'P03 - Product Reformulation', business: 'CO Promoter', location: 'Mumbai', updatedOn: '23Jun2026' },
+  { id: 'WF-004', stage: 'Marketing / Product ...', taskTitle: 'Marketing / Product Mgt', userRole: 'Marketing', type: 'NP', reasonCode: 'P04 - Cost Reduction Initiative', business: 'Ecat', location: 'Delhi', updatedOn: '23Jun2026' },
+  { id: 'WF-005', stage: 'Manufacturing Appr...', taskTitle: 'Manufacturing', userRole: 'Manufacturing', type: 'NP', reasonCode: 'P05 - Regulatory Compliance', business: 'Environmental', location: 'Pune', updatedOn: '23Jun2026' },
+  { id: 'WF-006', stage: 'Purchasing Approval', taskTitle: 'Purchasing', userRole: 'Purchasing', type: 'NP', reasonCode: 'P06 - Market Expansion', business: 'FCC Catalysts', location: 'Hyderabad', updatedOn: '23Jun2026' },
+  { id: 'WF-007', stage: 'PSS', taskTitle: 'PSS', userRole: 'PSS (Regional)', type: 'NP', reasonCode: 'P07 - Product Rationalisation', business: 'FCC Other', location: 'Kolkata', updatedOn: '23Jun2026' },
+  { id: 'WF-008', stage: 'PSS Trade Compliance', taskTitle: 'PSS Trade Compliance', userRole: 'PSS Review', type: 'NP', reasonCode: 'P08 - Packaging Change', business: 'GSR', location: 'Bangalore', updatedOn: '23Jun2026' },
+  { id: 'WF-009', stage: 'PSS Approval', taskTitle: 'PSS Approval', userRole: 'PSS Regional Manager', type: 'NP', reasonCode: 'R01 - Create a new Raw Material', business: 'Additives', location: 'Chennai', updatedOn: '23Jun2026' },
+  { id: 'WF-010', stage: 'Operation Approval', taskTitle: 'Safety operational/plant', userRole: 'EHS', type: 'NP', reasonCode: 'R02 - Raw Material Substitution', business: 'Clean Fuels', location: 'Mumbai', updatedOn: '23Jun2026' },
+  { id: 'WF-011', stage: 'Operation Approval', taskTitle: 'Quality', userRole: 'Quality Admin', type: 'NP', reasonCode: 'R03 - Supplier Change', business: 'CO Promoter', location: 'Delhi', updatedOn: '23Jun2026' },
+  { id: 'WF-012', stage: 'Automatic QAD Inte...', taskTitle: 'API call Auto', userRole: 'Demo, User', type: 'Multi...', reasonCode: 'R04 - Quality Improvement', business: 'Ecat', location: 'Pune', updatedOn: '05Dec2024' },
+  { id: 'WF-013', stage: 'Automatic QAD Inte...', taskTitle: 'Automatic QAD Integration', userRole: 'Multiple', type: 'NP', reasonCode: 'R05 - Sourcing Localisation', business: 'Environmental', location: 'Hyderabad', updatedOn: '23Jun2026' },
+  { id: 'WF-014', stage: 'Manual QAD integrat...', taskTitle: 'API manual integration', userRole: 'Sharma, Munish', type: 'Multi...', reasonCode: 'R06 - Cost Reduction -RM', business: 'FCC Catalysts', location: 'Kolkata', updatedOn: '09Dec2024' },
+  { id: 'WF-015', stage: 'Manual QAD integrat...', taskTitle: 'Overall product validation, including Costing valida...', userRole: 'Multiple', type: 'NP', reasonCode: 'R07 - Regulatory / REACH Compliance', business: 'FCC Other', location: 'Bangalore', updatedOn: '23Jun2026' },
 ];
 
 // ─── Workflow Stages for New Request ──────────────────────────────────────────

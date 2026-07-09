@@ -116,14 +116,23 @@
         </div>
       </div>
 
-      <!-- Task Instructions -->
+<!-- Task Instructions -->
       <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px;">
         <label style="font-size: 12px; font-weight: 600; color: #15273f;">Task Instructions</label>
-        <textarea
-          placeholder="Enter task instructions..."
+        <select
           [(ngModel)]="taskInstructions"
-          style="height: 110px; border: 1.5px solid #e0e5ec; border-radius: 4px; padding: 12px; font-size: 13px; color: #15273f; outline: none; font-family: inherit; background-color: #fff; resize: vertical; transition: all 0.15s;"
-        ></textarea>
+          style="height: 38px; border: 1.5px solid #e0e5ec; border-radius: 4px; padding: 0 12px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff; color: #15273f; transition: all 0.15s;"
+        >
+          <option value="">— Select Task Instruction —</option>
+          <option value="Additives">Additives</option>
+          <option value="Clean Fuels">Clean Fuels</option>
+          <option value="CO Promoter">CO Promoter</option>
+          <option value="Ecat">Ecat</option>
+          <option value="Environmental">Environmental</option>
+          <option value="FCC Catalysts">FCC Catalysts</option>
+          <option value="FCC Other">FCC Other</option>
+          <option value="GSR">GSR</option>
+        </select>
       </div>
 
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">

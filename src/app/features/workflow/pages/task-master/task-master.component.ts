@@ -25,20 +25,107 @@ export class TaskMasterComponent {
   isExporting         = signal(false);
   selectedItems       = signal<Set<string>>(new Set());
 
+  // Filter popup
+  showFilterModal = signal(false);
+  tempFilterStage = signal('');
+  tempFilterType = signal('');
+  tempFilterReasonCode = signal('');
+  tempFilterBusiness = signal('');
+  tempFilterLocation = signal('');
+
+  // Active filters (used by popup apply)
+  filterStage = signal('');
+  filterType = signal('');
+  filterReasonCode = signal('');
+  filterBusiness = signal('');
+  filterLocation = signal('');
+
   allWorkflowTasks = WORKFLOW_TASKS;
 
   readonly hasSelectedItems = computed(() => this.selectedItems().size > 0);
 
+  // Dropdown options from existing WORKFLOW_TASKS
+  readonly stageOptions = computed(() => {
+    const set = new Set<string>();
+    this.allWorkflowTasks.forEach(t => set.add(t.stage));
+    return Array.from(set).sort();
+  });
+
+  readonly typeOptions = computed(() => {
+    const set = new Set<string>();
+    this.allWorkflowTasks.forEach(t => t.type && set.add(t.type));
+    return Array.from(set).sort();
+  });
+
+  readonly reasonCodeOptions = computed(() => {
+    const set = new Set<string>();
+    this.allWorkflowTasks.forEach(t => t.reasonCode && set.add(t.reasonCode));
+    return Array.from(set).sort();
+  });
+
+  readonly businessOptions = computed(() => {
+    const set = new Set<string>();
+    this.allWorkflowTasks.forEach(t => t.business && set.add(t.business));
+    return Array.from(set).sort();
+  });
+
+  readonly locationOptions = computed(() => {
+    const set = new Set<string>();
+    this.allWorkflowTasks.forEach(t => t.location && set.add(t.location));
+    return Array.from(set).sort();
+  });
+
   readonly filtered = computed(() => {
     const s = this.search().toLowerCase();
-    return this.allWorkflowTasks.filter(t =>
-      !s || 
-      t.stage.toLowerCase().includes(s) || 
-      t.taskTitle.toLowerCase().includes(s) || 
-      t.userRole.toLowerCase().includes(s) ||
-      t.business.toLowerCase().includes(s)
-    );
+    const fs = this.filterStage();
+    const ft = this.filterType();
+    const fr = this.filterReasonCode();
+    const fb = this.filterBusiness();
+    const fl = this.filterLocation();
+
+    return this.allWorkflowTasks.filter(t => {
+      const matchesSearch =
+        !s ||
+        t.stage.toLowerCase().includes(s) ||
+        t.taskTitle.toLowerCase().includes(s) ||
+        t.userRole.toLowerCase().includes(s) ||
+        t.business.toLowerCase().includes(s);
+
+      const matchesStage = !fs || t.stage === fs;
+      const matchesType = !ft || t.type === ft;
+      const matchesReason = !fr || t.reasonCode === fr;
+      const matchesBusiness = !fb || t.business === fb;
+      const matchesLocation = !fl || t.location === fl;
+
+      return matchesSearch && matchesStage && matchesType && matchesReason && matchesBusiness && matchesLocation;
+    });
   });
+
+  clearFilters() {
+    this.tempFilterStage.set('');
+    this.tempFilterType.set('');
+    this.tempFilterReasonCode.set('');
+    this.tempFilterBusiness.set('');
+    this.tempFilterLocation.set('');
+
+    this.filterStage.set('');
+    this.filterType.set('');
+    this.filterReasonCode.set('');
+    this.filterBusiness.set('');
+    this.filterLocation.set('');
+    this.showFilterModal.set(false);
+  }
+
+  applyFilters() {
+    this.filterStage.set(this.tempFilterStage());
+    this.filterType.set(this.tempFilterType());
+    this.filterReasonCode.set(this.tempFilterReasonCode());
+    this.filterBusiness.set(this.tempFilterBusiness());
+    this.filterLocation.set(this.tempFilterLocation());
+    this.showFilterModal.set(false);
+  }
+
+
 
   constructor() {}
 
