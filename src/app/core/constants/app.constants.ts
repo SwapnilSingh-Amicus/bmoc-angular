@@ -28,12 +28,13 @@ export const DASHBOARD_TASKS: DashboardTask[] = [
 ];
 
 export const DASHBOARD_REQUESTS: DashboardRequest[] = [
-  { id: '700719', title: '"Finished Product"',          type: 'NFP', subCategory: 'Other - Synthetic oils',              location: '(FR0001) CHRYSO SAS', requestor: 'Pandey, Pranjal',  reqDate: '24 Mar 2025', stage: 'FP - Manual Approval',  status: 'In Progress', priority: 'P3' },
-  { id: '700700', title: 'Test test pointing',           type: 'NRM', subCategory: 'Other - Butyl methacrylate',          location: '(FR0001) CHRYSO SAS', requestor: 'Pandey, Pranjal',  reqDate: '24 Mar 2025', stage: 'RM - Purchasing',        status: 'In Progress', priority: 'P3' },
-  { id: '700688', title: 'RM',                           type: 'NFP', subCategory: 'Other - On premise logistics',        location: '(FR0001) CHRYSO SAS', requestor: 'Pandey, Pranjal',  reqDate: '24 Mar 2025', stage: 'FP - Manual Approval',  status: 'In Progress', priority: 'P3' },
-  { id: '700698', title: 'RM creation',                  type: 'NRM', subCategory: 'SCC - GA for Minerals & Aggregates', location: '(FR0001) CHRYSO SAS', requestor: 'Pandey, Pranjal',  reqDate: '22 Mar 2025', stage: 'RM - Purchasing',        status: 'In Progress', priority: 'P3' },
-  { id: '700695', title: 'NewFP 22Mar',                  type: 'NFP', subCategory: 'SCC - Additives for Masonry',        location: '(FR0001) CHRYSO SAS', requestor: 'Pandey, Pranjal',  reqDate: '22 Mar 2025', stage: 'FP - Manual Approval',  status: 'In Progress', priority: 'P3' },
+  { id: '700719', title: '"Finished Product"',          type: 'NFP', subCategory: 'Blends/Catalysts',              location: 'INPL001 - Bangalore', requestor: 'Pandey, Pranjal',  reqDate: '24 Mar 2025', stage: 'FP - Manual Approval',  status: 'In Progress', priority: 'P3' },
+  { id: '700700', title: 'Test test pointing',           type: 'NRM', subCategory: 'CO Promoter',                  location: 'INPL002 - Chennai',   requestor: 'Pandey, Pranjal',  reqDate: '24 Mar 2025', stage: 'RM - Purchasing',        status: 'In Progress', priority: 'P3' },
+  { id: '700688', title: 'RM',                           type: 'NFP', subCategory: 'Competitive FCC Additives',  location: 'INPL003 - Mumbai',     requestor: 'Pandey, Pranjal',  reqDate: '24 Mar 2025', stage: 'FP - Manual Approval',  status: 'In Progress', priority: 'P3' },
+  { id: '700698', title: 'RM creation',                  type: 'NRM', subCategory: 'Cracking Catalysts',        location: 'INPL004 - Delhi',      requestor: 'Pandey, Pranjal',  reqDate: '22 Mar 2025', stage: 'RM - Purchasing',        status: 'In Progress', priority: 'P3' },
+  { id: '700695', title: 'NewFP 22Mar',                  type: 'NFP', subCategory: 'FlowMotion',                 location: 'INPL007 - Kolkata',    requestor: 'Pandey, Pranjal',  reqDate: '22 Mar 2025', stage: 'FP - Manual Approval',  status: 'In Progress', priority: 'P3' },
 ];
+
 
 // ─── Requests (main list) ──────────────────────────────────────────────────────
 export const ALL_REQUESTS: Request[] = [

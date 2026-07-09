@@ -18,16 +18,16 @@ interface WorkflowGroup { stage: string; tasks: Task[]; }
 })
 export class RequestSummaryComponent implements OnInit {
   private toastService = inject(ToastService);
-  
-  reqId    = signal('');
-  request  = signal<Request | undefined>(undefined);
-  tasks    = signal<Task[]>([]);
-  audit    = signal<AuditEntry[]>(AUDIT_ENTRIES);
 
-  changeTo   = signal('');
-  sectionA   = signal(true); // expanded
-  sectionB   = signal(true); // expanded
-  sectionD   = signal(true); // expanded - Attachments
+  reqId = signal('');
+  request = signal<Request | undefined>(undefined);
+  tasks = signal<Task[]>([]);
+  audit = signal<AuditEntry[]>(AUDIT_ENTRIES);
+
+  changeTo = signal('');
+  sectionA = signal(true);
+  sectionB = signal(true);
+  sectionD = signal(true);
   showHistoryModal = signal(false);
   showEmailModal = signal(false);
   emailSent = signal(false);
@@ -36,28 +36,32 @@ export class RequestSummaryComponent implements OnInit {
   toTags = signal<string[]>(['rahul.verma@saintgobain.com']);
   ccTags = signal<string[]>(['anjali.mehta@saintgobain.com']);
   emailSubject = signal('EAS BMOC-2024-0045 — Action Required: New Waterproofing Compound WP-250');
-  emailBody = signal(`Dear Team,
 
-This is a notification regarding BMOC-2024-0045 — New Waterproofing Compound WP-250 (Bangalore).
+  getExternalRequestSummaryUrl(reqId: string) {
+    return `https://bmoc-angular.vercel.app/requests/${reqId}/summary`;
+  }
 
-Please review the request and complete your assigned tasks at the earliest.
+  // Keep body as plain text (current UI binds with textarea [ngModel])
+  emailBody = computed(() => {
+    const id = this.reqId() || 'BMOC-2024-0045';
+    const url = this.getExternalRequestSummaryUrl(id);
+    const requestor = this.request()?.requestor ?? 'Priya Sharma';
+    const title = this.request()?.title ?? 'New Waterproofing Compound WP-250';
 
-Request Summary: http://qa-enterpriseapproval.za.if.atcsg.net/requestsummary/BMOC-2024-0045
+    return `Dear Team,\n\nThis is a notification regarding ${title} (Bangalore).\n\nPlease review the request and complete your assigned tasks at the earliest.\n\nRequest Summary: ${url}\n\nRegards,\n${requestor}\nR&D Requestor — SCC`;
+  });
 
-Regards,
-Priya Sharma
-R&D Requestor — SCC`);
   newToEmail = signal('');
   newCcEmail = signal('');
 
   attachments = signal([
     { name: 'SDS_WP250_v1.pdf', size: '890 KB', uploadedBy: 'Rahul Verma', date: '10 Jun 2026', comment: '' },
-    { name: 'Specification_WP250.docx', size: '340 KB', uploadedBy: 'Priya Sharma', date: '10 Jun 2026', comment: '' }
+    { name: 'Specification_WP250.docx', size: '340 KB', uploadedBy: 'Priya Sharma', date: '10 Jun 2026', comment: '' },
   ]);
 
-  statusColor   = statusColor;
+  statusColor = statusColor;
   priorityColor = priorityColor;
-  stageColor    = stageColor;
+  stageColor = stageColor;
 
   readonly workflowGroups = computed<WorkflowGroup[]>(() => {
     const stages = ['Pre Approval', 'Approvals', 'Post Approval'];
@@ -86,9 +90,9 @@ R&D Requestor — SCC`);
   taskAttachments = signal<File[]>([]);
 
   getGroupStatus(stage: string) {
-    const tasks = this.WORKFLOW_TASKS.filter(t => t.stage === stage);
-    if (tasks.every(t => t.status === 'Approved')) return 'Approved';
-    if (tasks.some(t => t.status === 'Assigned' || t.status === 'In Progress')) return 'Assigned';
+    const stageTasks = this.WORKFLOW_TASKS.filter(t => t.stage === stage);
+    if (stageTasks.every(t => t.status === 'Approved')) return 'Approved';
+    if (stageTasks.some(t => t.status === 'Assigned' || t.status === 'In Progress')) return 'Assigned';
     return 'Created';
   }
 
@@ -110,7 +114,6 @@ R&D Requestor — SCC`);
   }
 
   navigateToRequestInfo() {
-    // Navigate to New MOC Request page (Step 1) for editing
     const reqId = this.reqId();
     this.router.navigate(['/requests/new/step1'], { queryParams: { edit: reqId, activeTab: 'Item 1', autoEdit: '1' } });
   }
@@ -126,33 +129,31 @@ R&D Requestor — SCC`);
   submitTaskDecision() {
     const decision = this.taskDecision();
     if (!decision) return;
-    
-    // Update task status
+
     const taskIdx = this.selectedTaskIndex();
     if (taskIdx >= 0 && taskIdx < this.WORKFLOW_TASKS.length) {
       if (decision === 'Approve') {
         this.WORKFLOW_TASKS[taskIdx].status = 'Approved';
-        
-        // Add uploaded attachments to the attachments list if any
+
         if (this.taskAttachments().length > 0) {
           const currentAttachments = this.attachments();
           const newAttachments = this.taskAttachments().map(file => ({
             name: file.name,
             size: this.formatFileSize(file.size),
-            uploadedBy: 'Munish Sharma', // Current user who approved and uploaded
+            uploadedBy: 'Munish Sharma',
             date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, ' '),
-            comment: ''
+            comment: '',
           }));
           this.attachments.set([...currentAttachments, ...newAttachments]);
         }
-        
+
         this.toastService.success('Task approved successfully!');
       } else {
         this.WORKFLOW_TASKS[taskIdx].status = 'Rejected';
         this.toastService.success('Task rejected.');
       }
     }
-    
+
     this.closeTaskPopup();
   }
 
@@ -179,21 +180,20 @@ R&D Requestor — SCC`);
 
   uploadAttachment() {
     console.log('Upload attachment clicked');
-    // TODO: Implement file upload
   }
-  
+
   updateAttachmentComment(index: number, comment: string) {
     const atts = this.attachments();
     atts[index].comment = comment;
     this.attachments.set([...atts]);
   }
-  
+
   getFileType(filename: string): string {
     const ext = filename.split('.').pop()?.toUpperCase() || '';
     const imageTypes = ['PNG', 'JPG', 'JPEG', 'GIF', 'BMP'];
     const docTypes = ['DOC', 'DOCX'];
     const excelTypes = ['XLS', 'XLSX'];
-    
+
     if (ext === 'PDF') return 'PDF';
     if (imageTypes.includes(ext)) return `Image (.${ext.toLowerCase()})`;
     if (docTypes.includes(ext)) return `Word Document (.${ext.toLowerCase()})`;
@@ -238,7 +238,6 @@ R&D Requestor — SCC`);
   sendEmail() {
     if (this.toTags().length === 0) return;
     this.emailSent.set(true);
-    // Show success message for 2 seconds then close
     setTimeout(() => {
       this.closeEmailModal();
       this.toastService.success(`Notification sent to ${this.toTags().length} recipient(s)`);
@@ -275,3 +274,4 @@ R&D Requestor — SCC`);
     }
   }
 }
+

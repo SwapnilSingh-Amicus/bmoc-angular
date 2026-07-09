@@ -46,12 +46,17 @@
     <div class="filter-bar" style="background: #fcfdfe; border-top: 1px solid #d2ddea; border-bottom: none;">
       <div style="display: flex; align-items: center; gap: 8px;">
         <label style="color: #9ba7b0;">From:</label>
-        <app-date-picker placeholder="mm/dd/yyyy"></app-date-picker>
+        <div style="width: 120px;">
+          <app-date-picker placeholder="mm/dd/yyyy"></app-date-picker>
+        </div>
       </div>
       <div style="display: flex; align-items: center; gap: 8px;">
         <label style="color: #9ba7b0;">To:</label>
-        <app-date-picker placeholder="mm/dd/yyyy"></app-date-picker>
+        <div style="width: 120px;">
+          <app-date-picker placeholder="mm/dd/yyyy"></app-date-picker>
+        </div>
       </div>
+
       <div style="position: relative;">
         <select style="width: 140px; border: 1px solid #e0e5ec; color: #9ba7b0;" [(ngModel)]="quickSelect" (ngModelChange)="onQuickSelect($event)">
           <option value="">Quick Select...</option>
@@ -216,18 +221,19 @@
         </select>
       </div>
 
-      <!-- Location -->
+      <!-- Site -->
       <div style="display: flex; flex-direction: column; gap: 4px;">
-        <label style="font-size: 12px; font-weight: 600; color: #15273f;">Location</label>
+        <label style="font-size: 12px; font-weight: 600; color: #15273f;">Site</label>
         <select
           [(ngModel)]="tempFilterLocation"
           style="height: 36px; border: 1.5px solid #e0e5ec; border-radius: 3px; padding: 0 10px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff;"
           [style.color]="tempFilterLocation() ? '#15273f' : '#aaa'"
         >
-          <option value="">— Select Location —</option>
+          <option value="">— Select Site —</option>
           <option *ngFor="let l of LOCATIONS" [value]="l">{{ l }}</option>
         </select>
       </div>
+
 
       <!-- Requestor -->
       <div style="display: flex; flex-direction: column; gap: 4px; position: relative;">

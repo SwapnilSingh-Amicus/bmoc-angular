@@ -94,15 +94,15 @@
           </select>
         </div>
 
-        <!-- Location -->
+        <!-- Site -->
         <div style="display: flex; flex-direction: column; gap: 4px;">
-          <label style="font-size: 12px; font-weight: 600; color: #15273f;">Location</label>
+          <label style="font-size: 12px; font-weight: 600; color: #15273f;">Site</label>
           <select
             [(ngModel)]="tempFilterLocation"
             style="height: 36px; border: 1.5px solid #e0e5ec; border-radius: 3px; padding: 0 10px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff;"
             [style.color]="tempFilterLocation() ? '#15273f' : '#aaa'"
           >
-            <option value="">— Select Location —</option>
+            <option value="">— Select Site —</option>
             <option *ngFor="let l of LOCATIONS" [value]="l">{{ l }}</option>
           </select>
         </div>
@@ -171,10 +171,10 @@
             <th>Req. ID</th>
             <th>Request Title</th>
             <th>Type</th>
-            <th>Sub Category</th>
-            <th>Location</th>
+            <th>Product Line</th>
+            <th>Site</th>
             <th>Requestor</th>
-            <th>Request Date</th>
+            <th style="white-space: nowrap;">Request Date</th>
             <th>Stage</th>
             <th>Status</th>
             <th>Priority</th>
