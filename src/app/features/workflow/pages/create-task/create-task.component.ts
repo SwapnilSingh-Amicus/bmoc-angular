@@ -2,13 +2,12 @@ import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LucideX } from '@lucide/angular';
 import { ToastService } from '../../../../core/services/toast.service';
 
 @Component({
   selector: 'app-create-task',
   standalone: true,
-  imports: [CommonModule, FormsModule, LucideX],
+  imports: [CommonModule, FormsModule],
   templateUrl: './create-task.component.html',
   styleUrls: ['./create-task.component.scss'],
 })

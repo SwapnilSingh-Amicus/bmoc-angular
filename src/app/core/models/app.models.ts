@@ -109,6 +109,27 @@ export interface LocationRow {
   business: string;
 }
 
+// ─── Business Role ────────────────────────────────────────────────────────────
+export interface BusinessRole {
+  id: string;
+  name: string;
+  description: string;
+  department: string;
+  updatedOn: string;
+}
+
+// ─── Role Mapping ─────────────────────────────────────────────────────────────
+export interface RoleMapping {
+  id: string;
+  businessRole: string;
+  user: string;
+  requestType: string;
+  reasonCode: string;
+  location: string;
+  business: string;
+  updatedOn: string;
+}
+
 // ─── Audit Trail ─────────────────────────────────────────────────────────────
 export interface AuditEntry {
   ts: string;

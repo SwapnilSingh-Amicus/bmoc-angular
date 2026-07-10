@@ -1,0 +1,161 @@
+<div class="page-body">
+  <!-- Page Heading -->
+  <div class="page-heading-row">
+    <div class="title-group">
+      <h2 class="page-title">Business Role and DOA</h2>
+      <span class="header-count">Showing {{ filtered().length }} of {{ roles().length }} Business Roles</span>
+    </div>
+    <div class="header-actions">
+      <button class="pill-btn" (click)="addNewRole()">
+        <svg lucidePlus [size]="13"></svg> ADD NEW BUSINESS ROLE
+      </button>
+      <button class="pill-btn pill-btn--outlined" (click)="exportData()">
+        <svg lucideDownload [size]="13"></svg> Export
+      </button>
+      <button class="pill-btn pill-btn--outlined" [disabled]="!hasSelection()" (click)="deleteSelected()">
+        <svg lucideTrash2 [size]="13"></svg> DELETE
+      </button>
+    </div>
+  </div>
+
+  <!-- Ribbon Bar -->
+  <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; padding: 12px 0; border-bottom: 1px solid #e0e5ec;">
+    <span style="font-size: 14px; color: #77858c; white-space: nowrap;">Showing {{ filtered().length }} of {{ roles().length }} Business Roles</span>
+    <button class="pill-btn pill-btn--outlined" (click)="exportData()" style="padding: 6px 12px; font-size: 13px;">
+      <svg style="width: 14px; height: 14px; margin-right: 5px; display: inline;">⬇</svg> XLSX
+    </button>
+    <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #15273f; margin-left: auto;">
+      <input type="checkbox" style="width: auto; height: auto;" (change)="toggleMyRoles($event)" />
+      My Roles
+    </label>
+    <button class="pill-btn pill-btn--outlined" (click)="toggleFilterPanel()" style="padding: 6px 12px; font-size: 13px;">
+      ⇅ FILTER
+    </button>
+    <div style="display: flex; gap: 10px;">
+      <input 
+        type="text" 
+        placeholder="dd-mm-yyyy" 
+        [ngModel]="dateRangeStart()" 
+        (ngModelChange)="dateRangeStart.set($event)"
+        style="width: 120px; padding: 8px 12px; border: 1px solid #e0e5ec; border-radius: 4px; font-size: 13px; color: #15273f;"
+      />
+      <span style="color: #d2ddea;">-</span>
+      <input 
+        type="text" 
+        placeholder="dd-mm-yyyy" 
+        [ngModel]="dateRangeEnd()" 
+        (ngModelChange)="dateRangeEnd.set($event)"
+        style="width: 120px; padding: 8px 12px; border: 1px solid #e0e5ec; border-radius: 4px; font-size: 13px; color: #15273f;"
+      />
+    </div>
+  </div>
+
+  <!-- Search Bar -->
+  <div style="margin-bottom: 20px;">
+    <input 
+      type="text" 
+      placeholder="Search" 
+      [ngModel]="search()" 
+      (ngModelChange)="search.set($event)"
+      style="width: 100%; padding: 10px 15px; border: 1px solid #e0e5ec; border-radius: 4px; font-size: 14px; color: #15273f;"
+    />
+  </div>
+
+  <div class="widget" style="border: none; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+    <div class="overflow-x-auto">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 40px; text-align: center;">
+              <input type="checkbox" class="table-checkbox" [checked]="allSelected()" (change)="toggleAll($event)" />
+            </th>
+            <th>Business Role Name</th>
+            <th>Business Role Description</th>
+            <th>Department</th>
+            <th>Updated On</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let role of filtered()" class="cursor-pointer" (click)="openEdit(role)">
+            <td style="text-align: center;" (click)="$event.stopPropagation()">
+              <input type="checkbox" class="table-checkbox" [checked]="isSelected(role.id)" (change)="toggleSelect(role.id)" />
+            </td>
+            <td><span class="text-teal fw-600">{{ role.name }}</span></td>
+            <td class="text-dark">{{ role.description }}</td>
+            <td class="text-dark">{{ role.department }}</td>
+            <td class="text-dark">{{ role.updatedOn }}</td>
+          </tr>
+          <tr *ngIf="filtered().length === 0">
+            <td colspan="5" style="text-align:center; padding: 24px; color: #aaa;">No records found.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal Backdrop -->
+  <div class="modal-backdrop" *ngIf="editRole()" (click)="closeEdit()"></div>
+
+  <!-- Edit Modal -->
+  <div class="modal" style="width: 520px; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:901;" *ngIf="editRole()" (click)="$event.stopPropagation()">
+    <div class="modal__header">
+      <span class="modal__header-title">Edit Business Role – {{ editRole()?.name }}</span>
+      <button (click)="closeEdit()" style="background:none;border:none;cursor:pointer;color:#77858c;display:flex;align-items:center;"><svg lucideX [size]="18"></svg></button>
+    </div>
+    <div class="modal__body" style="display:flex;flex-direction:column;gap:16px;">
+      <div class="form-field">
+        <label>Business Role Name <span class="required">*</span></label>
+        <input type="text" [ngModel]="editName()" (ngModelChange)="editName.set($event)" />
+      </div>
+      <div class="form-field">
+        <label>Business Role Description</label>
+        <textarea [ngModel]="editDesc()" (ngModelChange)="editDesc.set($event)" rows="3" style="font-size: 13px; color: #15273f;"></textarea>
+      </div>
+      <div class="form-field">
+        <label>Department <span class="required">*</span></label>
+        <input type="text" [ngModel]="editDept()" (ngModelChange)="editDept.set($event)" />
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:10px;padding-top:8px;border-top:1px solid #d2ddea;">
+        <button class="pill-btn pill-btn--outlined" (click)="closeEdit()">Cancel</button>
+        <button class="pill-btn" (click)="saveEdit()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Backdrop for Add New -->
+  <div class="modal-backdrop" *ngIf="addNewMode()" (click)="closeAddNew()"></div>
+
+  <!-- Add New Business Role Modal -->
+  <div class="modal" style="width: 520px; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:901;" *ngIf="addNewMode()" (click)="$event.stopPropagation()">
+    <div class="modal__header">
+      <span class="modal__header-title">Add New Business Role</span>
+      <button (click)="closeAddNew()" style="background:none;border:none;cursor:pointer;color:#77858c;display:flex;align-items:center;"><svg lucideX [size]="18"></svg></button>
+    </div>
+    <div class="modal__body" style="display:flex;flex-direction:column;gap:16px;">
+      <div class="form-field">
+        <label>Business Role Name <span class="required">*</span></label>
+        <input type="text" placeholder="Enter Business Role" [ngModel]="newName()" (ngModelChange)="newName.set($event)" />
+      </div>
+      <div class="form-field">
+        <label>Business Role Description</label>
+        <textarea placeholder="Enter Business Role Description" [ngModel]="newDesc()" (ngModelChange)="newDesc.set($event)" rows="3" style="font-size: 13px; color: #15273f;"></textarea>
+      </div>
+      <div class="form-field">
+        <label>Department <span class="required">*</span></label>
+        <select [ngModel]="newDept()" (ngModelChange)="newDept.set($event)" style="padding: 8px 12px; border: 1px solid #e0e5ec; border-radius: 4px; font-size: 13px; color: #15273f; background-color: white; cursor: pointer;">
+          <option value="" disabled selected>Select</option>
+          <option *ngFor="let dept of departments()" [value]="dept">{{ dept }}</option>
+        </select>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:10px;padding-top:8px;border-top:1px solid #d2ddea;">
+        <button class="pill-btn pill-btn--outlined" (click)="closeAddNew()">CANCEL</button>
+        <button class="pill-btn" (click)="saveAddNew()">SAVE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" *ngIf="toast()">
+    <svg lucideCheck [size]="14"></svg> {{ toast() }}
+  </div>
+</div>

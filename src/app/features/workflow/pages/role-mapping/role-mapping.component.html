@@ -1,0 +1,299 @@
+<div class="page-body">
+  <!-- Page Heading -->
+  <div class="page-heading-row">
+    <div class="title-group">
+      <h2 class="page-title">Business Role Mapping</h2>
+      <span class="header-count">Showing {{ filtered().length }} of {{ mappings().length }} Mappings</span>
+    </div>
+    <div class="header-actions">
+      <button class="pill-btn" (click)="addNewMapping()">
+        <svg lucidePlus [size]="13"></svg> ADD NEW MAPPING
+      </button>
+    </div>
+  </div>
+
+  <div class="widget" style="border: none; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+    <!-- Ribbon Bar -->
+    <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #e0e5ec; background: white; flex-wrap: wrap;">
+      <span style="font-size: 13px; color: #77858c; white-space: nowrap;">Showing {{ filtered().length }} of {{ mappings().length }} Mappings</span>
+      
+      <button class="pill-btn pill-btn--outlined" (click)="exportData()" style="padding: 6px 12px; font-size: 12px; gap: 6px;">
+        ↓ XLSX
+      </button>
+      
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: #15273f; margin-left: auto;">
+        <input type="checkbox" style="width: auto; height: auto; accent-color: #16283e;" (change)="toggleMyMappings($event)" />
+        My Mappings
+      </label>
+      
+      <button class="pill-btn pill-btn--outlined" (click)="openFilterModal()" style="padding: 6px 12px; font-size: 12px; gap: 6px;">
+        ⇄ FILTER
+      </button>
+      
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <input 
+          type="text" 
+          placeholder="dd-mm-yyyy" 
+          [ngModel]="dateRangeStart()" 
+          (ngModelChange)="dateRangeStart.set($event)"
+          style="width: 110px; padding: 6px 10px; border: 1px solid #e0e5ec; border-radius: 3px; font-size: 12px; color: #15273f;"
+        />
+        <span style="color: #d2ddea; font-weight: 300;">-</span>
+        <input 
+          type="text" 
+          placeholder="dd-mm-yyyy" 
+          [ngModel]="dateRangeEnd()" 
+          (ngModelChange)="dateRangeEnd.set($event)"
+          style="width: 110px; padding: 6px 10px; border: 1px solid #e0e5ec; border-radius: 3px; font-size: 12px; color: #15273f;"
+        />
+      </div>
+      
+      <button class="pill-btn pill-btn--outlined" [disabled]="!hasSelection()" (click)="deleteSelected()" style="padding: 6px 12px; font-size: 12px; gap: 6px; margin-left: auto;">
+        <svg lucideTrash2 [size]="12"></svg> DELETE
+      </button>
+    </div>
+
+    <!-- Search Bar -->
+    <div style="padding: 12px 16px; border-bottom: 1px solid #e0e5ec;">
+      <input 
+        type="text" 
+        placeholder="Search" 
+        [ngModel]="search()" 
+        (ngModelChange)="search.set($event)"
+        style="width: 100%; padding: 10px 12px; border: 1px solid #e0e5ec; border-radius: 4px; font-size: 13px; color: #15273f;"
+      />
+    </div>
+
+    <div class="overflow-x-auto">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 40px; text-align: center;">
+              <input type="checkbox" class="table-checkbox" [checked]="allSelected()" (change)="toggleAll($event)" />
+            </th>
+            <th>Business Role</th>
+            <th>User</th>
+            <th>Request Type</th>
+            <th>Reason Code</th>
+            <th>Location</th>
+            <th>Business</th>
+            <th>Updated On</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let mapping of filtered()" class="cursor-pointer" (click)="openEdit(mapping)">
+            <td style="text-align: center;" (click)="$event.stopPropagation()">
+              <input type="checkbox" class="table-checkbox" [checked]="isSelected(mapping.id)" (change)="toggleSelect(mapping.id)" />
+            </td>
+            <td><span class="text-teal fw-600">{{ mapping.businessRole }}</span></td>
+            <td class="text-dark">{{ mapping.user }}</td>
+            <td class="text-dark">{{ mapping.requestType }}</td>
+            <td class="text-dark">{{ mapping.reasonCode }}</td>
+            <td class="text-dark">{{ mapping.location }}</td>
+            <td class="text-dark">{{ mapping.business }}</td>
+            <td class="text-dark">{{ mapping.updatedOn }}</td>
+          </tr>
+          <tr *ngIf="filtered().length === 0">
+            <td colspan="8" style="text-align:center; padding: 24px; color: #aaa;">No records found.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal Backdrop for Edit -->
+  <div class="modal-backdrop" *ngIf="editMapping()" (click)="closeEdit()"></div>
+
+  <!-- Edit Modal -->
+  <div class="modal" style="width: 600px; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:901;" *ngIf="editMapping()" (click)="$event.stopPropagation()">
+    <div class="modal__header">
+      <span class="modal__header-title">Edit Role Mapping – {{ editMapping()?.businessRole }}</span>
+      <button (click)="closeEdit()" style="background:none;border:none;cursor:pointer;color:#77858c;display:flex;align-items:center;"><svg lucideX [size]="18"></svg></button>
+    </div>
+    <div class="modal__body" style="display:flex;flex-direction:column;gap:16px;">
+      <div class="form-field">
+        <label>Business Role <span class="required">*</span></label>
+        <input type="text" [ngModel]="editBusinessRole()" (ngModelChange)="editBusinessRole.set($event)" />
+      </div>
+      <div class="form-field">
+        <label>User <span class="required">*</span></label>
+        <input type="text" [ngModel]="editUser()" (ngModelChange)="editUser.set($event)" />
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="form-field">
+          <label>Request Type</label>
+          <input type="text" [ngModel]="editRequestType()" (ngModelChange)="editRequestType.set($event)" />
+        </div>
+        <div class="form-field">
+          <label>Reason Code</label>
+          <input type="text" [ngModel]="editReasonCode()" (ngModelChange)="editReasonCode.set($event)" />
+        </div>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="form-field">
+          <label>Location</label>
+          <input type="text" [ngModel]="editLocation()" (ngModelChange)="editLocation.set($event)" />
+        </div>
+        <div class="form-field">
+          <label>Business</label>
+          <input type="text" [ngModel]="editBusiness()" (ngModelChange)="editBusiness.set($event)" />
+        </div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:10px;padding-top:8px;border-top:1px solid #d2ddea;">
+        <button class="pill-btn pill-btn--outlined" (click)="closeEdit()">Cancel</button>
+        <button class="pill-btn" (click)="saveEdit()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Backdrop for Add New -->
+  <div class="modal-backdrop" *ngIf="addNewMode()" (click)="closeAddNew()"></div>
+
+  <!-- Add New Role Mapping Modal -->
+  <div class="modal" style="width: 800px; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:901; max-height: 85vh; overflow-y: auto;" *ngIf="addNewMode()" (click)="$event.stopPropagation()">
+    <div class="modal__header">
+      <span class="modal__header-title">Add New Business Role Mapping</span>
+      <button (click)="closeAddNew()" style="background:none;border:none;cursor:pointer;color:#77858c;display:flex;align-items:center;"><svg lucideX [size]="18"></svg></button>
+    </div>
+    <div class="modal__body" style="display:flex;flex-direction:column;gap:20px;">
+      <!-- Business Role Name -->
+      <div class="form-field">
+        <label>Business Role Name <span class="required">*</span></label>
+        <input type="text" placeholder="Enter Business Role" [ngModel]="newBusinessRole()" (ngModelChange)="newBusinessRole.set($event)" style="width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;" />
+      </div>
+
+      <!-- User -->
+      <div class="form-field">
+        <label>User <span class="required">*</span></label>
+        <input type="text" placeholder="Enter User" [ngModel]="newUser()" (ngModelChange)="newUser.set($event)" style="width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;" />
+      </div>
+
+      <!-- Request Type -->
+      <div class="form-field">
+        <label>Request Type <span class="required">*</span> 
+          <div style="display: flex; gap: 30px; margin-top: 12px; font-size: 13px; color: #15273f;">
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <input type="radio" name="requestType" value="ALL" [checked]="newRequestType() === 'ALL'" (change)="newRequestType.set('ALL')" style="width: auto; height: auto;" />
+              All
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <input type="radio" name="requestType" value="RequestType" [checked]="newRequestType() === 'RequestType'" (change)="newRequestType.set('RequestType')" style="width: auto; height: auto;" />
+              Request Type
+            </label>
+          </div>
+        </label>
+        <input type="text" placeholder="ALL" [ngModel]="newRequestType()" style="width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; margin-top: 12px;" readonly />
+      </div>
+
+      <!-- Business -->
+      <div class="form-field">
+        <label>Business <span class="required">*</span>
+          <div style="display: flex; gap: 30px; margin-top: 12px; font-size: 13px; color: #15273f;">
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <input type="radio" name="business" value="ALL" [checked]="newBusiness() === 'ALL'" (change)="newBusiness.set('ALL')" style="width: auto; height: auto;" />
+              All
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <input type="radio" name="business" value="Division" [checked]="newBusiness() === 'Division'" (change)="newBusiness.set('Division')" style="width: auto; height: auto;" />
+              Division
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <input type="radio" name="business" value="ProfitCenter" [checked]="newBusiness() === 'ProfitCenter'" (change)="newBusiness.set('ProfitCenter')" style="width: auto; height: auto;" />
+              Profit Center
+            </label>
+          </div>
+        </label>
+        <input type="text" placeholder="ALL" [ngModel]="newBusiness()" style="width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; margin-top: 12px;" readonly />
+      </div>
+
+      <!-- Location -->
+      <div class="form-field">
+        <label>Location <span class="required">*</span>
+          <div style="display: flex; gap: 30px; margin-top: 12px; font-size: 13px; color: #15273f;">
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <input type="radio" name="location" value="ALL" [checked]="newLocation() === 'ALL'" (change)="newLocation.set('ALL')" style="width: auto; height: auto;" />
+              All
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <input type="radio" name="location" value="Region" [checked]="newLocation() === 'Region'" (change)="newLocation.set('Region')" style="width: auto; height: auto;" />
+              Region
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <input type="radio" name="location" value="Plant" [checked]="newLocation() === 'Plant'" (change)="newLocation.set('Plant')" style="width: auto; height: auto;" />
+              Plant
+            </label>
+          </div>
+        </label>
+        <input type="text" placeholder="ALL" [ngModel]="newLocation()" style="width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; margin-top: 12px;" readonly />
+      </div>
+
+      <!-- Reason Code -->
+      <div class="form-field">
+        <label>Reason Code <span class="required">*</span>
+          <div style="display: flex; gap: 30px; margin-top: 12px; font-size: 13px; color: #15273f;">
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <input type="radio" name="reasonCode" value="ALL" [checked]="newReasonCode() === 'ALL'" (change)="newReasonCode.set('ALL')" style="width: auto; height: auto;" />
+              All
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <input type="radio" name="reasonCode" value="ReasonCode" [checked]="newReasonCode() === 'ReasonCode'" (change)="newReasonCode.set('ReasonCode')" style="width: auto; height: auto;" />
+              Reason Code
+            </label>
+          </div>
+        </label>
+        <input type="text" placeholder="ALL" [ngModel]="newReasonCode()" style="width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; margin-top: 12px;" readonly />
+      </div>
+
+      <!-- Save Button -->
+      <div style="display:flex;justify-content:flex-end;gap:10px;padding-top:16px;border-top:1px solid #d2ddea;">
+        <button class="pill-btn" (click)="saveAddNew()" style="background-color: #16283e; color: white; padding: 10px 24px; border: none; border-radius: 4px; font-size: 13px; font-weight: 600; cursor: pointer;">SAVE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Backdrop for Filter -->
+  <div class="modal-backdrop" *ngIf="showFilterModal()" (click)="closeFilterModal()"></div>
+
+  <!-- Filter Modal -->
+  <div class="modal" style="width: 500px; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:901;" *ngIf="showFilterModal()" (click)="$event.stopPropagation()">
+    <div class="modal__header">
+      <span class="modal__header-title">Filter</span>
+      <button (click)="closeFilterModal()" style="background:none;border:none;cursor:pointer;color:#77858c;display:flex;align-items:center;"><svg lucideX [size]="18"></svg></button>
+    </div>
+    <div class="modal__body" style="display:flex;flex-direction:column;gap:16px;">
+      <div class="form-field">
+        <label>Business Role</label>
+        <input type="text" placeholder="Enter Business Role" [ngModel]="filterColumns.businessRole()" (ngModelChange)="filterColumns.businessRole.set($event)" />
+      </div>
+      <div class="form-field">
+        <label>User</label>
+        <input type="text" placeholder="Enter User" [ngModel]="filterColumns.user()" (ngModelChange)="filterColumns.user.set($event)" />
+      </div>
+      <div class="form-field">
+        <label>Request Type</label>
+        <input type="text" placeholder="Enter Request Type" [ngModel]="filterColumns.requestType()" (ngModelChange)="filterColumns.requestType.set($event)" />
+      </div>
+      <div class="form-field">
+        <label>Reason Code</label>
+        <input type="text" placeholder="Enter Reason Code" [ngModel]="filterColumns.reasonCode()" (ngModelChange)="filterColumns.reasonCode.set($event)" />
+      </div>
+      <div class="form-field">
+        <label>Location</label>
+        <input type="text" placeholder="Enter Location" [ngModel]="filterColumns.location()" (ngModelChange)="filterColumns.location.set($event)" />
+      </div>
+      <div class="form-field">
+        <label>Business</label>
+        <input type="text" placeholder="Enter Business" [ngModel]="filterColumns.business()" (ngModelChange)="filterColumns.business.set($event)" />
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:10px;padding-top:8px;border-top:1px solid #d2ddea;">
+        <button class="pill-btn pill-btn--outlined" (click)="resetFilters()">RESET</button>
+        <button class="pill-btn" (click)="applyFilters()">APPLY</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" *ngIf="toast()">
+    <svg lucideCheck [size]="14"></svg> {{ toast() }}
+  </div>
+</div>

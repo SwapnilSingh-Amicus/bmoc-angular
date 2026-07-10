@@ -12,4 +12,14 @@ export const WORKFLOW_ROUTES: Routes = [
     loadComponent: () =>
       import('./pages/create-task/create-task.component').then(m => m.CreateTaskComponent),
   },
+  {
+    path: 'business-role',
+    loadComponent: () =>
+      import('./pages/business-role/business-role.component').then(m => m.BusinessRoleComponent),
+  },
+  {
+    path: 'role-mapping',
+    loadComponent: () =>
+      import('./pages/role-mapping/role-mapping.component').then(m => m.RoleMappingComponent),
+  },
 ];

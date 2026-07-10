@@ -1,6 +1,6 @@
 import { Component, signal, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, RouterLinkActive } from '@angular/router';
+import { RouterModule, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
 import { NavItem } from '../../models/app.models';
 import { 
   LucideLayoutDashboard, 
@@ -11,6 +11,7 @@ import {
   LucideGitBranch,
   LucideChevronRight 
 } from '@lucide/angular';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
@@ -35,6 +36,7 @@ import {
 })
 export class SidebarComponent {
   collapsed = signal(true);
+  currentRoute = signal('');
   
   navItems: NavItem[] = [
     { icon: 'dashboard', label: 'Dashboard', route: '/dashboard' },
@@ -59,8 +61,8 @@ export class SidebarComponent {
       id: 'nav-admin',
       children: [
         { label: 'Workflow', route: '/workflow' },
-        { label: 'Business Role', route: null },
-        { label: 'Role Mapping', route: null },
+        { label: 'Business Role', route: '/workflow/business-role' },
+        { label: 'Role Mapping', route: '/workflow/role-mapping' },
       ],
     },
 
@@ -78,6 +80,29 @@ export class SidebarComponent {
 
   // All menus should be collapsed by default
   expandedGroups = signal<Set<string>>(new Set());
+
+  constructor(private router: Router) {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: any) => {
+      this.currentRoute.set(event.url);
+      this.autoExpandGroups();
+    });
+  }
+
+  autoExpandGroups() {
+    const route = this.currentRoute();
+    this.expandedGroups.set(new Set());
+    
+    this.navItems.forEach(item => {
+      if (item.children) {
+        const isChildRouteActive = item.children.some(child => child.route && route.includes(child.route));
+        if (isChildRouteActive) {
+          this.expandedGroups.update(s => new Set([...s, item.label]));
+        }
+      }
+    });
+  }
 
 
   @HostListener('mouseenter')

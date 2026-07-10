@@ -69,6 +69,7 @@
               <a
                 [routerLink]="child.route"
                 routerLinkActive="sidebar__sub-link--active"
+                [routerLinkActiveOptions]="{ exact: true }"
                 class="sidebar__sub-link"
               >{{ child.label }}</a>
             </li>
