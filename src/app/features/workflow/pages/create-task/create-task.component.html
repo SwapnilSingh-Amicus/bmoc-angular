@@ -43,9 +43,9 @@
             style="height: 38px; border: 1.5px solid #e0e5ec; border-radius: 4px; padding: 0 12px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff; color: #15273f; transition: all 0.15s;"
           >
 <option value="" style="color: #b0b8c4; background-color: #fff;">— Select Task Type —</option>
-            <option value="NP">NP</option>
-            <option value="Multi">Multi</option>
-            <option value="Auto">Auto</option>
+            <option value="Individual">Individual</option>
+            <option value="Multi">Requestor</option>
+            <option value="Auto">Business Role</option>
           </select>
         </div>
       </div>
@@ -89,16 +89,20 @@
             [(ngModel)]="requestType"
             style="height: 38px; border: 1.5px solid #e0e5ec; border-radius: 4px; padding: 0 12px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff; color: #15273f; transition: all 0.15s;"
           >
-<option value="" style="color: #b0b8c4; background-color: #fff;">— Select Request Type —</option>
-            <option value="Finished Product">Finished Product</option>
-            <option value="Raw Material">Raw Material</option>
-            <option value="Experimental">Experimental</option>
+            <option value="" style="color: #b0b8c4; background-color: #fff;">— Select Request Type —</option>
+            <option value="Create New Product">Create New Product</option>
+            <option value="Raw Material Update">Raw Material Update</option>
+            <option value="Product Extension">Product Extension</option>
+            <option value="Product Update">Product Update</option>
+            <option value="Product Deactivation">Product Deactivation</option>
+            <option value="New Raw Material">New Raw Material</option>
+            <option value="New Packaging">New Packaging</option>
           </select>
         </div>
 
         <!-- Business Type (Multi Select) -->
         <div style="display: flex; flex-direction: column; gap: 6px;">
-          <label style="font-size: 12px; font-weight: 600; color: #15273f;">Business</label>
+          <label style="font-size: 12px; font-weight: 600; color: #15273f;">Profit Centre</label>
           <div
             style="position: relative;"
           >
@@ -106,7 +110,7 @@
               style="min-height: 38px; border: 1.5px solid #e0e5ec; border-radius: 4px; padding: 0 12px; display: flex; align-items: center; background: #fff; cursor: pointer;"
               (click)="toggleBusinessDropdown()"
             >
-              <span style="font-size: 13px; color: #15273f;">{{ businessType() ? businessType() : '— Select Business —' }}</span>
+              <span style="font-size: 13px; color: #15273f;">{{ businessType() ? businessType() : '— Select Profit Centre —' }}</span>
             </div>
 
             <!-- Custom dropdown (search + multi-select) using minimal extra state-less filtering -->
@@ -184,8 +188,21 @@
             style="height: 38px; border: 1.5px solid #e0e5ec; border-radius: 4px; padding: 0 12px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff; color: #15273f; transition: all 0.15s;"
           >
 <option value="All" style="color: #b0b8c4; background-color: #fff;">— Select Reason Code —</option>            
-            <option value="RM001">RM001</option>
-            <option value="RM002">RM002</option>
+              <option value="P01">P01 - Create a new Product</option>
+              <option value="P02">P02 - Customer Request</option>
+              <option value="P03">P03 - Product Reformulation</option>
+              <option value="P04">P04 - Cost Reduction Initiative</option>
+              <option value="P05">P05 - Regulatory Compliance</option>
+              <option value="P06">P06 - Market Expansion</option>
+              <option value="P07">P07 - Product Rationalisation</option>
+              <option value="P08">P08 - Packaging Change</option>
+              <option value="R01">R01 - Create a new Raw Material</option>
+              <option value="R02">R02 - Raw Material Substitution</option>
+              <option value="R03">R03 - Supplier Change</option>
+              <option value="R04">R04 - Quality Improvement</option>
+              <option value="R05">R05 - Sourcing Localisation</option>
+              <option value="R06">R06 - Cost Reduction -RM</option>
+              <option value="R07">R07 - Regulatory / REACH Compliance</option>
           </select>
         </div>
       </div>
