@@ -19,12 +19,15 @@ export class CreateTaskComponent {
 
   // Form fields
   stageName           = signal('');
+  businessDropdownOpen = signal(false);
+
   taskType            = signal('');
   taskTitle           = signal('');
   responsibility      = signal('');
   requestType         = signal('');
   taskInstructions    = signal('');
-  businessType        = signal('All');
+  businessType        = signal<string>(''); // multi-select stored as comma-separated string
+  businessTypeSearch  = signal('');
   businessRole        = signal('');
   reasonCode          = signal('All');
   location            = signal('All');
@@ -59,9 +62,32 @@ export class CreateTaskComponent {
     this.responsibility.set('');
     this.requestType.set('');
     this.taskInstructions.set('');
-    this.businessType.set('All');
+    this.businessType.set('');
+    this.businessTypeSearch.set('');
     this.businessRole.set('');
     this.reasonCode.set('All');
     this.location.set('All');
   }
+
+  toggleBusinessDropdown() {
+    this.businessDropdownOpen.set(!this.businessDropdownOpen());
+  }
+
+
+  // Multi-select helpers for the Business dropdown
+  onBusinessTypeToggle(value: string) {
+    const current = this.businessType();
+    const list = current ? current.split(',').map(v => v.trim()).filter(Boolean) : [];
+    const exists = list.includes(value);
+
+    const next = exists ? list.filter(v => v !== value) : [...list, value];
+    this.businessType.set(next.join(','));
+  }
+
+  isBusinessTypeSelected(value: string): boolean {
+    const current = this.businessType();
+    if (!current) return false;
+    return current.split(',').map(v => v.trim()).filter(Boolean).includes(value);
+  }
+
 }

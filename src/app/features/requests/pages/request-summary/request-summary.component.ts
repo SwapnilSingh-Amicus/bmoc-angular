@@ -38,14 +38,16 @@ export class RequestSummaryComponent implements OnInit {
   emailSubject = signal(' BMOC-2024-0045 — Action Required: New Waterproofing Compound WP-250');
 
   getExternalRequestSummaryUrl(reqId: string) {
-    return `/requests/${reqId}/summary`;
+    // Must work both on localhost and on deployed domain.
+    const origin = typeof window !== 'undefined' ? window.location.origin : '';
+    return `${origin}/requests/${reqId}/summary`;
   }
 
   // Keep body as plain text (current UI binds with textarea [ngModel])
   emailBody = computed(() => {
     const id = this.reqId() || 'BMOC-2024-0045';
     const url = this.getExternalRequestSummaryUrl(id);
-    const requestor = this.request()?.requestor ?? 'Pranjal Panday';
+    const requestor = this.request()?.requestor ?? 'Grace BMOC portal';
     const title = this.request()?.title ?? 'New Waterproofing Compound WP-250';
 
     return `Dear Team,\n\nThis is a notification regarding ${title} (Bangalore).\n\nPlease review the request and complete your assigned tasks at the earliest.\n\nRequest Summary: ${url}\n\nRegards,\n${requestor}\nR&D Requestor — SCC`;

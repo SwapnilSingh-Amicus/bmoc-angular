@@ -92,7 +92,7 @@
             </th>
             <th>Request ID <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
             <th>Request Title <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
-            <th>Customer <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+
             <th>Type <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
             <th>Site <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
             <th>Requestor <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
@@ -104,7 +104,8 @@
         </thead>
         <tbody>
           <tr *ngIf="pageRows().length === 0">
-            <td colspan="11" style="text-align:center;padding:24px;color:#aaa">No requests found.</td>
+            <td colspan="10" style="text-align:center;padding:24px;color:#aaa">No requests found.</td>
+
           </tr>
           <tr
             *ngFor="let r of pageRows(); let i = index"
@@ -143,7 +144,7 @@
               </div>
             </td>
             <td class="text-dark fw-600">{{ r.title }}</td>
-            <td style="color: #9ba7b0;">Internal</td>
+
             <td style="color: #9ba7b0;">{{ r.type }}</td>
             <td style="color: #9ba7b0;">{{ r.site }}</td>
             <td style="color: #9ba7b0;">{{ r.requestor }}</td>

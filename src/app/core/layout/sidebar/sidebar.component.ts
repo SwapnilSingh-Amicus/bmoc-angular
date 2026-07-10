@@ -76,7 +76,8 @@ export class SidebarComponent {
     },
   ];
 
-  expandedGroups = signal<Set<string>>(new Set(['Requests', 'Master Data', 'Admin Option', 'Reports']));
+  // All menus should be collapsed by default
+  expandedGroups = signal<Set<string>>(new Set());
 
 
   @HostListener('mouseenter')
