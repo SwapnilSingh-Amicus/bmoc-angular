@@ -655,8 +655,8 @@
   <div class="form-actions" style="margin-top: 16px;">
     <ng-container *ngIf="activeTab() === 'request-info'">
       <div style="flex:1"></div>
-      <button class="pill-btn pill-btn--outlined" (click)="saveDraft()">Save as Draft</button>
-      <button class="pill-btn" (click)="proceed()" style="margin-left: 8px;">Next →</button>
+      <button class="pill-btn pill-btn--outlined" (click)="saveDraft()">{{ isEditMode() ? 'Save' : 'Save as Draft' }}</button>
+      <button *ngIf="!isEditMode()" class="pill-btn" (click)="proceed()" style="margin-left: 8px;">Next →</button>
     </ng-container>
     
     <ng-container *ngIf="activeTab() !== 'request-info'">
@@ -664,8 +664,8 @@
         ← Previous
       </button>
       <div style="flex:1"></div>
-      <button class="pill-btn pill-btn--outlined" (click)="saveDraft()">Save as Draft</button>
-      <button class="pill-btn" (click)="proceed()" style="margin-left: 8px;">Next →</button>
+      <button class="pill-btn pill-btn--outlined" (click)="saveDraft()">{{ isEditMode() ? 'Save' : 'Save as Draft' }}</button>
+      <button *ngIf="!isEditMode()" class="pill-btn" (click)="proceed()" style="margin-left: 8px;">Next →</button>
     </ng-container>
   </div>
 </div>

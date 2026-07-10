@@ -1,4 +1,4 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -7,6 +7,7 @@ import {
   REASON_CODES, SITES, TOP_FAMILIES,
   FAMILIES, CATEGORIES, ITEM_TYPES, PRIORITIES, PRODUCT_LINES, PRODUCT_FAMILY_GROUPS, PRODUCT_FAMILIES,
 } from '../../../../core/constants/app.constants';
+import { ToastService } from '../../../../core/services/toast.service';
 import { DatePickerComponent } from '../../../../shared/components/date-picker/date-picker.component';
 
 @Component({
@@ -17,6 +18,7 @@ import { DatePickerComponent } from '../../../../shared/components/date-picker/d
   styleUrls: ['./new-request-step1.component.scss'],
 })
 export class NewRequestStep1Component {
+  private toastService = inject(ToastService);
 
   readonly reasonCodes   = REASON_CODES;
   readonly priorities    = PRIORITIES;
@@ -44,6 +46,7 @@ export class NewRequestStep1Component {
   // Tab navigation
   activeTab = signal<'request-info' | string>('request-info');
   itemTabs = signal<string[]>(['Item 1']); // Dynamic item tabs
+  isEditMode = signal(false);
   
   // Track if Item Type is selected to enable ADD NEW ITEM
   canAddNewItem = computed(() => {
@@ -237,12 +240,17 @@ export class NewRequestStep1Component {
     this.switchTab('request-info');
   }
   
-  saveDraft() { 
-    this.formErrors.set([]); 
+  saveDraft() {
+    this.formErrors.set([]);
+    const message = this.isEditMode() ? 'Request saved successfully!' : 'Draft saved successfully!';
+    this.toastService.success(message);
   }
 
   constructor(private router: Router, private route: ActivatedRoute) {
     this.route.queryParams.subscribe(params => {
+      const isEditRoute = !!params['edit'] || !!params['autoEdit'] || params['mode'] === 'edit';
+      this.isEditMode.set(isEditRoute);
+
       if (params['type']) {
         this.selectedOption.set(params['type']);
       }

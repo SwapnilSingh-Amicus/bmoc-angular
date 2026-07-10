@@ -117,7 +117,7 @@ export class RequestSummaryComponent implements OnInit {
 
   navigateToRequestInfo() {
     const reqId = this.reqId();
-    this.router.navigate(['/requests/new/step1'], { queryParams: { edit: reqId, activeTab: 'Item 1', autoEdit: '1' } });
+    this.router.navigate(['/requests/new/step1'], { queryParams: { edit: reqId, activeTab: 'Item 1', autoEdit: '1', mode: 'edit' } });
   }
 
   onTaskAttachmentSelected(event: Event) {
