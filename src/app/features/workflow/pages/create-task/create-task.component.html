@@ -170,10 +170,32 @@
             <option *ngFor="let option of businessRoleDetailOptions()" [value]="option">{{ option }}</option>
           </select>
         </div>
+
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <label style="font-size: 12px; font-weight: 600; color: #15273f;">Site</label>
+          <select
+            [(ngModel)]="location"
+            style="height: 38px; border: 1.5px solid #e0e5ec; border-radius: 4px; padding: 0 12px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff; color: #15273f; transition: all 0.15s;"
+          >
+<option value="All" style="color: #b0b8c4; background-color: #fff;">— Select Site —</option>
+            <option *ngFor="let siteOption of siteOptions" [value]="siteOption">{{ siteOption }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div *ngIf="showBusinessRoleDetail()" style="margin-bottom: 20px;">
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <label style="font-size: 12px; font-weight: 600; color: #15273f;">Task Instructions</label>
+          <textarea
+            placeholder="Enter task instructions..."
+            [(ngModel)]="taskInstructions"
+            style="height: 38px; border: 1.5px solid #e0e5ec; border-radius: 4px; padding: 12px; font-size: 13px; color: #15273f; outline: none; font-family: inherit; background-color: #fff; resize: vertical; transition: all 0.15s;"
+          ></textarea>
+        </div>
       </div>
 
       <!-- Task Instructions + Site (side by side) -->
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+      <div *ngIf="!showBusinessRoleDetail()" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
         <div style="display: flex; flex-direction: column; gap: 6px;">
           <label style="font-size: 12px; font-weight: 600; color: #15273f;">Task Instructions</label>
           <textarea
