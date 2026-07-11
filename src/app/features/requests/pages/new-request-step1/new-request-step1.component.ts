@@ -20,7 +20,32 @@ import { DatePickerComponent } from '../../../../shared/components/date-picker/d
 export class NewRequestStep1Component {
   private toastService = inject(ToastService);
 
-  readonly reasonCodes   = REASON_CODES;
+  private readonly experimentalNoErpReason = 'Create New Experimental Product - no ERP creation';
+  private readonly experimentalWithErpReason = 'Create New Experimental Product - with ERP creation';
+  private readonly reasonCodesByRequestType: Record<string, string[]> = {
+    'FINISHED PRODUCT': [
+      'P01 - Create a new Product',
+      'P08 - Part Fabrication',
+    ],
+    'RAW MATERIAL': [
+      'R01 - Create a new Raw Material',
+      'R02 - Create a New Raw Material (Existing RM but for adding a non existing packaging)',
+    ],
+  };
+
+  readonly reasonCodes = computed(() => {
+    const requestType = this.selectedOption();
+
+    if (requestType === 'EXPERIMENTAL PRODUCT - NO ERP CREATION') {
+      return [this.experimentalNoErpReason, ...REASON_CODES];
+    }
+
+    if (requestType === 'EXPERIMENTAL PRODUCT - WITH ERP CREATION') {
+      return [this.experimentalWithErpReason, ...REASON_CODES];
+    }
+
+    return this.reasonCodesByRequestType[requestType ?? ''] ?? REASON_CODES;
+  });
   readonly priorities    = PRIORITIES;
   readonly sites         = SITES;
   readonly productLines  = PRODUCT_LINES;
@@ -47,13 +72,7 @@ export class NewRequestStep1Component {
   activeTab = signal<'request-info' | string>('request-info');
   itemTabs = signal<string[]>(['Item 1']); // Dynamic item tabs
   isEditMode = signal(false);
-  
-  // Track if Item Type is selected to enable ADD NEW ITEM
-  canAddNewItem = computed(() => {
-    // Enable ADD NEW ITEM when Item Type is selected (on any tab including request-info)
-    return !!this.selectedItemType();
-  });
-  
+
   selectedItemType = signal('');
   attachments = signal<{file: File, comment: string, uploadedBy: string, uploadedDate: string}[]>([]);
   
@@ -92,8 +111,6 @@ export class NewRequestStep1Component {
 
   // Add new item tab - only enabled when Item Type is selected
   addNewItem() {
-    if (!this.canAddNewItem()) return;
-    
     const currentItems = this.itemTabs();
     const newItemNumber = currentItems.length + 1;
     const newItemKey = `Item ${newItemNumber}`;
@@ -148,22 +165,6 @@ export class NewRequestStep1Component {
     const current = this.itemSectionEditEnabled();
     const updatedTab = { ...(current[tab] || {}), [section]: true };
     this.itemSectionEditEnabled.set({ ...current, [tab]: updatedTab });
-  }
-
-  enableAllSectionsForCurrentTab() {
-    const tab = this.activeTab();
-    if (tab === 'request-info') return;
-    const current = this.itemSectionEditEnabled();
-    this.itemSectionEditEnabled.set({
-      ...current,
-      [tab]: {
-        productManagement: true,
-        tradeCompliance: true,
-        logistics: true,
-        operation: true,
-        tco: true
-      }
-    });
   }
 
   onFileSelected(event: Event) {
@@ -248,20 +249,18 @@ export class NewRequestStep1Component {
 
   constructor(private router: Router, private route: ActivatedRoute) {
     this.route.queryParams.subscribe(params => {
-      const isEditRoute = !!params['edit'] || !!params['autoEdit'] || params['mode'] === 'edit';
+      const isEditRoute = !!params['edit'] || params['mode'] === 'edit';
       this.isEditMode.set(isEditRoute);
 
       if (params['type']) {
         this.selectedOption.set(params['type']);
+        this.reasonCode.set('');
       }
       if (params['edit'] && !params['activeTab']) {
         this.switchTab('Item 1');
       }
       if (params['activeTab']) {
         this.switchTab(params['activeTab']);
-      }
-      if (params['autoEdit']) {
-        this.enableAllSectionsForCurrentTab();
       }
     });
   }

@@ -47,13 +47,7 @@
       <button 
         class="pill-btn pill-btn--outlined pill-btn--sm" 
         style="margin: 0 16px; align-self:center;" 
-        [disabled]="!canAddNewItem()"
-        [style.opacity]="canAddNewItem() ? '1' : '0.5'"
-        [style.cursor]="canAddNewItem() ? 'pointer' : 'not-allowed'"
-        [style.border-color]="canAddNewItem() ? '#16283e' : '#c8d0da'"
-        [style.color]="canAddNewItem() ? '#16283e' : '#b0b8c4'"
-        (click)="addNewItem()"
-        [title]="!canAddNewItem() ? 'Select an Item Type on Item 1 tab first' : ''">
+        (click)="addNewItem()">
         <svg lucidePlus [size]="12"></svg> ADD NEW ITEM
       </button>
     </div>
@@ -78,17 +72,17 @@
         </div>
       </div>
 
-      <!-- Row 3: Complete By + Item Type -->
+      <!-- Row 3: Complete By + Site -->
       <div class="form-row-2" style="margin-bottom: 18px;">
         <div class="form-field">
           <label>Complete By <span class="required">*</span></label>
           <app-date-picker placeholder="mm/dd/yyyy"></app-date-picker>
         </div>
         <div class="form-field">
-          <label>Item Type <span class="required">*</span></label>
-          <select [ngModel]="selectedItemType()" (ngModelChange)="selectedItemType.set($event)">
+          <label>Site <span class="required">*</span></label>
+          <select [ngModel]="site()" (ngModelChange)="site.set($event)">
             <option value="">— Select —</option>
-            <option *ngFor="let t of allItemTypes" [value]="t">{{ t }}</option>
+            <option *ngFor="let s of sites" [value]="s">{{ s }}</option>
           </select>
         </div>
       </div>
@@ -106,51 +100,15 @@
           <label>Reason Code <span class="required">*</span></label>
           <select [ngModel]="reasonCode()" (ngModelChange)="reasonCode.set($event)">
             <option value="">— Select —</option>
-            <option *ngFor="let r of reasonCodes" [value]="r">{{ r }}</option>
+            <option *ngFor="let r of reasonCodes()" [value]="r">{{ r }}</option>
           </select>
         </div>
       </div>
 
-      <!-- Row 5: Product Line + Product Family Group -->
+      <!-- Row 5: Profit Center + Explanation of Change -->
       <div class="form-row-2" style="margin-bottom: 18px;">
         <div class="form-field">
-          <label>Product Line</label>
-          <select [ngModel]="productLine()" (ngModelChange)="productLine.set($event)">
-            <option value="">— Select —</option>
-            <option *ngFor="let pl of productLines" [value]="pl">{{ pl }}</option>
-          </select>
-        </div>
-        <div class="form-field">
-          <label>Product Family Group</label>
-          <select [ngModel]="productFamilyGroup()" (ngModelChange)="productFamilyGroup.set($event)">
-            <option value="">— Select —</option>
-            <option *ngFor="let pfg of productFamilyGroups" [value]="pfg">{{ pfg }}</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Row 6: Product Family + Site -->
-      <div class="form-row-2" style="margin-bottom: 18px;">
-        <div class="form-field">
-          <label>Product Family</label>
-          <select [ngModel]="productFamily()" (ngModelChange)="productFamily.set($event)">
-            <option value="">— Select —</option>
-            <option *ngFor="let pf of productFamilies" [value]="pf">{{ pf }}</option>
-          </select>
-        </div>
-        <div class="form-field">
-          <label>Site <span class="required">*</span></label>
-          <select [ngModel]="site()" (ngModelChange)="site.set($event)">
-            <option value="">— Select —</option>
-            <option *ngFor="let s of sites" [value]="s">{{ s }}</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Row 7: Business + Explanation of Change -->
-      <div class="form-row-2" style="margin-bottom: 18px;">
-        <div class="form-field">
-          <label>Business <span class="required">*</span></label>
+          <label>Profit Center <span class="required">*</span></label>
           <select>
             <option value="">— Select —</option>
             <option value="Additives">Additives</option>
@@ -163,7 +121,6 @@
             <option value="GSR">GSR</option>
           </select>
         </div>
-
         <div class="form-field">
           <label>Explanation of Change</label>
           <textarea rows="3" placeholder="Briefly describe the reason for this change..." style="width:100%; padding:10px; border:1px solid #e0e5ec; border-radius:4px; font-family:inherit; font-size:13px; resize:vertical;"></textarea>
@@ -319,6 +276,43 @@
         </div>
         <div *ngIf="isSectionExpanded('productManagement')" style="padding: 16px;">
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px 20px;">
+            <div class="form-field">
+              <label>Item Type</label>
+              <select [ngModel]="selectedItemType()" (ngModelChange)="selectedItemType.set($event)" [disabled]="!isSectionEditable('productManagement')">
+                <option value="">— Select —</option>
+                <option *ngFor="let t of allItemTypes" [value]="t">{{ t }}</option>
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label>Product Family Group</label>
+              <select [ngModel]="productFamilyGroup()" (ngModelChange)="productFamilyGroup.set($event)" [disabled]="!isSectionEditable('productManagement')">
+                <option value="">— Select —</option>
+                <option *ngFor="let pfg of productFamilyGroups" [value]="pfg">{{ pfg }}</option>
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label>Product Line</label>
+              <select [ngModel]="productLine()" (ngModelChange)="productLine.set($event)" [disabled]="!isSectionEditable('productManagement')">
+                <option value="">— Select —</option>
+                <option *ngFor="let pl of productLines" [value]="pl">{{ pl }}</option>
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label>Product Family</label>
+              <select [ngModel]="productFamily()" (ngModelChange)="productFamily.set($event)" [disabled]="!isSectionEditable('productManagement')">
+                <option value="">— Select —</option>
+                <option *ngFor="let pf of productFamilies" [value]="pf">{{ pf }}</option>
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label>Material Group</label>
+              <input type="text" placeholder="Enter Material Group" [disabled]="!isSectionEditable('productManagement')" />
+            </div>
+
             <!-- Min. rem. Shelf life -->
             <div class="form-field">
               <label>Min. rem. Shelf life</label>
