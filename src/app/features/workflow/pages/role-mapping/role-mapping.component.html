@@ -12,6 +12,17 @@
     </div>
   </div>
 
+  <!-- Search Bar -->
+  <div style="margin-bottom: 20px;">
+    <input 
+      type="text" 
+      placeholder="Search" 
+      [ngModel]="search()" 
+      (ngModelChange)="search.set($event)"
+      style="width: 100%; padding: 10px 15px; border: 1px solid #e0e5ec; border-radius: 4px; font-size: 14px; color: #15273f;"
+    />
+  </div>
+
   <div class="widget" style="border: none; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
     <!-- Ribbon Bar -->
     <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #e0e5ec; background: white; flex-wrap: wrap;">
@@ -38,17 +49,6 @@
           <svg lucideTrash2 [size]="12"></svg> DELETE
         </button>
       </div>
-    </div>
-
-    <!-- Search Bar -->
-    <div style="padding: 12px 16px; border-bottom: 1px solid #e0e5ec;">
-      <input 
-        type="text" 
-        placeholder="Search" 
-        [ngModel]="search()" 
-        (ngModelChange)="search.set($event)"
-        style="width: 100%; padding: 10px 12px; border: 1px solid #e0e5ec; border-radius: 4px; font-size: 13px; color: #15273f;"
-      />
     </div>
 
     <div class="overflow-x-auto">
@@ -266,7 +266,10 @@
     <div class="modal__body" style="display:flex;flex-direction:column;gap:16px;">
       <div class="form-field">
         <label>Business Role</label>
-        <input type="text" placeholder="Enter Business Role" [ngModel]="filterColumns.businessRole()" (ngModelChange)="filterColumns.businessRole.set($event)" />
+        <select [ngModel]="filterColumns.businessRole()" (ngModelChange)="filterColumns.businessRole.set($event)">
+          <option value="">— Select Business Role —</option>
+          <option *ngFor="let option of businessRoleFilterOptions()" [value]="option">{{ option }}</option>
+        </select>
       </div>
       <div class="form-field">
         <label>User</label>
@@ -274,19 +277,31 @@
       </div>
       <div class="form-field">
         <label>Request Type</label>
-        <input type="text" placeholder="Enter Request Type" [ngModel]="filterColumns.requestType()" (ngModelChange)="filterColumns.requestType.set($event)" />
+        <select [ngModel]="filterColumns.requestType()" (ngModelChange)="filterColumns.requestType.set($event)">
+          <option value="">— Select Request Type —</option>
+          <option *ngFor="let option of requestTypeFilterOptions()" [value]="option">{{ option }}</option>
+        </select>
       </div>
       <div class="form-field">
         <label>Reason Code</label>
-        <input type="text" placeholder="Enter Reason Code" [ngModel]="filterColumns.reasonCode()" (ngModelChange)="filterColumns.reasonCode.set($event)" />
+        <select [ngModel]="filterColumns.reasonCode()" (ngModelChange)="filterColumns.reasonCode.set($event)">
+          <option value="">— Select Reason Code —</option>
+          <option *ngFor="let option of reasonCodeFilterOptions()" [value]="option">{{ option }}</option>
+        </select>
       </div>
       <div class="form-field">
         <label>Site</label>
-        <input type="text" placeholder="Enter Site" [ngModel]="filterColumns.location()" (ngModelChange)="filterColumns.location.set($event)" />
+        <select [ngModel]="filterColumns.location()" (ngModelChange)="filterColumns.location.set($event)">
+          <option value="">— Select Site —</option>
+          <option *ngFor="let option of siteFilterOptions()" [value]="option">{{ option }}</option>
+        </select>
       </div>
       <div class="form-field">
         <label>Profit Center</label>
-        <input type="text" placeholder="Enter Profit Center" [ngModel]="filterColumns.business()" (ngModelChange)="filterColumns.business.set($event)" />
+        <select [ngModel]="filterColumns.business()" (ngModelChange)="filterColumns.business.set($event)">
+          <option value="">— Select Profit Center —</option>
+          <option *ngFor="let option of profitCenterFilterOptions()" [value]="option">{{ option }}</option>
+        </select>
       </div>
       <div style="display:flex;justify-content:flex-end;gap:10px;padding-top:8px;border-top:1px solid #d2ddea;">
         <button class="pill-btn pill-btn--outlined" (click)="resetFilters()">RESET</button>

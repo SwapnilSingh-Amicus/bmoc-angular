@@ -75,6 +75,15 @@ export class RoleMappingComponent {
 
   readonly hasSelection = computed(() => this.selected().size > 0);
   readonly allSelected = computed(() => this.filtered().length > 0 && this.filtered().every(m => this.selected().has(m.id)));
+  readonly businessRoleFilterOptions = computed(() => this.uniqueSorted('businessRole'));
+  readonly requestTypeFilterOptions = computed(() => this.uniqueSorted('requestType'));
+  readonly reasonCodeFilterOptions = computed(() => this.uniqueSorted('reasonCode'));
+  readonly siteFilterOptions = computed(() => this.uniqueSorted('location'));
+  readonly profitCenterFilterOptions = computed(() => this.uniqueSorted('business'));
+
+  private uniqueSorted<K extends keyof RoleMapping>(key: K): string[] {
+    return Array.from(new Set(this.mappings().map(m => m[key]))).sort((a, b) => a.localeCompare(b));
+  }
 
   isSelected(id: string) { return this.selected().has(id); }
 

@@ -46,11 +46,21 @@ export class NewRequestStep1Component {
 
     return this.reasonCodesByRequestType[requestType ?? ''] ?? REASON_CODES;
   });
+  private readonly prioritizedProductOptions = ['Material and Packaging'];
   readonly priorities    = PRIORITIES;
   readonly sites         = SITES;
-  readonly productLines  = PRODUCT_LINES;
-  readonly productFamilyGroups = PRODUCT_FAMILY_GROUPS;
-  readonly productFamilies     = PRODUCT_FAMILIES;
+  readonly productLines  = [
+    ...this.prioritizedProductOptions,
+    ...PRODUCT_LINES.filter(option => !this.prioritizedProductOptions.includes(option)),
+  ];
+  readonly productFamilyGroups = [
+    ...this.prioritizedProductOptions,
+    ...PRODUCT_FAMILY_GROUPS.filter(option => !this.prioritizedProductOptions.includes(option)),
+  ];
+  readonly productFamilies     = [
+    ...this.prioritizedProductOptions,
+    ...PRODUCT_FAMILIES.filter(option => !this.prioritizedProductOptions.includes(option)),
+  ];
   readonly profitCenters = PROFIT_CENTERS;
   readonly topFamilies   = TOP_FAMILIES;
   readonly families      = FAMILIES;
