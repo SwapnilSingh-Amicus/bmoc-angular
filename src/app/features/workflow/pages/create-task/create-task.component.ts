@@ -1,4 +1,4 @@
-import { Component, signal, inject, computed } from '@angular/core';
+import { Component, signal, inject, computed, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -28,7 +28,8 @@ export class CreateTaskComponent {
   taskInstructions    = signal('');
   businessType        = signal<string>(''); // multi-select stored as comma-separated string
   businessTypeSearch  = signal('');
-  businessRole        = signal('');
+  businessRoleUser    = signal('');
+  businessRoleUserDetail  = signal('');
   reasonCode          = signal('All');
   location            = signal('All');
   isSaving            = signal(false);
@@ -37,11 +38,17 @@ export class CreateTaskComponent {
   readonly profitCenters = PROFIT_CENTERS;
   readonly reasonCodeOptions = REASON_CODES;
   readonly siteOptions = SITES;
+  readonly taskTypeOptions = ['Input', 'Approval', 'Review'];
+  readonly businessRoleUserOptions = ['Individual', 'Requestor', 'Business Role'];
+  readonly individualNameOptions = ['pranjal panday', 'priya sharma', 'Anand Kumar'];
+  readonly businessRoleOptions = ['product inspector', 'product manager', 'product developer', 'delivary manager'];
   readonly filteredProfitCenters = computed(() => {
     const search = this.businessTypeSearch().trim().toLowerCase();
     if (!search) return this.profitCenters;
     return this.profitCenters.filter(profitCenter => profitCenter.toLowerCase().includes(search));
   });
+  readonly showBusinessRoleDetail = computed(() => this.businessRoleUser() === 'Individual' || this.businessRoleUser() === 'Business Role');
+  readonly businessRoleDetailOptions = computed(() => this.businessRoleUser() === 'Individual' ? this.individualNameOptions : this.businessRoleOptions);
 
 
   saveNewTask() {
@@ -74,13 +81,35 @@ export class CreateTaskComponent {
     this.taskInstructions.set('');
     this.businessType.set('');
     this.businessTypeSearch.set('');
-    this.businessRole.set('');
+    this.businessRoleUser.set('');
+    this.businessRoleUserDetail.set('');
     this.reasonCode.set('All');
     this.location.set('All');
   }
 
   toggleBusinessDropdown() {
     this.businessDropdownOpen.set(!this.businessDropdownOpen());
+  }
+
+  onBusinessRoleUserChange(value: string) {
+    this.businessRoleUser.set(value);
+    if (value === 'Requestor') {
+      this.businessRoleUserDetail.set('');
+      return;
+    }
+    this.businessRoleUserDetail.set('');
+  }
+
+  onBusinessRoleUserDetailChange(value: string) {
+    this.businessRoleUserDetail.set(value);
+  }
+
+  @HostListener('document:click', ['$event'])
+  closeProfitCenterDropdown(event: MouseEvent) {
+    const target = event.target as HTMLElement | null;
+    if (!target) return;
+    if (target.closest('.profit-center-toggle') || target.closest('.profit-center-dropdown')) return;
+    this.businessDropdownOpen.set(false);
   }
 
 
