@@ -248,9 +248,42 @@
           </div>
 
           <!-- Item Reference Number -->
-          <div class="form-field" style="margin-bottom: 0;">
+          <div class="form-field item-reference-lookup" style="margin-bottom: 0; position: relative;">
             <label>Item Reference Number</label>
-            <input type="text" placeholder="Optional — typehead" style="max-width: 400px;" />
+            <div style="display: flex; align-items: center; gap: 8px; max-width: 540px;">
+              <input type="text" [ngModel]="itemReferenceNumber()" (ngModelChange)="itemReferenceNumber.set($event)" placeholder="Optional — typehead" style="max-width: 400px; flex: 1;" />
+              <button type="button" class="pill-btn pill-btn--outlined pill-btn--sm" style="display:flex; align-items:center; gap:6px;" (click)="toggleItemReferenceLookup($event)">
+                <svg lucideSearch [size]="13"></svg>
+                Search
+              </button>
+            </div>
+
+            <div *ngIf="showItemReferenceLookup()" style="position: absolute; top: calc(100% + 6px); left: 0; width: min(960px, 92vw); border: 1px solid #d2ddea; border-radius: 6px; background: #fff; box-shadow: 0 8px 24px rgba(21,39,63,0.12); z-index: 90; padding: 12px;">
+              <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                <input type="text" [ngModel]="itemReferenceSearch()" (ngModelChange)="itemReferenceSearch.set($event)" placeholder="Search SAP Material Number / Material Description" style="width: 100%;" />
+              </div>
+
+              <div style="max-height: 260px; overflow: auto; border: 1px solid #e0e5ec; border-radius: 4px;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+                  <thead>
+                    <tr style="background: #1f2d3d; border-bottom: 1px solid #1a2533; position: sticky; top: 0; z-index: 2;">
+                      <th style="padding: 8px; text-align: left; white-space: nowrap; color: #f5f9ff; font-weight: 700; background: #1f2d3d;">SAP_Material_Number</th>
+                      <th style="padding: 8px; text-align: left; white-space: nowrap; color: #f5f9ff; font-weight: 700; background: #1f2d3d;">material_description</th>
+                      <th style="padding: 8px; text-align: left; white-space: nowrap; color: #f5f9ff; font-weight: 700; background: #1f2d3d;">material_type</th>
+                      <th style="padding: 8px; text-align: left; white-space: nowrap; color: #f5f9ff; font-weight: 700; background: #1f2d3d;">site</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of filteredItemReferenceLookupData()" style="border-bottom: 1px solid #eef2f7; cursor: pointer;" (click)="selectItemReference(row)">
+                      <td style="padding: 8px; color: #2795a8; font-weight: 600;">{{ row.sapMaterialNumber }}</td>
+                      <td style="padding: 8px; color: #15273f;">{{ row.materialDescription }}</td>
+                      <td style="padding: 8px; color: #77858c;">{{ row.materialType }}</td>
+                      <td style="padding: 8px; color: #15273f;">{{ row.site }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       </div>
