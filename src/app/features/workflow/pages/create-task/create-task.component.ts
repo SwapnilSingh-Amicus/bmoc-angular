@@ -1,8 +1,9 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastService } from '../../../../core/services/toast.service';
+import { PROFIT_CENTERS, REASON_CODES, SITES, WORKFLOW_REQUEST_TYPE_OPTIONS } from '../../../../core/constants/app.constants';
 
 @Component({
   selector: 'app-create-task',
@@ -31,6 +32,16 @@ export class CreateTaskComponent {
   reasonCode          = signal('All');
   location            = signal('All');
   isSaving            = signal(false);
+
+  readonly requestTypeOptions = WORKFLOW_REQUEST_TYPE_OPTIONS;
+  readonly profitCenters = PROFIT_CENTERS;
+  readonly reasonCodeOptions = REASON_CODES;
+  readonly siteOptions = SITES;
+  readonly filteredProfitCenters = computed(() => {
+    const search = this.businessTypeSearch().trim().toLowerCase();
+    if (!search) return this.profitCenters;
+    return this.profitCenters.filter(profitCenter => profitCenter.toLowerCase().includes(search));
+  });
 
 
   saveNewTask() {

@@ -111,14 +111,7 @@
           <label>Profit Center <span class="required">*</span></label>
           <select>
             <option value="">— Select —</option>
-            <option value="Additives">Additives</option>
-            <option value="Clean Fuels">Clean Fuels</option>
-            <option value="CO Promoter">CO Promoter</option>
-            <option value="Ecat">Ecat</option>
-            <option value="Environmental">Environmental</option>
-            <option value="FCC Catalysts">FCC Catalysts</option>
-            <option value="FCC Other">FCC Other</option>
-            <option value="GSR">GSR</option>
+            <option *ngFor="let profitCenter of profitCenters" [value]="profitCenter">{{ profitCenter }}</option>
           </select>
         </div>
         <div class="form-field">

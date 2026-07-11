@@ -75,8 +75,8 @@
             <th>User</th>
             <th>Request Type</th>
             <th>Reason Code</th>
-            <th>Location</th>
-            <th>Business</th>
+            <th>Site</th>
+            <th>Profit Center</th>
             <th>Updated On</th>
           </tr>
         </thead>
@@ -131,11 +131,11 @@
       </div>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
         <div class="form-field">
-          <label>Location</label>
+          <label>Site</label>
           <input type="text" [ngModel]="editLocation()" (ngModelChange)="editLocation.set($event)" />
         </div>
         <div class="form-field">
-          <label>Business</label>
+          <label>Profit Center</label>
           <input type="text" [ngModel]="editBusiness()" (ngModelChange)="editBusiness.set($event)" />
         </div>
       </div>
@@ -173,58 +173,70 @@
         <label>Request Type <span class="required">*</span> 
           <div style="display: flex; gap: 30px; margin-top: 12px; font-size: 13px; color: #15273f;">
             <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-              <input type="radio" name="requestType" value="ALL" [checked]="newRequestType() === 'ALL'" (change)="newRequestType.set('ALL')" style="width: auto; height: auto;" />
+              <input type="radio" name="requestType" value="ALL" [checked]="newRequestTypeMode() === 'ALL'" (change)="setNewRequestTypeMode('ALL')" style="width: auto; height: auto;" />
               All
             </label>
             <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-              <input type="radio" name="requestType" value="RequestType" [checked]="newRequestType() === 'RequestType'" (change)="newRequestType.set('RequestType')" style="width: auto; height: auto;" />
+              <input type="radio" name="requestType" value="RequestType" [checked]="newRequestTypeMode() === 'RequestType'" (change)="setNewRequestTypeMode('RequestType')" style="width: auto; height: auto;" />
               Request Type
             </label>
           </div>
         </label>
-        <input type="text" placeholder="ALL" [ngModel]="newRequestType()" style="width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; margin-top: 12px;" readonly />
+        <input *ngIf="newRequestTypeMode() === 'ALL'" type="text" placeholder="ALL" [ngModel]="newRequestType()" style="width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; margin-top: 12px;" readonly />
+        <select *ngIf="newRequestTypeMode() === 'RequestType'" [ngModel]="newRequestType()" (ngModelChange)="newRequestType.set($event)" style="width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; margin-top: 12px;">
+          <option value="">— Select Request Type —</option>
+          <option *ngFor="let requestTypeOption of requestTypeOptions" [value]="requestTypeOption">{{ requestTypeOption }}</option>
+        </select>
       </div>
 
-      <!-- Business -->
+      <!-- Profit Center -->
       <div class="form-field">
-        <label>Business <span class="required">*</span>
+        <label>Profit Center <span class="required">*</span>
           <div style="display: flex; gap: 30px; margin-top: 12px; font-size: 13px; color: #15273f;">
             <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-              <input type="radio" name="business" value="ALL" [checked]="newBusiness() === 'ALL'" (change)="newBusiness.set('ALL')" style="width: auto; height: auto;" />
+              <input type="radio" name="business" value="ALL" [checked]="newProfitCenterMode() === 'ALL'" (change)="setNewProfitCenterMode('ALL')" style="width: auto; height: auto;" />
               All
             </label>
             <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-              <input type="radio" name="business" value="Division" [checked]="newBusiness() === 'Division'" (change)="newBusiness.set('Division')" style="width: auto; height: auto;" />
+              <input type="radio" name="business" value="Division" [checked]="newProfitCenterMode() === 'Division'" (change)="setNewProfitCenterMode('Division')" style="width: auto; height: auto;" />
               Division
             </label>
             <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-              <input type="radio" name="business" value="ProfitCenter" [checked]="newBusiness() === 'ProfitCenter'" (change)="newBusiness.set('ProfitCenter')" style="width: auto; height: auto;" />
+              <input type="radio" name="business" value="ProfitCenter" [checked]="newProfitCenterMode() === 'ProfitCenter'" (change)="setNewProfitCenterMode('ProfitCenter')" style="width: auto; height: auto;" />
               Profit Center
             </label>
           </div>
         </label>
-        <input type="text" placeholder="ALL" [ngModel]="newBusiness()" style="width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; margin-top: 12px;" readonly />
+        <input *ngIf="newProfitCenterMode() !== 'ProfitCenter'" type="text" placeholder="ALL" [ngModel]="newBusiness()" style="width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; margin-top: 12px;" readonly />
+        <select *ngIf="newProfitCenterMode() === 'ProfitCenter'" [ngModel]="newBusiness()" (ngModelChange)="newBusiness.set($event)" style="width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; margin-top: 12px;">
+          <option value="">— Select Profit Center —</option>
+          <option *ngFor="let profitCenterOption of profitCenterOptions" [value]="profitCenterOption">{{ profitCenterOption }}</option>
+        </select>
       </div>
 
-      <!-- Location -->
+      <!-- Site -->
       <div class="form-field">
-        <label>Location <span class="required">*</span>
+        <label>Site <span class="required">*</span>
           <div style="display: flex; gap: 30px; margin-top: 12px; font-size: 13px; color: #15273f;">
             <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-              <input type="radio" name="location" value="ALL" [checked]="newLocation() === 'ALL'" (change)="newLocation.set('ALL')" style="width: auto; height: auto;" />
+              <input type="radio" name="location" value="ALL" [checked]="newSiteMode() === 'ALL'" (change)="setNewSiteMode('ALL')" style="width: auto; height: auto;" />
               All
             </label>
             <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-              <input type="radio" name="location" value="Region" [checked]="newLocation() === 'Region'" (change)="newLocation.set('Region')" style="width: auto; height: auto;" />
+              <input type="radio" name="location" value="Region" [checked]="newSiteMode() === 'Region'" (change)="setNewSiteMode('Region')" style="width: auto; height: auto;" />
               Region
             </label>
             <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-              <input type="radio" name="location" value="Plant" [checked]="newLocation() === 'Plant'" (change)="newLocation.set('Plant')" style="width: auto; height: auto;" />
+              <input type="radio" name="location" value="Plant" [checked]="newSiteMode() === 'Plant'" (change)="setNewSiteMode('Plant')" style="width: auto; height: auto;" />
               Plant
             </label>
           </div>
         </label>
-        <input type="text" placeholder="ALL" [ngModel]="newLocation()" style="width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; margin-top: 12px;" readonly />
+        <input *ngIf="newSiteMode() !== 'Plant'" type="text" placeholder="ALL" [ngModel]="newLocation()" style="width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; margin-top: 12px;" readonly />
+        <select *ngIf="newSiteMode() === 'Plant'" [ngModel]="newLocation()" (ngModelChange)="newLocation.set($event)" style="width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; margin-top: 12px;">
+          <option value="">— Select Site —</option>
+          <option *ngFor="let siteOption of siteOptions" [value]="siteOption">{{ siteOption }}</option>
+        </select>
       </div>
 
       <!-- Reason Code -->
@@ -232,16 +244,20 @@
         <label>Reason Code <span class="required">*</span>
           <div style="display: flex; gap: 30px; margin-top: 12px; font-size: 13px; color: #15273f;">
             <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-              <input type="radio" name="reasonCode" value="ALL" [checked]="newReasonCode() === 'ALL'" (change)="newReasonCode.set('ALL')" style="width: auto; height: auto;" />
+              <input type="radio" name="reasonCode" value="ALL" [checked]="newReasonCodeMode() === 'ALL'" (change)="setNewReasonCodeMode('ALL')" style="width: auto; height: auto;" />
               All
             </label>
             <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-              <input type="radio" name="reasonCode" value="ReasonCode" [checked]="newReasonCode() === 'ReasonCode'" (change)="newReasonCode.set('ReasonCode')" style="width: auto; height: auto;" />
+              <input type="radio" name="reasonCode" value="ReasonCode" [checked]="newReasonCodeMode() === 'ReasonCode'" (change)="setNewReasonCodeMode('ReasonCode')" style="width: auto; height: auto;" />
               Reason Code
             </label>
           </div>
         </label>
-        <input type="text" placeholder="ALL" [ngModel]="newReasonCode()" style="width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; margin-top: 12px;" readonly />
+        <input *ngIf="newReasonCodeMode() === 'ALL'" type="text" placeholder="ALL" [ngModel]="newReasonCode()" style="width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; margin-top: 12px;" readonly />
+        <select *ngIf="newReasonCodeMode() === 'ReasonCode'" [ngModel]="newReasonCode()" (ngModelChange)="newReasonCode.set($event)" style="width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; margin-top: 12px;">
+          <option value="">— Select Reason Code —</option>
+          <option *ngFor="let reasonCodeOption of reasonCodeOptions" [value]="reasonCodeOption">{{ reasonCodeOption }}</option>
+        </select>
       </div>
 
       <!-- Save Button -->
@@ -278,12 +294,12 @@
         <input type="text" placeholder="Enter Reason Code" [ngModel]="filterColumns.reasonCode()" (ngModelChange)="filterColumns.reasonCode.set($event)" />
       </div>
       <div class="form-field">
-        <label>Location</label>
-        <input type="text" placeholder="Enter Location" [ngModel]="filterColumns.location()" (ngModelChange)="filterColumns.location.set($event)" />
+        <label>Site</label>
+        <input type="text" placeholder="Enter Site" [ngModel]="filterColumns.location()" (ngModelChange)="filterColumns.location.set($event)" />
       </div>
       <div class="form-field">
-        <label>Business</label>
-        <input type="text" placeholder="Enter Business" [ngModel]="filterColumns.business()" (ngModelChange)="filterColumns.business.set($event)" />
+        <label>Profit Center</label>
+        <input type="text" placeholder="Enter Profit Center" [ngModel]="filterColumns.business()" (ngModelChange)="filterColumns.business.set($event)" />
       </div>
       <div style="display:flex;justify-content:flex-end;gap:10px;padding-top:8px;border-top:1px solid #d2ddea;">
         <button class="pill-btn pill-btn--outlined" (click)="resetFilters()">RESET</button>

@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { LucidePlus, LucideX, LucideMinus, LucideDownload, LucideTrash2 } from '@lucide/angular';
 import {
   REASON_CODES, SITES, TOP_FAMILIES,
-  FAMILIES, CATEGORIES, ITEM_TYPES, PRIORITIES, PRODUCT_LINES, PRODUCT_FAMILY_GROUPS, PRODUCT_FAMILIES,
+  FAMILIES, CATEGORIES, ITEM_TYPES, PRIORITIES, PRODUCT_LINES, PRODUCT_FAMILY_GROUPS, PRODUCT_FAMILIES, PROFIT_CENTERS,
 } from '../../../../core/constants/app.constants';
 import { ToastService } from '../../../../core/services/toast.service';
 import { DatePickerComponent } from '../../../../shared/components/date-picker/date-picker.component';
@@ -51,6 +51,7 @@ export class NewRequestStep1Component {
   readonly productLines  = PRODUCT_LINES;
   readonly productFamilyGroups = PRODUCT_FAMILY_GROUPS;
   readonly productFamilies     = PRODUCT_FAMILIES;
+  readonly profitCenters = PROFIT_CENTERS;
   readonly topFamilies   = TOP_FAMILIES;
   readonly families      = FAMILIES;
   readonly categories    = CATEGORIES;

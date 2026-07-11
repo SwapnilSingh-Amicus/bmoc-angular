@@ -2,7 +2,7 @@ import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LucidePlus, LucideTrash2, LucideX, LucideCheck, LucideDownload } from '@lucide/angular';
-import { ROLE_MAPPINGS } from '../../../../core/constants/app.constants';
+import { PROFIT_CENTERS, REASON_CODES, ROLE_MAPPINGS, SITES, WORKFLOW_REQUEST_TYPE_OPTIONS } from '../../../../core/constants/app.constants';
 import { RoleMapping } from '../../../../core/models/app.models';
 
 @Component({
@@ -13,6 +13,11 @@ import { RoleMapping } from '../../../../core/models/app.models';
   styleUrls: ['./role-mapping.component.scss'],
 })
 export class RoleMappingComponent {
+
+  readonly requestTypeOptions = WORKFLOW_REQUEST_TYPE_OPTIONS;
+  readonly reasonCodeOptions = REASON_CODES;
+  readonly siteOptions = SITES;
+  readonly profitCenterOptions = PROFIT_CENTERS;
 
   mappings   = signal<RoleMapping[]>([...ROLE_MAPPINGS]);
   search     = signal('');
@@ -46,6 +51,10 @@ export class RoleMappingComponent {
   newReasonCode = signal('');
   newLocation = signal('');
   newBusiness = signal('');
+  newRequestTypeMode = signal<'ALL' | 'RequestType'>('ALL');
+  newSiteMode = signal<'ALL' | 'Region' | 'Plant'>('ALL');
+  newProfitCenterMode = signal<'ALL' | 'Division' | 'ProfitCenter'>('ALL');
+  newReasonCodeMode = signal<'ALL' | 'ReasonCode'>('ALL');
 
   toast = signal('');
 
@@ -148,6 +157,10 @@ export class RoleMappingComponent {
     this.addNewMode.set(true);
     this.newBusinessRole.set('');
     this.newUser.set('');
+    this.newRequestTypeMode.set('ALL');
+    this.newSiteMode.set('ALL');
+    this.newProfitCenterMode.set('ALL');
+    this.newReasonCodeMode.set('ALL');
     this.newRequestType.set('ALL');
     this.newReasonCode.set('ALL');
     this.newLocation.set('ALL');
@@ -158,10 +171,34 @@ export class RoleMappingComponent {
     this.addNewMode.set(false);
     this.newBusinessRole.set('');
     this.newUser.set('');
+    this.newRequestTypeMode.set('ALL');
+    this.newSiteMode.set('ALL');
+    this.newProfitCenterMode.set('ALL');
+    this.newReasonCodeMode.set('ALL');
     this.newRequestType.set('');
     this.newReasonCode.set('');
     this.newLocation.set('');
     this.newBusiness.set('');
+  }
+
+  setNewRequestTypeMode(mode: 'ALL' | 'RequestType') {
+    this.newRequestTypeMode.set(mode);
+    this.newRequestType.set(mode === 'ALL' ? 'ALL' : '');
+  }
+
+  setNewSiteMode(mode: 'ALL' | 'Region' | 'Plant') {
+    this.newSiteMode.set(mode);
+    this.newLocation.set(mode === 'ALL' ? 'ALL' : mode === 'Plant' ? '' : mode);
+  }
+
+  setNewProfitCenterMode(mode: 'ALL' | 'Division' | 'ProfitCenter') {
+    this.newProfitCenterMode.set(mode);
+    this.newBusiness.set(mode === 'ALL' ? 'ALL' : mode === 'ProfitCenter' ? '' : mode);
+  }
+
+  setNewReasonCodeMode(mode: 'ALL' | 'ReasonCode') {
+    this.newReasonCodeMode.set(mode);
+    this.newReasonCode.set(mode === 'ALL' ? 'ALL' : '');
   }
 
   toggleFilterPanel() {

@@ -88,17 +88,17 @@
           </div>
 
           <div style="display: flex; flex-direction: column; gap: 4px;">
-            <label style="font-size: 12px; font-weight: 600; color: #15273f;">Business</label>
+            <label style="font-size: 12px; font-weight: 600; color: #15273f;">Profit Center</label>
             <select [(ngModel)]="tempFilterBusiness" style="height: 36px; border: 1.5px solid #e0e5ec; border-radius: 3px; padding: 0 10px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff;">
-              <option value="">— Select Business —</option>
+              <option value="">— Select Profit Center —</option>
               <option *ngFor="let opt of businessOptions()" [value]="opt">{{ opt }}</option>
             </select>
           </div>
 
           <div style="display: flex; flex-direction: column; gap: 4px;">
-            <label style="font-size: 12px; font-weight: 600; color: #15273f;">Location</label>
+            <label style="font-size: 12px; font-weight: 600; color: #15273f;">Site</label>
             <select [(ngModel)]="tempFilterLocation" style="height: 36px; border: 1.5px solid #e0e5ec; border-radius: 3px; padding: 0 10px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff;">
-              <option value="">— Select Location —</option>
+              <option value="">— Select Site —</option>
               <option *ngFor="let opt of locationOptions()" [value]="opt">{{ opt }}</option>
             </select>
           </div>
@@ -126,8 +126,8 @@
             <th>User/Role <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
             <th>Type <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
             <th>Reason Code <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
-            <th>Business <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
-            <th>Location <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+            <th>Profit Center <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
+            <th>Site <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
             <th>Updated On <svg lucideChevronDown [size]="12" style="margin-left:4px; opacity:0.6"></svg></th>
           </tr>
         </thead>

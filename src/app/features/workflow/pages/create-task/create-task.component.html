@@ -90,19 +90,13 @@
             style="height: 38px; border: 1.5px solid #e0e5ec; border-radius: 4px; padding: 0 12px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff; color: #15273f; transition: all 0.15s;"
           >
             <option value="" style="color: #b0b8c4; background-color: #fff;">— Select Request Type —</option>
-            <option value="Create New Product">Create New Product</option>
-            <option value="Raw Material Update">Raw Material Update</option>
-            <option value="Product Extension">Product Extension</option>
-            <option value="Product Update">Product Update</option>
-            <option value="Product Deactivation">Product Deactivation</option>
-            <option value="New Raw Material">New Raw Material</option>
-            <option value="New Packaging">New Packaging</option>
+            <option *ngFor="let requestTypeOption of requestTypeOptions" [value]="requestTypeOption">{{ requestTypeOption }}</option>
           </select>
         </div>
 
         <!-- Business Type (Multi Select) -->
         <div style="display: flex; flex-direction: column; gap: 6px;">
-          <label style="font-size: 12px; font-weight: 600; color: #15273f;">Profit Centre</label>
+          <label style="font-size: 12px; font-weight: 600; color: #15273f;">Profit Center</label>
           <div
             style="position: relative;"
           >
@@ -126,37 +120,9 @@
               />
 
               <div style="display:flex; flex-direction:column; gap: 8px;">
-                <label style="display:flex; align-items:center; gap:8px; font-size: 13px; color:#15273f;">
-                  <input type="checkbox" [checked]="isBusinessTypeSelected('Additives')" (change)="onBusinessTypeToggle('Additives')" />
-                  Additives
-                </label>
-                <label style="display:flex; align-items:center; gap:8px; font-size: 13px; color:#15273f;">
-                  <input type="checkbox" [checked]="isBusinessTypeSelected('Clean Fuels')" (change)="onBusinessTypeToggle('Clean Fuels')" />
-                  Clean Fuels
-                </label>
-                <label style="display:flex; align-items:center; gap:8px; font-size: 13px; color:#15273f;">
-                  <input type="checkbox" [checked]="isBusinessTypeSelected('CO Promoter')" (change)="onBusinessTypeToggle('CO Promoter')" />
-                  CO Promoter
-                </label>
-                <label style="display:flex; align-items:center; gap:8px; font-size: 13px; color:#15273f;">
-                  <input type="checkbox" [checked]="isBusinessTypeSelected('Ecat')" (change)="onBusinessTypeToggle('Ecat')" />
-                  Ecat
-                </label>
-                <label style="display:flex; align-items:center; gap:8px; font-size: 13px; color:#15273f;">
-                  <input type="checkbox" [checked]="isBusinessTypeSelected('Environmental')" (change)="onBusinessTypeToggle('Environmental')" />
-                  Environmental
-                </label>
-                <label style="display:flex; align-items:center; gap:8px; font-size: 13px; color:#15273f;">
-                  <input type="checkbox" [checked]="isBusinessTypeSelected('FCC Catalysts')" (change)="onBusinessTypeToggle('FCC Catalysts')" />
-                  FCC Catalysts
-                </label>
-                <label style="display:flex; align-items:center; gap:8px; font-size: 13px; color:#15273f;">
-                  <input type="checkbox" [checked]="isBusinessTypeSelected('FCC Other')" (change)="onBusinessTypeToggle('FCC Other')" />
-                  FCC Other
-                </label>
-                <label style="display:flex; align-items:center; gap:8px; font-size: 13px; color:#15273f;">
-                  <input type="checkbox" [checked]="isBusinessTypeSelected('GSR')" (change)="onBusinessTypeToggle('GSR')" />
-                  GSR
+                <label *ngFor="let profitCenter of filteredProfitCenters()" style="display:flex; align-items:center; gap:8px; font-size: 13px; color:#15273f;">
+                  <input type="checkbox" [checked]="isBusinessTypeSelected(profitCenter)" (change)="onBusinessTypeToggle(profitCenter)" />
+                  {{ profitCenter }}
                 </label>
               </div>
             </div>
@@ -187,22 +153,8 @@
             [(ngModel)]="reasonCode"
             style="height: 38px; border: 1.5px solid #e0e5ec; border-radius: 4px; padding: 0 12px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff; color: #15273f; transition: all 0.15s;"
           >
-<option value="All" style="color: #b0b8c4; background-color: #fff;">— Select Reason Code —</option>            
-              <option value="P01">P01 - Create a new Product</option>
-              <option value="P02">P02 - Customer Request</option>
-              <option value="P03">P03 - Product Reformulation</option>
-              <option value="P04">P04 - Cost Reduction Initiative</option>
-              <option value="P05">P05 - Regulatory Compliance</option>
-              <option value="P06">P06 - Market Expansion</option>
-              <option value="P07">P07 - Product Rationalisation</option>
-              <option value="P08">P08 - Packaging Change</option>
-              <option value="R01">R01 - Create a new Raw Material</option>
-              <option value="R02">R02 - Raw Material Substitution</option>
-              <option value="R03">R03 - Supplier Change</option>
-              <option value="R04">R04 - Quality Improvement</option>
-              <option value="R05">R05 - Sourcing Localisation</option>
-              <option value="R06">R06 - Cost Reduction -RM</option>
-              <option value="R07">R07 - Regulatory / REACH Compliance</option>
+<option value="All" style="color: #b0b8c4; background-color: #fff;">— Select Reason Code —</option>
+              <option *ngFor="let reasonCodeOption of reasonCodeOptions" [value]="reasonCodeOption">{{ reasonCodeOption }}</option>
           </select>
         </div>
       </div>
@@ -224,13 +176,7 @@
             style="height: 38px; border: 1.5px solid #e0e5ec; border-radius: 4px; padding: 0 12px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff; color: #15273f; transition: all 0.15s;"
           >
 <option value="All" style="color: #b0b8c4; background-color: #fff;">— Select Site —</option>
-            <option value="Bangalore">Bangalore</option>
-            <option value="Chennai">Chennai</option>
-            <option value="Mumbai">Mumbai</option>
-            <option value="Delhi">Delhi</option>
-            <option value="Pune">Pune</option>
-            <option value="Hyderabad">Hyderabad</option>
-            <option value="Kolkata">Kolkata</option>
+            <option *ngFor="let siteOption of siteOptions" [value]="siteOption">{{ siteOption }}</option>
           </select>
         </div>
       </div>

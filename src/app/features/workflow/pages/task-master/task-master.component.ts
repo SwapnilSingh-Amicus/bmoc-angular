@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LucidePlus, LucideChevronDown, LucideTrash2, LucideDownload, LucideFilter, LucideSearch } from '@lucide/angular';
-import { WORKFLOW_TASKS } from '../../../../core/constants/app.constants';
+import { PROFIT_CENTERS, SITES, WORKFLOW_TASKS } from '../../../../core/constants/app.constants';
 import { WorkflowTaskMaster } from '../../../../core/models/app.models';
 import { ToastService } from '../../../../core/services/toast.service';
 
@@ -64,15 +64,11 @@ export class TaskMasterComponent {
   });
 
   readonly businessOptions = computed(() => {
-    const set = new Set<string>();
-    this.allWorkflowTasks.forEach(t => t.business && set.add(t.business));
-    return Array.from(set).sort();
+    return PROFIT_CENTERS;
   });
 
   readonly locationOptions = computed(() => {
-    const set = new Set<string>();
-    this.allWorkflowTasks.forEach(t => t.location && set.add(t.location));
-    return Array.from(set).sort();
+    return SITES;
   });
 
   readonly filtered = computed(() => {
@@ -178,7 +174,7 @@ export class TaskMasterComponent {
     
     // Create CSV data
     const data = this.filtered();
-    const headers = ['Stage', 'Task Title/Instructions', 'User/Role', 'Type', 'Reason Code', 'Business', 'Location', 'Updated On'];
+    const headers = ['Stage', 'Task Title/Instructions', 'User/Role', 'Type', 'Reason Code', 'Profit Center', 'Site', 'Updated On'];
     const csvContent = [
       headers.join(','),
       ...data.map(t => [
