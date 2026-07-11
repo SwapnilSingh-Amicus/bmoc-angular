@@ -14,13 +14,6 @@
 
   <!-- Ribbon Bar -->
   <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #e0e5ec; background: white; flex-wrap: wrap;">
-    <span style="font-size: 14px; color: #77858c; white-space: nowrap;">Showing {{ filtered().length }} of {{ roles().length }} Business Roles</span>
-    <button class="pill-btn pill-btn--outlined" (click)="exportData()" style="padding: 6px 12px; font-size: 12px; gap: 6px;">
-      ↓ XLSX
-    </button>
-    <button class="pill-btn pill-btn--outlined" (click)="toggleFilterPanel()" style="padding: 6px 12px; font-size: 12px; gap: 6px;">
-      ⇄ FILTER
-    </button>
     <div style="display: flex; align-items: center; gap: 8px;">
       <div style="width: 120px;">
         <app-date-picker placeholder="dd-mm-yyyy" (valueChange)="dateRangeStart.set($event)"></app-date-picker>
@@ -30,9 +23,20 @@
         <app-date-picker placeholder="dd-mm-yyyy" (valueChange)="dateRangeEnd.set($event)"></app-date-picker>
       </div>
     </div>
-    <button class="pill-btn pill-btn--outlined" [disabled]="!hasSelection()" (click)="deleteSelected()" style="padding: 6px 12px; font-size: 12px; gap: 6px; margin-left: auto;">
-      <svg lucideTrash2 [size]="12"></svg> DELETE
+
+    <button class="pill-btn pill-btn--outlined" (click)="exportData()" style="padding: 6px 12px; font-size: 12px; gap: 6px;">
+      ↓ XLSX
     </button>
+
+    <div style="display: flex; align-items: center; gap: 12px; margin-left: auto;">
+      <button class="pill-btn pill-btn--outlined" (click)="toggleFilterPanel()" style="padding: 6px 12px; font-size: 12px; gap: 6px;">
+        ⇄ FILTER
+      </button>
+
+      <button class="pill-btn pill-btn--outlined" [disabled]="!hasSelection()" (click)="deleteSelected()" style="padding: 6px 12px; font-size: 12px; gap: 6px;">
+        <svg lucideTrash2 [size]="12"></svg> DELETE
+      </button>
+    </div>
   </div>
 
   <!-- Search Bar -->
