@@ -21,31 +21,18 @@
         ↓ XLSX
       </button>
       
-      <label style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: #15273f; margin-left: auto;">
-        <input type="checkbox" style="width: auto; height: auto; accent-color: #16283e;" (change)="toggleMyMappings($event)" />
-        My Mappings
-      </label>
-      
       <button class="pill-btn pill-btn--outlined" (click)="openFilterModal()" style="padding: 6px 12px; font-size: 12px; gap: 6px;">
         ⇄ FILTER
       </button>
       
       <div style="display: flex; align-items: center; gap: 8px;">
-        <input 
-          type="text" 
-          placeholder="dd-mm-yyyy" 
-          [ngModel]="dateRangeStart()" 
-          (ngModelChange)="dateRangeStart.set($event)"
-          style="width: 110px; padding: 6px 10px; border: 1px solid #e0e5ec; border-radius: 3px; font-size: 12px; color: #15273f;"
-        />
+        <div style="width: 110px;">
+          <app-date-picker placeholder="dd-mm-yyyy" (valueChange)="dateRangeStart.set($event)"></app-date-picker>
+        </div>
         <span style="color: #d2ddea; font-weight: 300;">-</span>
-        <input 
-          type="text" 
-          placeholder="dd-mm-yyyy" 
-          [ngModel]="dateRangeEnd()" 
-          (ngModelChange)="dateRangeEnd.set($event)"
-          style="width: 110px; padding: 6px 10px; border: 1px solid #e0e5ec; border-radius: 3px; font-size: 12px; color: #15273f;"
-        />
+        <div style="width: 110px;">
+          <app-date-picker placeholder="dd-mm-yyyy" (valueChange)="dateRangeEnd.set($event)"></app-date-picker>
+        </div>
       </div>
       
       <button class="pill-btn pill-btn--outlined" [disabled]="!hasSelection()" (click)="deleteSelected()" style="padding: 6px 12px; font-size: 12px; gap: 6px; margin-left: auto;">

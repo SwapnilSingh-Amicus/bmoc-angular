@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { LucidePlus, LucideTrash2, LucideX, LucideCheck, LucideDownload } from '@lucide/angular';
 import { BUSINESS_ROLES } from '../../../../core/constants/app.constants';
 import { BusinessRole } from '../../../../core/models/app.models';
+import { DatePickerComponent } from '../../../../shared/components/date-picker/date-picker.component';
 
 @Component({
   selector: 'app-business-role',
   standalone: true,
-  imports: [CommonModule, FormsModule, LucidePlus, LucideTrash2, LucideX, LucideCheck, LucideDownload],
+  imports: [CommonModule, FormsModule, LucidePlus, LucideTrash2, LucideX, LucideCheck, LucideDownload, DatePickerComponent],
   templateUrl: './business-role.component.html',
   styleUrls: ['./business-role.component.scss'],
 })

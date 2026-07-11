@@ -9,45 +9,30 @@
       <button class="pill-btn" (click)="addNewRole()">
         <svg lucidePlus [size]="13"></svg> ADD NEW BUSINESS ROLE
       </button>
-      <button class="pill-btn pill-btn--outlined" (click)="exportData()">
-        <svg lucideDownload [size]="13"></svg> Export
-      </button>
-      <button class="pill-btn pill-btn--outlined" [disabled]="!hasSelection()" (click)="deleteSelected()">
-        <svg lucideTrash2 [size]="13"></svg> DELETE
-      </button>
     </div>
   </div>
 
   <!-- Ribbon Bar -->
-  <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; padding: 12px 0; border-bottom: 1px solid #e0e5ec;">
+  <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #e0e5ec; background: white; flex-wrap: wrap;">
     <span style="font-size: 14px; color: #77858c; white-space: nowrap;">Showing {{ filtered().length }} of {{ roles().length }} Business Roles</span>
-    <button class="pill-btn pill-btn--outlined" (click)="exportData()" style="padding: 6px 12px; font-size: 13px;">
-      <svg style="width: 14px; height: 14px; margin-right: 5px; display: inline;">⬇</svg> XLSX
+    <button class="pill-btn pill-btn--outlined" (click)="exportData()" style="padding: 6px 12px; font-size: 12px; gap: 6px;">
+      ↓ XLSX
     </button>
-    <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #15273f; margin-left: auto;">
-      <input type="checkbox" style="width: auto; height: auto;" (change)="toggleMyRoles($event)" />
-      My Roles
-    </label>
-    <button class="pill-btn pill-btn--outlined" (click)="toggleFilterPanel()" style="padding: 6px 12px; font-size: 13px;">
-      ⇅ FILTER
+    <button class="pill-btn pill-btn--outlined" (click)="toggleFilterPanel()" style="padding: 6px 12px; font-size: 12px; gap: 6px;">
+      ⇄ FILTER
     </button>
-    <div style="display: flex; gap: 10px;">
-      <input 
-        type="text" 
-        placeholder="dd-mm-yyyy" 
-        [ngModel]="dateRangeStart()" 
-        (ngModelChange)="dateRangeStart.set($event)"
-        style="width: 120px; padding: 8px 12px; border: 1px solid #e0e5ec; border-radius: 4px; font-size: 13px; color: #15273f;"
-      />
-      <span style="color: #d2ddea;">-</span>
-      <input 
-        type="text" 
-        placeholder="dd-mm-yyyy" 
-        [ngModel]="dateRangeEnd()" 
-        (ngModelChange)="dateRangeEnd.set($event)"
-        style="width: 120px; padding: 8px 12px; border: 1px solid #e0e5ec; border-radius: 4px; font-size: 13px; color: #15273f;"
-      />
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <div style="width: 120px;">
+        <app-date-picker placeholder="dd-mm-yyyy" (valueChange)="dateRangeStart.set($event)"></app-date-picker>
+      </div>
+      <span style="color: #d2ddea; font-weight: 300;">-</span>
+      <div style="width: 120px;">
+        <app-date-picker placeholder="dd-mm-yyyy" (valueChange)="dateRangeEnd.set($event)"></app-date-picker>
+      </div>
     </div>
+    <button class="pill-btn pill-btn--outlined" [disabled]="!hasSelection()" (click)="deleteSelected()" style="padding: 6px 12px; font-size: 12px; gap: 6px; margin-left: auto;">
+      <svg lucideTrash2 [size]="12"></svg> DELETE
+    </button>
   </div>
 
   <!-- Search Bar -->

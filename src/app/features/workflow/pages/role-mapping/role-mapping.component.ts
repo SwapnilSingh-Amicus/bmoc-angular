@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { LucidePlus, LucideTrash2, LucideX, LucideCheck, LucideDownload } from '@lucide/angular';
 import { PROFIT_CENTERS, REASON_CODES, ROLE_MAPPINGS, SITES, WORKFLOW_REQUEST_TYPE_OPTIONS } from '../../../../core/constants/app.constants';
 import { RoleMapping } from '../../../../core/models/app.models';
+import { DatePickerComponent } from '../../../../shared/components/date-picker/date-picker.component';
 
 @Component({
   selector: 'app-role-mapping',
   standalone: true,
-  imports: [CommonModule, FormsModule, LucidePlus, LucideTrash2, LucideX, LucideCheck, LucideDownload],
+  imports: [CommonModule, FormsModule, LucidePlus, LucideTrash2, LucideX, LucideCheck, LucideDownload, DatePickerComponent],
   templateUrl: './role-mapping.component.html',
   styleUrls: ['./role-mapping.component.scss'],
 })
