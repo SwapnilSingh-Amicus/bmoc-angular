@@ -3,7 +3,19 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { LucideChevronUp, LucideChevronDown, LucideBell, LucidePrinter, LucideX, LucideFileText, LucideUpload, LucideDownload, LucideTrash2 } from '@lucide/angular';
-import { ALL_REQUESTS, ALL_TASKS, AUDIT_ENTRIES, statusColor, priorityColor, stageColor } from '../../../../core/constants/app.constants';
+import {
+  ALL_REQUESTS,
+  ALL_TASKS,
+  AUDIT_ENTRIES,
+  LOCATION_ROWS,
+  PRODUCT_FAMILIES,
+  PRODUCT_FAMILY_GROUPS,
+  PRODUCT_LINES,
+  PROFIT_CENTERS,
+  statusColor,
+  priorityColor,
+  stageColor,
+} from '../../../../core/constants/app.constants';
 import { Request, Task, AuditEntry } from '../../../../core/models/app.models';
 import { ToastService } from '../../../../core/services/toast.service';
 
@@ -49,8 +61,9 @@ export class RequestSummaryComponent implements OnInit {
     const url = this.getExternalRequestSummaryUrl(id);
     const requestor = this.request()?.requestor ?? 'Grace BMOC portal';
     const title = this.request()?.title ?? 'New Waterproofing Compound WP-250';
+    const siteName = this.resolvedSiteName();
 
-    return `Dear Team,\n\nThis is a notification regarding ${title} (Bangalore).\n\nPlease review the request and complete your assigned tasks at the earliest.\n\nRequest Summary: ${url}\n\nRegards,\n${requestor}\nR&D Requestor — SCC`;
+    return `Dear Team,\n\nThis is a notification regarding ${title} (${siteName}).\n\nPlease review the request and complete your assigned tasks at the earliest.\n\nRequest Summary: ${url}\n\nRegards,\n${requestor}\nR&D Requestor — SCC`;
   });
 
   newToEmail = signal('');
@@ -64,6 +77,41 @@ export class RequestSummaryComponent implements OnInit {
   statusColor = statusColor;
   priorityColor = priorityColor;
   stageColor = stageColor;
+
+  private getRequestDataIndex(): number {
+    const requestId = this.request()?.id ?? this.reqId() ?? '';
+    if (!requestId) return 0;
+    const digits = requestId.replace(/\D/g, '');
+    const n = digits ? parseInt(digits, 10) : 0;
+    return Number.isNaN(n) ? 0 : n;
+  }
+
+  resolvedSiteName = computed(() => {
+    const siteCode = this.request()?.site ?? '';
+    if (!siteCode) return '—';
+    const match = LOCATION_ROWS.find(location => location.code === siteCode);
+    return match?.name ?? siteCode;
+  });
+
+  summaryProfitCenter = computed(() => {
+    const idx = this.getRequestDataIndex() % PROFIT_CENTERS.length;
+    return PROFIT_CENTERS[idx] ?? '—';
+  });
+
+  summaryProductLine = computed(() => {
+    const idx = this.getRequestDataIndex() % PRODUCT_LINES.length;
+    return PRODUCT_LINES[idx] ?? '—';
+  });
+
+  summaryProductFamilyGroup = computed(() => {
+    const idx = this.getRequestDataIndex() % PRODUCT_FAMILY_GROUPS.length;
+    return PRODUCT_FAMILY_GROUPS[idx] ?? '—';
+  });
+
+  summaryProductFamily = computed(() => {
+    const idx = this.getRequestDataIndex() % PRODUCT_FAMILIES.length;
+    return PRODUCT_FAMILIES[idx] ?? '—';
+  });
 
   readonly workflowGroups = computed<WorkflowGroup[]>(() => {
     const stages = ['Pre Approval', 'Approvals', 'Post Approval'];

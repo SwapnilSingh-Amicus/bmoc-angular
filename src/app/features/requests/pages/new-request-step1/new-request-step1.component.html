@@ -303,22 +303,6 @@
         <div *ngIf="isSectionExpanded('productManagement')" style="padding: 16px;">
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px 20px;">
             <div class="form-field">
-              <label>Item Type</label>
-              <select [ngModel]="selectedItemType()" (ngModelChange)="selectedItemType.set($event)" [disabled]="!isSectionEditable('productManagement')">
-                <option value="">— Select —</option>
-                <option *ngFor="let t of allItemTypes" [value]="t">{{ t }}</option>
-              </select>
-            </div>
-
-            <div class="form-field">
-              <label>Product Family Group</label>
-              <select [ngModel]="productFamilyGroup()" (ngModelChange)="productFamilyGroup.set($event)" [disabled]="!isSectionEditable('productManagement')">
-                <option value="">— Select —</option>
-                <option *ngFor="let pfg of productFamilyGroups" [value]="pfg">{{ pfg }}</option>
-              </select>
-            </div>
-
-            <div class="form-field">
               <label>Product Line</label>
               <select [ngModel]="productLine()" (ngModelChange)="productLine.set($event)" [disabled]="!isSectionEditable('productManagement')">
                 <option value="">— Select —</option>
@@ -331,6 +315,22 @@
               <select [ngModel]="productFamily()" (ngModelChange)="productFamily.set($event)" [disabled]="!isSectionEditable('productManagement')">
                 <option value="">— Select —</option>
                 <option *ngFor="let pf of productFamilies" [value]="pf">{{ pf }}</option>
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label>Product Family Group</label>
+              <select [ngModel]="productFamilyGroup()" (ngModelChange)="productFamilyGroup.set($event)" [disabled]="!isSectionEditable('productManagement')">
+                <option value="">— Select —</option>
+                <option *ngFor="let pfg of productFamilyGroups" [value]="pfg">{{ pfg }}</option>
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label>Item Type</label>
+              <select [ngModel]="selectedItemType()" (ngModelChange)="selectedItemType.set($event)" [disabled]="!isSectionEditable('productManagement')">
+                <option value="">— Select —</option>
+                <option *ngFor="let t of allItemTypes" [value]="t">{{ t }}</option>
               </select>
             </div>
 

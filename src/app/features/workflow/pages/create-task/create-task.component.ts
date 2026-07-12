@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastService } from '../../../../core/services/toast.service';
-import { PROFIT_CENTERS, REASON_CODES, SITES, WORKFLOW_REQUEST_TYPE_OPTIONS } from '../../../../core/constants/app.constants';
+import { ALL_REQUESTS, PROFIT_CENTERS, REASON_CODES, SITES, WORKFLOW_REQUEST_TYPE_OPTIONS } from '../../../../core/constants/app.constants';
 
 @Component({
   selector: 'app-create-task',
@@ -41,14 +41,21 @@ export class CreateTaskComponent {
   readonly taskTypeOptions = ['Input', 'Approval', 'Review'];
   readonly businessRoleUserOptions = ['Individual', 'Requestor', 'Business Role'];
   readonly individualNameOptions = ['pranjal panday', 'priya sharma', 'Anand Kumar'];
-  readonly businessRoleOptions = ['product inspector', 'product manager', 'product developer', 'delivary manager'];
+  readonly requestorNameOptions = Array.from(new Set(ALL_REQUESTS.map(request => request.requestor))).sort();
+  readonly businessRoleOptions = ['Product Management', 'Trade Compliance', 'Logistics', 'Operations', 'TCO', 'Admin'];
   readonly filteredProfitCenters = computed(() => {
     const search = this.businessTypeSearch().trim().toLowerCase();
     if (!search) return this.profitCenters;
     return this.profitCenters.filter(profitCenter => profitCenter.toLowerCase().includes(search));
   });
-  readonly showBusinessRoleDetail = computed(() => this.businessRoleUser() === 'Individual' || this.businessRoleUser() === 'Business Role');
-  readonly businessRoleDetailOptions = computed(() => this.businessRoleUser() === 'Individual' ? this.individualNameOptions : this.businessRoleOptions);
+  readonly showBusinessRoleDetail = computed(() =>
+    this.businessRoleUser() === 'Individual' || this.businessRoleUser() === 'Business Role'
+  );
+  readonly businessRoleDetailOptions = computed(() => {
+    if (this.businessRoleUser() === 'Individual') return this.individualNameOptions;
+    if (this.businessRoleUser() === 'Requestor') return this.requestorNameOptions;
+    return this.businessRoleOptions;
+  });
 
 
   saveNewTask() {

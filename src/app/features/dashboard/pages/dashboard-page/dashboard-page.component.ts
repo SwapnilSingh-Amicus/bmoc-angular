@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LucidePlus, LucideDownload, LucideFilter, LucideCalendar, LucideChevronDown, LucideChevronLeft, LucideChevronRight, LucideX, LucideSearch } from '@lucide/angular';
 import {
-  DASHBOARD_REQUESTS, statusColor, priorityColor,
+  DASHBOARD_REQUESTS, PRODUCT_LINES, SITES, statusColor, priorityColor,
 } from '../../../../core/constants/app.constants';
 import { DashboardRequest } from '../../../../core/models/app.models';
 import { DatePickerComponent } from '../../../../shared/components/date-picker/date-picker.component';
@@ -45,7 +45,11 @@ export class DashboardPageComponent {
   
 
   // ── Requests table
-  allRequests  = DASHBOARD_REQUESTS;
+  allRequests = DASHBOARD_REQUESTS.map((request, index) => ({
+    ...request,
+    subCategory: PRODUCT_LINES[index % PRODUCT_LINES.length] ?? request.subCategory,
+    location: SITES[index % SITES.length] ?? request.location,
+  }));
   myRequestsOnly = signal(false);
   startDate    = signal('');
   endDate      = signal('');
@@ -74,7 +78,7 @@ export class DashboardPageComponent {
 
   // Filter dropdown options
   readonly REQ_TYPES = ['Create New Product', 'Product Deactivation', 'Raw Material Update', 'New Raw Material', 'Packaging Update', 'Product Extension', 'Product Update', 'New Packaging'];
-  readonly LOCATIONS = ['Bangalore', 'Chennai', 'Mumbai', 'Delhi', 'Pune', 'Hyderabad', 'Kolkata'];
+  readonly LOCATIONS = Array.from(new Set(this.allRequests.map(request => request.location))).sort();
   readonly REQUESTORS = ['Priya Sharma', 'Rahul Verma', 'Anjali Mehta', 'Vikram Singh', 'Rohit Kumar', 'Neha Gupta', 'Arjun Patel', 'Sunita Rao'];
   readonly STAGES = ['Product Management Approval', 'Trade Compliance Approval', 'Logistics Approval', 'Operation Approval', 'TCO Approval'];
 

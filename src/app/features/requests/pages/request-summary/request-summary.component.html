@@ -12,7 +12,7 @@
   </div>
 
   <!-- Main title -->
-  <h1 class="summary-main-title">{{ request()!.title }} &mdash; Bangalore</h1>
+  <h1 class="summary-main-title">{{ request()!.title }} &mdash; {{ resolvedSiteName() }}</h1>
 
   <!-- Status bar -->
   <div class="summary-status-bar">
@@ -74,7 +74,7 @@
         </div>
         <div class="info-item">
           <label>Site:</label>
-          <div class="val-link">{{ request()!.site }} — Bangalore</div>
+          <div class="val-link">{{ request()!.site }} — {{ resolvedSiteName() }}</div>
         </div>
         <div class="info-item">
           <label>Business:</label>
@@ -97,16 +97,20 @@
           <div class="val">{{ request()!.stage }}</div>
         </div>
         <div class="info-item">
-          <label>Top Family:</label>
-          <div class="val">Waterproofing</div>
+          <label>Profit Centre:</label>
+          <div class="val">{{ summaryProfitCenter() }}</div>
         </div>
         <div class="info-item">
-          <label>Family:</label>
-          <div class="val">Crystalline</div>
+          <label>Product Line:</label>
+          <div class="val">{{ summaryProductLine() }}</div>
         </div>
         <div class="info-item">
-          <label>Category:</label>
-          <div class="val">Admixture</div>
+          <label>Product Family Group:</label>
+          <div class="val">{{ summaryProductFamilyGroup() }}</div>
+        </div>
+        <div class="info-item">
+          <label>Product Family:</label>
+          <div class="val">{{ summaryProductFamily() }}</div>
         </div>
       </div>
     </div>

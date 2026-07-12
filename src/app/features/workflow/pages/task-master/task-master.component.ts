@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LucidePlus, LucideChevronDown, LucideTrash2, LucideDownload, LucideFilter, LucideSearch } from '@lucide/angular';
-import { PROFIT_CENTERS, SITES, WORKFLOW_TASKS } from '../../../../core/constants/app.constants';
+import { BUSINESS_ROLES, PROFIT_CENTERS, ROLE_MAPPINGS, SITES, WORKFLOW_TASKS } from '../../../../core/constants/app.constants';
 import { WorkflowTaskMaster } from '../../../../core/models/app.models';
 import { ToastService } from '../../../../core/services/toast.service';
 
@@ -40,7 +40,18 @@ export class TaskMasterComponent {
   filterBusiness = signal('');
   filterLocation = signal('');
 
-  allWorkflowTasks = WORKFLOW_TASKS;
+  allWorkflowTasks: WorkflowTaskMaster[] = WORKFLOW_TASKS.map((task, index) => {
+    const mappedSite = SITES[index % SITES.length] ?? task.location;
+    const mappedProfitCenter = PROFIT_CENTERS[index % PROFIT_CENTERS.length] ?? task.business;
+    const mappedRole = ROLE_MAPPINGS[index % ROLE_MAPPINGS.length]?.user ?? BUSINESS_ROLES[index % BUSINESS_ROLES.length]?.name ?? task.userRole;
+
+    return {
+      ...task,
+      location: mappedSite,
+      business: mappedProfitCenter,
+      userRole: mappedRole,
+    };
+  });
 
   readonly hasSelectedItems = computed(() => this.selectedItems().size > 0);
 
