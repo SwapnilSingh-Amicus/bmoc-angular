@@ -49,27 +49,42 @@ export class TaskMasterComponent {
     'Admin',
   ];
 
+  private readonly workflowStageConfigs = [
+    { stage: 'Product Management Approval', taskTitle: 'Product Review', userRole: 'Product Management' },
+    { stage: 'Trade Compliance Approval', taskTitle: 'Compliance Check', userRole: 'Trade Compliance' },
+    { stage: 'Logistics approval', taskTitle: 'Shipment Planning', userRole: 'Logistics' },
+    { stage: 'Operations approval', taskTitle: 'Plant Validation', userRole: 'Operations' },
+    { stage: 'TCO approval', taskTitle: 'Cost Review', userRole: 'TCO' },
+  ] as const;
+
+  readonly stageOptions = this.workflowStageConfigs.map(cfg => cfg.stage);
+
+  private getStageConfigByTaskId(taskId: string) {
+    let hash = 0;
+    for (let i = 0; i < taskId.length; i++) {
+      hash = (hash * 31 + taskId.charCodeAt(i)) >>> 0;
+    }
+    const idx = hash % this.workflowStageConfigs.length;
+    return this.workflowStageConfigs[idx];
+  }
+
   allWorkflowTasks: WorkflowTaskMaster[] = WORKFLOW_TASKS.map((task, index) => {
     const mappedSite = SITES[index % SITES.length] ?? task.location;
     const mappedProfitCenter = PROFIT_CENTERS[index % PROFIT_CENTERS.length] ?? task.business;
     const mappedRole = this.roleUserOptions[index % this.roleUserOptions.length] ?? task.userRole;
+    const stageConfig = this.getStageConfigByTaskId(task.id);
 
     return {
       ...task,
+      stage: stageConfig.stage,
+      taskTitle: stageConfig.taskTitle,
       location: mappedSite,
       business: mappedProfitCenter,
-      userRole: mappedRole,
+      userRole: stageConfig.userRole || mappedRole,
     };
   });
 
   readonly hasSelectedItems = computed(() => this.selectedItems().size > 0);
-
-  // Dropdown options from existing WORKFLOW_TASKS
-  readonly stageOptions = computed(() => {
-    const set = new Set<string>();
-    this.allWorkflowTasks.forEach(t => set.add(t.stage));
-    return Array.from(set).sort();
-  });
 
   readonly typeOptions = computed(() => {
     const set = new Set<string>();

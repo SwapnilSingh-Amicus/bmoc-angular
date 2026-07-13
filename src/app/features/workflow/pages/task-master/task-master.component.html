@@ -67,7 +67,7 @@
             <label style="font-size: 12px; font-weight: 600; color: #15273f;">Stage</label>
             <select [(ngModel)]="tempFilterStage" style="height: 36px; border: 1.5px solid #e0e5ec; border-radius: 3px; padding: 0 10px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff;">
               <option value="">— Select Stage —</option>
-              <option *ngFor="let opt of stageOptions()" [value]="opt">{{ opt }}</option>
+              <option *ngFor="let opt of stageOptions" [value]="opt">{{ opt }}</option>
             </select>
           </div>
 
