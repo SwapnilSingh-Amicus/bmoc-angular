@@ -42,7 +42,16 @@ export class CreateTaskComponent {
     )
   );
   readonly profitCenters = PROFIT_CENTERS;
-  readonly reasonCodeOptions = ['P01 Create a new Finished product', 'P08 Parts Fabrication'];
+  readonly defaultReasonCodeOptions = ['P01 Create a new Finished product', 'P08 Parts Fabrication'];
+  readonly rawMaterialUpdateReasonCodeOptions = [
+    'R01  Create a New Raw Material',
+    'R02 Create a New Raw Material (Existing RM but for adding a non existing packaging)',
+  ];
+  readonly reasonCodeOptions = computed(() =>
+    this.requestType() === 'Raw Material Update'
+      ? this.rawMaterialUpdateReasonCodeOptions
+      : this.defaultReasonCodeOptions
+  );
   readonly siteOptions = SITES;
   readonly taskTypeOptions = ['Input', 'Approval', 'Review'];
   readonly businessRoleUserOptions = ['Individual', 'Requestor', 'Business Role'];
