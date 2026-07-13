@@ -47,8 +47,8 @@ export class RequestSummaryComponent implements OnInit {
   emailSent = signal(false);
 
   // Email form fields
-  toTags = signal<string[]>(['rahul.verma@saintgobain.com']);
-  ccTags = signal<string[]>(['anjali.mehta@saintgobain.com']);
+  toTags = signal<string[]>(['Munish_sharma@amicusglobal.com']);
+  ccTags = signal<string[]>(['swapnil_singh@amicusglobal.com']);
   emailSubject = signal('MM-2024-0045 — Input Required: Curtis Bay - Silica - New Finished Product');
 
   getExternalRequestSummaryUrl(reqId: string) {
