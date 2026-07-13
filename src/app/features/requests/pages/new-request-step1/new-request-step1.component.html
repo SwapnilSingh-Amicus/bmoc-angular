@@ -311,18 +311,18 @@
             </div>
 
             <div class="form-field">
-              <label>Product Family</label>
-              <select [ngModel]="productFamily()" (ngModelChange)="productFamily.set($event)" [disabled]="!isSectionEditable('productManagement')">
-                <option value="">— Select —</option>
-                <option *ngFor="let pf of productFamilies" [value]="pf">{{ pf }}</option>
-              </select>
-            </div>
-
-            <div class="form-field">
               <label>Product Family Group</label>
               <select [ngModel]="productFamilyGroup()" (ngModelChange)="productFamilyGroup.set($event)" [disabled]="!isSectionEditable('productManagement')">
                 <option value="">— Select —</option>
                 <option *ngFor="let pfg of productFamilyGroups" [value]="pfg">{{ pfg }}</option>
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label>Product Family</label>
+              <select [ngModel]="productFamily()" (ngModelChange)="productFamily.set($event)" [disabled]="!isSectionEditable('productManagement')">
+                <option value="">— Select —</option>
+                <option *ngFor="let pf of productFamilies" [value]="pf">{{ pf }}</option>
               </select>
             </div>
 

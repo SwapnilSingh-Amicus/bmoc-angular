@@ -68,7 +68,7 @@ export class RequestTasksComponent {
       name: 'Product Management',
       expanded: true,
       tasks: [
-        { title: 'Marketing / Product Mgt', responsibility: 'Marketing or Product Mgt Key Assignee', user: 'Pranjal Pandey' }
+        { title: 'Product Mgt', responsibility: 'Product Mgt Key Assignee', user: 'Pranjal Pandey' }
       ]
     },
     {
@@ -98,20 +98,6 @@ export class RequestTasksComponent {
       expanded: true,
       tasks: [
         { title: 'Formula Annotation', responsibility: 'TCO', user: 'John Doe' }
-      ]
-    },
-    {
-      name: 'Automatic ERP Integration',
-      expanded: true,
-      tasks: [
-        { title: 'Automatic ERP Integration', responsibility: 'Requestor', user: 'Pranjal Pandey' }
-      ]
-    },
-    {
-      name: 'Final Approval',
-      expanded: true,
-      tasks: [
-        { title: 'Overall product validation', responsibility: 'Technical Dir or R&D Mgt Key Assignee', user: 'Rahul Sharma' }
       ]
     }
   ]);

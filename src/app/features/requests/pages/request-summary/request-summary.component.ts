@@ -11,7 +11,6 @@ import {
   PRODUCT_FAMILIES,
   PRODUCT_FAMILY_GROUPS,
   PRODUCT_LINES,
-  PROFIT_CENTERS,
   statusColor,
   priorityColor,
   stageColor,
@@ -90,16 +89,36 @@ export class RequestSummaryComponent implements OnInit {
     return Number.isNaN(n) ? 0 : n;
   }
 
+  private readonly siteNames = [
+    'Curtis Bay',
+    'Chattanooga, TN (US)',
+    'Tyrone, PA (US) CC105',
+    'Tyrone, PA (US)',
+    '9/Abu Dhabi (UAE) - RT',
+    'SOFCC',
+    'WOFCC',
+    'RD Material technologies',
+    'RTART',
+    'RTFCC',
+    'MT General',
+    'Other',
+    'Columbia Petroleum Lab',
+    'Curtis Bay Hydro Base Spheres',
+    'Curtis Bay Hydro Dried Only Spheres',
+    'Curtis Bay Hydro Finished Extrudates',
+    'Curtis Bay Hydro Finished Spheres',
+    'Curtis Bay Hydro Solution Makeup',
+    'LC HPC1 Solution Makeup',
+    'LC HPC2 Extrudates',
+  ];
+
   resolvedSiteName = computed(() => {
-    const siteCode = this.request()?.site ?? '';
-    if (!siteCode) return '—';
-    const match = LOCATION_ROWS.find(location => location.code === siteCode);
-    return match?.name ?? siteCode;
+    const idx = this.getRequestDataIndex() % this.siteNames.length;
+    return this.siteNames[idx] ?? 'Other';
   });
 
   summaryProfitCenter = computed(() => {
-    const idx = this.getRequestDataIndex() % PROFIT_CENTERS.length;
-    return PROFIT_CENTERS[idx] ?? '—';
+    return 'Materials and Packaging';
   });
 
   summaryProductLine = computed(() => {
@@ -125,7 +144,7 @@ export class RequestSummaryComponent implements OnInit {
   });
 
   readonly WORKFLOW_TASKS = [
-    { stage: 'Product Management', name: 'Marketing / Product Mgt', assignedTo: 'Pranjal Pandey', responsibility: 'Marketing or Product Mgt Key Assignee', status: 'Approved' },
+    { stage: 'Product Management', name: 'Product Mgt', assignedTo: 'Pranjal Pandey', responsibility: 'Product Mgt Key Assignee', status: 'Approved' },
     { stage: 'Trade Compliance', name: 'Trade Compliance : HS Code and Licensing requirements', assignedTo: 'Munish Sharma', responsibility: 'Trade compliance', status: 'Assigned' },
     { stage: 'Logistics', name: 'PSS', assignedTo: 'Rahul Sharma', responsibility: 'PSS Coordinators', status: 'Created' },
     { stage: 'Operation', name: 'Safety operational/plant', assignedTo: 'Jayehs Chauhan', responsibility: 'EHS Key Assignee', status: 'Created' },
@@ -135,7 +154,7 @@ export class RequestSummaryComponent implements OnInit {
     { stage: 'Final Approval', name: 'Overall product validation', assignedTo: 'Rahul Sharma', responsibility: 'Technical Dir or R&D Mgt Key Assignee', status: 'Created' },
   ];
 
-  readonly STAGES_ORDER = ['Product Management', 'Trade Compliance', 'Logistics', 'Operation', 'TCO', 'Automatic ERP Integration', 'Final Approval'];
+  readonly STAGES_ORDER = ['Product Management', 'Trade Compliance', 'Logistics', 'Operation', 'TCO'];
 
   showTaskPopup = signal(false);
   selectedTaskIndex = signal(-1);

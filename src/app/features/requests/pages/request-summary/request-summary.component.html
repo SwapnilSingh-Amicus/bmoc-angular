@@ -12,7 +12,7 @@
   </div>
 
   <!-- Main title -->
-  <h1 class="summary-main-title">{{ request()!.title }} &mdash; {{ resolvedSiteName() }}</h1>
+  <h1 class="summary-main-title">{{ request()!.title }}</h1>
 
   <!-- Status bar -->
   <div class="summary-status-bar">
@@ -74,11 +74,7 @@
         </div>
         <div class="info-item">
           <label>Site:</label>
-          <div class="val-link">{{ request()!.site }} — {{ resolvedSiteName() }}</div>
-        </div>
-        <div class="info-item">
-          <label>Business:</label>
-          <div class="val">SCC</div>
+          <div class="val-link">{{ resolvedSiteName() }}</div>
         </div>
         <div class="info-item">
           <label>Requestor:</label>
