@@ -61,7 +61,28 @@ export class RequestsListComponent {
   
   // Filter dropdown options from React app
   readonly REQ_TYPES = ['Create New Product', 'Product Deactivation', 'Raw Material Update', 'New Raw Material', 'Packaging Update', 'Product Extension', 'Product Update', 'New Packaging'];
-  readonly LOCATIONS = ['Bangalore', 'Chennai', 'Mumbai', 'Delhi', 'Pune', 'Hyderabad', 'Kolkata'];
+  readonly ACTUAL_SITES = [
+    'Chattanooga, TN (US)',
+    'Tyrone, PA (US) CC105',
+    'Tyrone, PA (US)',
+    '9/Abu Dhabi (UAE) - RT',
+    'SOFCC',
+    'WOFCC',
+    'RD Material technologies',
+    'RTART',
+    'RTFCC',
+    'MT General',
+    'Other',
+    'Columbia Petroleum Lab',
+    'Curtis Bay Hydro Base Spheres',
+    'Curtis Bay Hydro Dried Only Spheres',
+    'Curtis Bay Hydro Finished Extrudates',
+    'Curtis Bay Hydro Finished Spheres',
+    'Curtis Bay Hydro Solution Makeup',
+    'LC HPC1 Solution Makeup',
+    'LC HPC2 Extrudates',
+  ];
+  readonly LOCATIONS = this.ACTUAL_SITES;
   readonly REQUESTORS = ['Priya Sharma', 'Rahul Verma', 'Anjali Mehta', 'Vikram Singh', 'Rohit Kumar', 'Neha Gupta', 'Arjun Patel', 'Sunita Rao'];
   readonly STAGES = ['Product Management Approval', 'Trade Compliance Approval', 'Logistics Approval', 'Operation Approval', 'TCO Approval'];
 
@@ -107,7 +128,7 @@ export class RequestsListComponent {
       (!myOnly || r.requestor === currentUser) &&
       (!reqTitle || r.title.toLowerCase().includes(reqTitle)) &&
       (!reqType || r.type === reqType) &&
-      (!location || r.site === location) &&
+      (!location || this.getDisplaySite(r.id) === location) &&
       (!requestor || r.requestor === requestor) &&
       (!stage || r.stage === stage)
     );
@@ -139,6 +160,13 @@ export class RequestsListComponent {
   onSearch(v: string)  { this.search.set(v); this.currentPage.set(1); }
   onStatus(v: string)  { this.filterStatus.set(v); this.currentPage.set(1); }
   onType(v: string)    { this.filterType.set(v); this.currentPage.set(1); }
+
+  getDisplaySite(requestId: string): string {
+    const digits = requestId.replace(/\D/g, '');
+    const n = digits ? parseInt(digits, 10) : 0;
+    const idx = Number.isNaN(n) ? 0 : n % this.ACTUAL_SITES.length;
+    return this.ACTUAL_SITES[idx] ?? 'Other';
+  }
   
   toggleItemSelection(itemId: string, event: Event) {
     event.stopPropagation();
