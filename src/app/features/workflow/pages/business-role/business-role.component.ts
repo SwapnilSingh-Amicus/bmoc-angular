@@ -15,6 +15,8 @@ import { DatePickerComponent } from '../../../../shared/components/date-picker/d
 })
 export class BusinessRoleComponent {
 
+  readonly workflowBusinessRoles = ['Product Management', 'Trade Compliance', 'Logistics', 'Operations', 'TCO'];
+
   roles     = signal<BusinessRole[]>([...BUSINESS_ROLES]);
   search    = signal('');
   dateRangeStart = signal('');
@@ -41,13 +43,31 @@ export class BusinessRoleComponent {
     return this.roles().filter(r => !s || r.name.toLowerCase().includes(s) || r.description.toLowerCase().includes(s) || r.department.toLowerCase().includes(s));
   });
 
+  readonly uniqueDisplayedRoles = computed(() => {
+    const seen = new Set<string>();
+    const unique: BusinessRole[] = [];
+    for (const role of this.filtered()) {
+      const mappedRole = this.getMappedBusinessRoleById(role.id);
+      if (seen.has(mappedRole)) continue;
+      seen.add(mappedRole);
+      unique.push({
+        ...role,
+        name: mappedRole,
+        description: this.getMappedBusinessRoleDescription(mappedRole),
+        department: this.getMappedBusinessRoleDepartment(mappedRole),
+      });
+      if (seen.size === this.workflowBusinessRoles.length) break;
+    }
+    return unique;
+  });
+
   readonly departments = computed(() => {
     const depts = new Set(this.roles().map(r => r.department));
     return Array.from(depts).sort();
   });
 
   readonly hasSelection = computed(() => this.selected().size > 0);
-  readonly allSelected  = computed(() => this.filtered().length > 0 && this.filtered().every(r => this.selected().has(r.id)));
+  readonly allSelected  = computed(() => this.uniqueDisplayedRoles().length > 0 && this.uniqueDisplayedRoles().every(r => this.selected().has(r.id)));
 
   isSelected(id: string) { return this.selected().has(id); }
 
@@ -57,7 +77,7 @@ export class BusinessRoleComponent {
 
   toggleAll(event: Event) {
     const checked = (event.target as HTMLInputElement).checked;
-    this.selected.set(checked ? new Set(this.filtered().map(r => r.id)) : new Set());
+    this.selected.set(checked ? new Set(this.uniqueDisplayedRoles().map(r => r.id)) : new Set());
   }
 
   openEdit(role: BusinessRole) {
@@ -162,5 +182,30 @@ export class BusinessRoleComponent {
   toggleMyRoles(event: Event) {
     const checked = (event.target as HTMLInputElement).checked;
     this.myRolesOnly.set(checked);
+  }
+
+  getMappedBusinessRoleById(id: string): string {
+    let hash = 0;
+    for (let i = 0; i < id.length; i++) {
+      hash = (hash * 31 + id.charCodeAt(i)) >>> 0;
+    }
+    const idx = hash % this.workflowBusinessRoles.length;
+    return this.workflowBusinessRoles[idx];
+  }
+
+  getMappedBusinessRoleDescription(role: string): string {
+    if (role === 'Product Management') return 'Product strategy';
+    if (role === 'Trade Compliance') return 'Regulatory compliance';
+    if (role === 'Logistics') return 'Transport planning';
+    if (role === 'Operations') return 'Plant execution';
+    return 'Cost optimization';
+  }
+
+  getMappedBusinessRoleDepartment(role: string): string {
+    if (role === 'Product Management') return 'Product Strategy';
+    if (role === 'Trade Compliance') return 'Compliance Team';
+    if (role === 'Logistics') return 'Supply Chain';
+    if (role === 'Operations') return 'Plant Operations';
+    return 'Technical Control';
   }
 }

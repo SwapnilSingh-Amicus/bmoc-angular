@@ -15,6 +15,8 @@ import { DatePickerComponent } from '../../../../shared/components/date-picker/d
 })
 export class RoleMappingComponent {
 
+  readonly workflowBusinessRoles = ['Product Management', 'Trade Compliance', 'Logistics', 'Operations', 'TCO'];
+
   readonly requestTypeOptions = WORKFLOW_REQUEST_TYPE_OPTIONS;
   readonly reasonCodeOptions = REASON_CODES;
   readonly siteOptions = SITES;
@@ -73,8 +75,18 @@ export class RoleMappingComponent {
     );
   });
 
+  readonly uniqueByUser = computed(() => {
+    const seen = new Set<string>();
+    return this.filtered().filter(mapping => {
+      const key = mapping.user.toLowerCase();
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  });
+
   readonly hasSelection = computed(() => this.selected().size > 0);
-  readonly allSelected = computed(() => this.filtered().length > 0 && this.filtered().every(m => this.selected().has(m.id)));
+  readonly allSelected = computed(() => this.uniqueByUser().length > 0 && this.uniqueByUser().every(m => this.selected().has(m.id)));
   readonly businessRoleFilterOptions = computed(() => this.uniqueSorted('businessRole'));
   readonly requestTypeFilterOptions = computed(() => this.uniqueSorted('requestType'));
   readonly reasonCodeFilterOptions = computed(() => this.uniqueSorted('reasonCode'));
@@ -93,7 +105,7 @@ export class RoleMappingComponent {
 
   toggleAll(event: Event) {
     const checked = (event.target as HTMLInputElement).checked;
-    this.selected.set(checked ? new Set(this.filtered().map(m => m.id)) : new Set());
+    this.selected.set(checked ? new Set(this.uniqueByUser().map(m => m.id)) : new Set());
   }
 
   openEdit(mapping: RoleMapping) {
@@ -270,5 +282,14 @@ export class RoleMappingComponent {
     this.toast.set('Role Mapping added successfully');
     setTimeout(() => this.toast.set(''), 3000);
     this.closeAddNew();
+  }
+
+  getMappedBusinessRoleById(id: string): string {
+    let hash = 0;
+    for (let i = 0; i < id.length; i++) {
+      hash = (hash * 31 + id.charCodeAt(i)) >>> 0;
+    }
+    const idx = hash % this.workflowBusinessRoles.length;
+    return this.workflowBusinessRoles[idx];
   }
 }

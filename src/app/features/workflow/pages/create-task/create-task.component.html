@@ -25,11 +25,11 @@
             style="height: 38px; border: 1.5px solid #e0e5ec; border-radius: 4px; padding: 0 12px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff; color: #15273f; transition: all 0.15s;"
           >
 <option value="" style="color: #b0b8c4; background-color: #fff;">— Select Stage —</option>
-            <option value="R&D Approval">R&D Approval</option>
-            <option value="TCO Approval Stage">TCO Approval Stage</option>
-            <option value="Marketing">Marketing / Product Mgt</option>
-            <option value="Manufacturing Approval">Manufacturing Approval</option>
-            <option value="Purchasing Approval">Purchasing Approval</option>
+            <option value="Product Management Approval">Product Management Approval</option>
+            <option value="Trade Compliance Approval">Trade Compliance Approval</option>
+            <option value="Logistics Approval">Logistics Approval</option>
+            <option value="Operations Approval">Operations Approval</option>
+            <option value="TCO Approval">TCO Approval</option>
           </select>
         </div>
 
@@ -70,11 +70,11 @@
             style="height: 38px; border: 1.5px solid #e0e5ec; border-radius: 4px; padding: 0 12px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff; color: #15273f; transition: all 0.15s;"
           >
 <option value="" style="color: #b0b8c4; background-color: #fff;">— Select Responsibility —</option>
-            <option value="R&D">R&D</option>
-            <option value="Marketing">Marketing</option>
-            <option value="Quality">Quality</option>
-            <option value="Manufacturing">Manufacturing</option>
-            <option value="Purchasing">Purchasing</option>
+            <option value="Product Management">Product Management</option>
+            <option value="Trade Compliance">Trade Compliance</option>
+            <option value="Logistics">Logistics</option>
+            <option value="Operations">Operations</option>
+            <option value="TCO">TCO</option>
           </select>
         </div>
       </div>
@@ -90,6 +90,37 @@
             <option value="" style="color: #b0b8c4; background-color: #fff;">— Select Request Type —</option>
             <option *ngFor="let requestTypeOption of requestTypeOptions" [value]="requestTypeOption">{{ requestTypeOption }}</option>
           </select>
+        </div>
+
+        <!-- Reason Code -->
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <label style="font-size: 12px; font-weight: 600; color: #15273f;">Reason Code</label>
+          <select
+            [(ngModel)]="reasonCode"
+            style="height: 38px; border: 1.5px solid #e0e5ec; border-radius: 4px; padding: 0 12px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff; color: #15273f; transition: all 0.15s;"
+          >
+<option value="All" style="color: #b0b8c4; background-color: #fff;">— Select Reason Code —</option>
+              <option *ngFor="let reasonCodeOption of reasonCodeOptions" [value]="reasonCodeOption">{{ reasonCodeOption }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+        <!-- Business Role/User -->
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <label style="font-size: 12px; font-weight: 600; color: #15273f;">Business Role/User</label>
+          <div style="display: flex; align-items: center; gap: 18px; min-height: 38px; border: 1.5px solid #e0e5ec; border-radius: 4px; padding: 0 12px; background-color: #fff;">
+            <label *ngFor="let businessRoleUserOption of businessRoleUserOptions" style="display: flex; align-items: center; gap: 7px; font-size: 13px; color: #15273f;">
+              <input
+                type="radio"
+                name="businessRoleUser"
+                [value]="businessRoleUserOption"
+                [checked]="businessRoleUser() === businessRoleUserOption"
+                (change)="onBusinessRoleUserChange(businessRoleUserOption)"
+              />
+              {{ businessRoleUserOption }}
+            </label>
+          </div>
         </div>
 
         <!-- Business Type (Multi Select) -->
@@ -128,37 +159,6 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>     
-
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
-        <!-- Business Role/User -->
-        <div style="display: flex; flex-direction: column; gap: 6px;">
-          <label style="font-size: 12px; font-weight: 600; color: #15273f;">Business Role/User</label>
-          <div style="display: flex; align-items: center; gap: 18px; min-height: 38px; border: 1.5px solid #e0e5ec; border-radius: 4px; padding: 0 12px; background-color: #fff;">
-            <label *ngFor="let businessRoleUserOption of businessRoleUserOptions" style="display: flex; align-items: center; gap: 7px; font-size: 13px; color: #15273f;">
-              <input
-                type="radio"
-                name="businessRoleUser"
-                [value]="businessRoleUserOption"
-                [checked]="businessRoleUser() === businessRoleUserOption"
-                (change)="onBusinessRoleUserChange(businessRoleUserOption)"
-              />
-              {{ businessRoleUserOption }}
-            </label>
-          </div>
-        </div>
-
-        <!-- Reason Code -->
-        <div style="display: flex; flex-direction: column; gap: 6px;">
-          <label style="font-size: 12px; font-weight: 600; color: #15273f;">Reason Code</label>
-          <select
-            [(ngModel)]="reasonCode"
-            style="height: 38px; border: 1.5px solid #e0e5ec; border-radius: 4px; padding: 0 12px; font-size: 13px; outline: none; font-family: inherit; background-color: #fff; color: #15273f; transition: all 0.15s;"
-          >
-<option value="All" style="color: #b0b8c4; background-color: #fff;">— Select Reason Code —</option>
-              <option *ngFor="let reasonCodeOption of reasonCodeOptions" [value]="reasonCodeOption">{{ reasonCodeOption }}</option>
-          </select>
         </div>
       </div>
 

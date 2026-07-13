@@ -68,11 +68,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let mapping of filtered()" class="cursor-pointer" (click)="openEdit(mapping)">
+          <tr *ngFor="let mapping of uniqueByUser()" class="cursor-pointer" (click)="openEdit(mapping)">
             <td style="text-align: center;" (click)="$event.stopPropagation()">
               <input type="checkbox" class="table-checkbox" [checked]="isSelected(mapping.id)" (change)="toggleSelect(mapping.id)" />
             </td>
-            <td><span class="text-teal fw-600">{{ mapping.businessRole }}</span></td>
+            <td><span class="text-teal fw-600">{{ getMappedBusinessRoleById(mapping.id) }}</span></td>
             <td class="text-dark">{{ mapping.user }}</td>
             <td class="text-dark">{{ mapping.requestType }}</td>
             <td class="text-dark">{{ mapping.reasonCode }}</td>
@@ -80,7 +80,7 @@
             <td class="text-dark">{{ mapping.business }}</td>
             <td class="text-dark">{{ mapping.updatedOn }}</td>
           </tr>
-          <tr *ngIf="filtered().length === 0">
+          <tr *ngIf="uniqueByUser().length === 0">
             <td colspan="8" style="text-align:center; padding: 24px; color: #aaa;">No records found.</td>
           </tr>
         </tbody>

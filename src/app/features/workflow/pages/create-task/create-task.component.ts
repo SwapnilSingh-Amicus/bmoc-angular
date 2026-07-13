@@ -34,9 +34,15 @@ export class CreateTaskComponent {
   location            = signal('All');
   isSaving            = signal(false);
 
-  readonly requestTypeOptions = WORKFLOW_REQUEST_TYPE_OPTIONS;
+  readonly requestTypeOptions = Array.from(
+    new Set(
+      WORKFLOW_REQUEST_TYPE_OPTIONS.map(requestTypeOption =>
+        requestTypeOption === 'Create New Product' ? 'Finished Product' : requestTypeOption
+      )
+    )
+  );
   readonly profitCenters = PROFIT_CENTERS;
-  readonly reasonCodeOptions = REASON_CODES;
+  readonly reasonCodeOptions = ['P01 Create a new Finished product', 'P08 Parts Fabrication'];
   readonly siteOptions = SITES;
   readonly taskTypeOptions = ['Input', 'Approval', 'Review'];
   readonly businessRoleUserOptions = ['Individual', 'Requestor', 'Business Role'];

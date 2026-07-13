@@ -65,7 +65,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let role of filtered()" class="cursor-pointer" (click)="openEdit(role)">
+          <tr *ngFor="let role of uniqueDisplayedRoles()" class="cursor-pointer" (click)="openEdit(role)">
             <td style="text-align: center;" (click)="$event.stopPropagation()">
               <input type="checkbox" class="table-checkbox" [checked]="isSelected(role.id)" (change)="toggleSelect(role.id)" />
             </td>
@@ -74,7 +74,7 @@
             <td class="text-dark">{{ role.department }}</td>
             <td class="text-dark">{{ role.updatedOn }}</td>
           </tr>
-          <tr *ngIf="filtered().length === 0">
+          <tr *ngIf="uniqueDisplayedRoles().length === 0">
             <td colspan="5" style="text-align:center; padding: 24px; color: #aaa;">No records found.</td>
           </tr>
         </tbody>
