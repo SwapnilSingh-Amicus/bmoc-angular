@@ -34,7 +34,12 @@ export class RequestSummaryComponent implements OnInit {
   reqId = signal('');
   request = signal<Request | undefined>(undefined);
   tasks = signal<Task[]>([]);
-  audit = signal<AuditEntry[]>(AUDIT_ENTRIES);
+  audit = signal<AuditEntry[]>(
+    AUDIT_ENTRIES.map(entry => ({
+      ...entry,
+      user: entry.user === 'Priya Sharma' ? 'Pranjal Pandey' : entry.user,
+    }))
+  );
 
   changeTo = signal('');
   sectionA = signal(true);
@@ -74,7 +79,7 @@ export class RequestSummaryComponent implements OnInit {
 
   attachments = signal([
     { name: 'SDS_WP250_v1.pdf', size: '890 KB', uploadedBy: 'Rahul Verma', date: '10 Jun 2026', comment: '' },
-    { name: 'Specification_WP250.docx', size: '340 KB', uploadedBy: 'Priya Sharma', date: '10 Jun 2026', comment: '' },
+    { name: 'Specification_WP250.docx', size: '340 KB', uploadedBy: 'Pranjal Pandey', date: '10 Jun 2026', comment: '' },
   ]);
 
   statusColor = statusColor;
@@ -332,7 +337,10 @@ export class RequestSummaryComponent implements OnInit {
       const id = params.get('id') || '';
       this.reqId.set(id);
       const req = ALL_REQUESTS.find(r => r.id === id) || ALL_REQUESTS[0];
-      this.request.set(req);
+      this.request.set({
+        ...req,
+        requestor: req.requestor === 'Priya Sharma' ? 'Pranjal Pandey' : req.requestor,
+      });
       this.tasks.set(ALL_TASKS.filter(t => t.reqId === id));
     });
   }
