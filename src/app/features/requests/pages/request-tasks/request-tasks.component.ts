@@ -38,7 +38,7 @@ export class RequestTasksComponent {
   submittedOn = signal('10 Jun 2026');
   requestType = signal('Finished Product');
   requestTitle = signal('New Waterproofing Compound WP-250');
-  customer = signal('Bangalore');
+  customer = signal('Curtis Bay');
   dueBy = signal('30 Jun 2026');
 
   emailSubject = computed(() => `${this.reqId()} — Action Required: ${this.requestTitle()}`);
