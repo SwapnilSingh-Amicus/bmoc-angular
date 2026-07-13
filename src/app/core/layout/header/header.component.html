@@ -7,7 +7,7 @@
 
   <!-- Centre: App Title -->
   <div class="top-bar__center">
-    <span class="top-bar__title">Business MOC</span>
+    <span class="top-bar__title">MM - Material Management</span>
   </div>
 
   <!-- Right: User Controls -->
@@ -29,13 +29,13 @@
 
     <div style="position: relative;">
       <button class="top-bar__user-btn" id="btn-user-role" (click)="toggleModule()">
-        Business MOC &bull; Process Owner
+        MM - Material Management &bull; Process Owner
         <svg lucideChevronDown [size]="13"></svg>
       </button>
       <div *ngIf="moduleOpen()" class="topbar-dropdown" style="min-width: 220px;">
-        <button (click)="moduleOpen.set(false)">Business MOC &bull; Process Owner</button>
-        <button (click)="moduleOpen.set(false)">Business MOC &bull; Requestor</button>
-        <button (click)="moduleOpen.set(false)">Business MOC &bull; Admin</button>
+        <button (click)="moduleOpen.set(false)">MM - Material Management &bull; Process Owner</button>
+        <button (click)="moduleOpen.set(false)">MM - Material Management &bull; Requestor</button>
+        <button (click)="moduleOpen.set(false)">MM - Material Management &bull; Admin</button>
       </div>
     </div>
 
