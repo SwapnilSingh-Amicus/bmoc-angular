@@ -27,18 +27,6 @@
 
     <div class="top-bar__sep"></div>
 
-    <div style="position: relative;">
-      <button class="top-bar__user-btn" id="btn-user-role" (click)="toggleModule()">
-        MM - Material Management &bull; Process Owner
-        <svg lucideChevronDown [size]="13"></svg>
-      </button>
-      <div *ngIf="moduleOpen()" class="topbar-dropdown" style="min-width: 220px;">
-        <button (click)="moduleOpen.set(false)">MM - Material Management &bull; Process Owner</button>
-        <button (click)="moduleOpen.set(false)">MM - Material Management &bull; Requestor</button>
-        <button (click)="moduleOpen.set(false)">MM - Material Management &bull; Admin</button>
-      </div>
-    </div>
-
     <div class="top-bar__sep"></div>
 
     <div style="position: relative;">
