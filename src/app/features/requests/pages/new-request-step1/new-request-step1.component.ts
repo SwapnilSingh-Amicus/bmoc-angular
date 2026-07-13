@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LucidePlus, LucideX, LucideMinus, LucideDownload, LucideTrash2, LucideSearch } from '@lucide/angular';
 import {
-  REASON_CODES, SITES, TOP_FAMILIES,
+  REASON_CODES, TOP_FAMILIES,
   FAMILIES, CATEGORIES, ITEM_TYPES, PRIORITIES, PRODUCT_LINES, PRODUCT_FAMILY_GROUPS, PRODUCT_FAMILIES, PROFIT_CENTERS,
 } from '../../../../core/constants/app.constants';
 import { ToastService } from '../../../../core/services/toast.service';
@@ -48,7 +48,7 @@ export class NewRequestStep1Component {
   });
   private readonly prioritizedProductOptions = ['Material and Packaging'];
   readonly priorities    = PRIORITIES;
-  readonly sites         = SITES;
+  readonly sites         = ['Curtis bay - MT General'];
   readonly productLines  = [
     ...this.prioritizedProductOptions,
     ...PRODUCT_LINES.filter(option => !this.prioritizedProductOptions.includes(option)),
@@ -343,6 +343,7 @@ export class NewRequestStep1Component {
   }
 
   formErrors = signal<string[]>([]);
+  showSaveSuccessModal = signal(false);
 
   validate(): boolean {
     const errors: string[] = [];
@@ -371,8 +372,16 @@ export class NewRequestStep1Component {
   
   saveDraft() {
     this.formErrors.set([]);
-    const message = this.isEditMode() ? 'Request saved successfully!' : 'Draft saved successfully!';
-    this.toastService.success(message);
+    if (this.isEditMode()) {
+      this.showSaveSuccessModal.set(true);
+      return;
+    }
+    this.toastService.success('Draft saved successfully!');
+  }
+
+  handleSaveSuccessOk() {
+    this.showSaveSuccessModal.set(false);
+    this.router.navigate(['/dashboard']);
   }
 
   constructor(private router: Router, private route: ActivatedRoute) {

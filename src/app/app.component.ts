@@ -12,7 +12,7 @@ import { ToastComponent } from './shared/components/toast/toast.component';
   template: `
     <div class="mobile-only-banner">
       <h2>Desktop Required</h2>
-      <p>EAS BMOC is optimised for desktop use.<br>Please open on a screen wider than 768px.</p>
+      <p>EAS MM is optimised for desktop use.<br>Please open on a screen wider than 768px.</p>
     </div>
 
     <div class="app-shell">
@@ -27,3 +27,4 @@ import { ToastComponent } from './shared/components/toast/toast.component';
   `,
 })
 export class AppComponent {}
+

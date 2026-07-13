@@ -20,11 +20,11 @@ export const CURRENT_USER = { name: 'Pranjal Panday', role: 'Requestor', busines
 
 // ─── Dashboard Data ───────────────────────────────────────────────────────────
 export const DASHBOARD_TASKS: DashboardTask[] = [
-  { id: 'BMOC-2024-0045', taskTitle: 'Raw Material validation approval',  requestTitle: 'BMOC-2024-0045 — New Waterproofing Compound WP-250', type: 'Provide Input + Approve', dueDate: '20 Jun 2026', priority: 'P2' },
-  { id: 'BMOC-2024-0045', taskTitle: 'Compliance CHECK (REACH/TSCA/DSL)', requestTitle: 'BMOC-2024-0045 — New Waterproofing Compound WP-250', type: 'Review',                  dueDate: '26 Jun 2026', priority: 'P2' },
-  { id: 'BMOC-2024-0039', taskTitle: 'PSS Compliance CHECK',              requestTitle: 'BMOC-2024-0039 — Product Ext CureX C-30 Kolkata',  type: 'Review',                  dueDate: '25 Jun 2026', priority: 'P1' },
-  { id: 'BMOC-2024-0030', taskTitle: 'Product Spec validation',           requestTitle: 'BMOC-2024-0030 — New Product ConcreteSeal CS-100',  type: 'Review + Approve',        dueDate: '22 Jun 2026', priority: 'P2' },
-  { id: 'BMOC-2024-0031', taskTitle: 'Trade compliance Review',           requestTitle: 'BMOC-2024-0031 — Product Ext AdmixtureAD20 Mumbai', type: 'Review',                  dueDate: '10 Jun 2026', priority: 'P3' },
+  { id: 'MM-2024-0045', taskTitle: 'Raw Material validation approval',  requestTitle: 'MM-2024-0045 — Curtis Bay - Silica - New Finished Product', type: 'Provide Input + Approve', dueDate: '20 Jun 2026', priority: 'P2' },
+  { id: 'MM-2024-0045', taskTitle: 'Compliance CHECK (REACH/TSCA/DSL)', requestTitle: 'MM-2024-0045 — Curtis Bay - Silica - New Finished Product', type: 'Review',                  dueDate: '26 Jun 2026', priority: 'P2' },
+  { id: 'MM-2024-0039', taskTitle: 'PSS Compliance CHECK',              requestTitle: 'MM-2024-0039 — Product Ext CureX C-30 Kolkata',  type: 'Review',                  dueDate: '25 Jun 2026', priority: 'P1' },
+  { id: 'MM-2024-0030', taskTitle: 'Product Spec validation',           requestTitle: 'MM-2024-0030 — New Product ConcreteSeal CS-100',  type: 'Review + Approve',        dueDate: '22 Jun 2026', priority: 'P2' },
+  { id: 'MM-2024-0031', taskTitle: 'Trade compliance Review',           requestTitle: 'MM-2024-0031 — Product Ext AdmixtureAD20 Mumbai', type: 'Review',                  dueDate: '10 Jun 2026', priority: 'P3' },
 ];
 
 export const DASHBOARD_REQUESTS: DashboardRequest[] = [
@@ -52,7 +52,7 @@ export const DASHBOARD_REQUESTS: DashboardRequest[] = [
 
 // ─── Requests (main list) ──────────────────────────────────────────────────────
 export const ALL_REQUESTS: Request[] = [
-  { id: '700719', title: 'New Waterproofing Compound WP-250',   customer: 'Internal', type: 'Create New Product',   site: 'INPL001', requestor: 'Priya Sharma',  date: '10 Jun 2026', stage: 'Pre Approval',  status: 'In Progress', amount: 'Rs.2,40,000', priority: 'P2' },
+  { id: '700719', title: 'Curtis Bay - Silica - New Finished Product',   customer: 'Internal', type: 'Create New Product',   site: 'INPL001', requestor: 'Priya Sharma',  date: '10 Jun 2026', stage: 'Pre Approval',  status: 'In Progress', amount: 'Rs.2,40,000', priority: 'P2' },
   { id: '700700', title: 'RM Update Cellulose Ether CF-5',      customer: 'Internal', type: 'Raw Material Update',  site: 'INPL004', requestor: 'Rahul Verma',   date: '08 Jun 2026', stage: 'Approvals',     status: 'In Progress', amount: 'Rs.85,000',   priority: 'P1' },
   { id: '700688', title: 'Product Ext Admixture AD-20 Mumbai',  customer: 'Internal', type: 'Product Extension',    site: 'INPL003', requestor: 'Anjali Mehta',  date: '05 Jun 2026', stage: 'Post Approval', status: 'Approved',    amount: 'Rs.1,20,000', priority: 'P3' },
   { id: '700698', title: 'Packaging Change SikaBond T55',       customer: 'Internal', type: 'Product Update',       site: 'INPL001', requestor: 'Vikram Singh',  date: '01 Jun 2026', stage: '—',             status: 'Draft',       amount: 'Rs.50,000',   priority: 'P3' },
@@ -74,26 +74,26 @@ export const ALL_REQUESTS: Request[] = [
 
 // ─── Task Listing Rows ────────────────────────────────────────────────────────
 export const ALL_TASKS: Task[] = [
-  { id: 'BMOC-2024-0045-T02', reqId: 'BMOC-2024-0045', taskName: 'Raw Material validation approval',  type: 'Provide Input + Approve', assignedTo: 'Priya Sharma', dueDate: '20 Jun 2026', status: 'Assigned'    },
-  { id: 'BMOC-2024-0045-T05', reqId: 'BMOC-2024-0045', taskName: 'Compliance CHECK (REACH/TSCA/DSL)', type: 'Review',                  assignedTo: 'Priya Sharma', dueDate: '26 Jun 2026', status: 'In Progress' },
-  { id: 'BMOC-2024-0039-T03', reqId: 'BMOC-2024-0039', taskName: 'PSS Compliance CHECK',              type: 'Review',                  assignedTo: 'Priya Sharma', dueDate: '25 Jun 2026', status: 'Assigned'    },
-  { id: 'BMOC-2024-0030-T04', reqId: 'BMOC-2024-0030', taskName: 'Product Spec validation',           type: 'Review + Approve',        assignedTo: 'Priya Sharma', dueDate: '22 Jun 2026', status: 'Assigned'    },
-  { id: 'BMOC-2024-0031-T06', reqId: 'BMOC-2024-0031', taskName: 'Trade compliance Review',           type: 'Review',                  assignedTo: 'Priya Sharma', dueDate: '10 Jun 2026', status: 'Created'     },
-  { id: 'BMOC-2024-0033-T02', reqId: 'BMOC-2024-0033', taskName: 'Addition documentation',            type: 'Review + Approve',        assignedTo: 'Priya Sharma', dueDate: '02 Jul 2026', status: 'Created'     },
-  { id: 'BMOC-2024-0026-T04', reqId: 'BMOC-2024-0026', taskName: 'Trade compliance Review',           type: 'Review',                  assignedTo: 'Priya Sharma', dueDate: '05 Jul 2026', status: 'Created'     },
-  { id: 'BMOC-2024-0041-T03', reqId: 'BMOC-2024-0041', taskName: 'Assign Material Classification',    type: 'Classify',                assignedTo: 'Priya Sharma', dueDate: '08 Jul 2026', status: 'Created'     },
-  { id: 'BMOC-2024-0030-T08', reqId: 'BMOC-2024-0030', taskName: 'PSS Approval',                      type: 'Approve',                 assignedTo: 'Priya Sharma', dueDate: '10 Jul 2026', status: 'Created'     },
-  { id: 'BMOC-2024-0037-T05', reqId: 'BMOC-2024-0037', taskName: 'Carbon Impact validation',          type: 'Review + Approve',        assignedTo: 'Priya Sharma', dueDate: '12 Jul 2026', status: 'Created'     },
-  { id: 'BMOC-2024-0043-T09', reqId: 'BMOC-2024-0043', taskName: 'Product Spec validation',           type: 'Review + Approve',        assignedTo: 'Priya Sharma', dueDate: '05 Jun 2026', status: 'Approved'    },
-  { id: 'BMOC-2024-0040-T07', reqId: 'BMOC-2024-0040', taskName: 'RM code creation (cprm edition)',   type: 'Data Entry',              assignedTo: 'Priya Sharma', dueDate: '28 May 2026', status: 'Approved'    },
-  { id: 'BMOC-2024-0038-T04', reqId: 'BMOC-2024-0038', taskName: 'Raw Material validation approval',  type: 'Provide Input + Approve', assignedTo: 'Priya Sharma', dueDate: '20 May 2026', status: 'Approved'    },
-  { id: 'BMOC-2024-0035-T02', reqId: 'BMOC-2024-0035', taskName: 'Addition documentation',            type: 'Review + Approve',        assignedTo: 'Priya Sharma', dueDate: '10 May 2026', status: 'Rejected'    },
-  { id: 'BMOC-2024-0034-T05', reqId: 'BMOC-2024-0034', taskName: 'Compliance CHECK (REACH/TSCA/DSL)', type: 'Review',                  assignedTo: 'Priya Sharma', dueDate: '04 May 2026', status: 'Approved'    },
-  { id: 'BMOC-2024-0032-T03', reqId: 'BMOC-2024-0032', taskName: 'PSS Approval',                      type: 'Approve',                 assignedTo: 'Priya Sharma', dueDate: '26 Apr 2026', status: 'Approved'    },
-  { id: 'BMOC-2024-0031-T08', reqId: 'BMOC-2024-0031', taskName: 'Assign Material Classification',    type: 'Classify',                assignedTo: 'Priya Sharma', dueDate: '22 Apr 2026', status: 'Approved'    },
-  { id: 'BMOC-2024-0029-T06', reqId: 'BMOC-2024-0029', taskName: 'Supply chain (storage, logistics)', type: 'Provide Input',           assignedTo: 'Priya Sharma', dueDate: '12 Apr 2026', status: 'Approved'    },
-  { id: 'BMOC-2024-0028-T04', reqId: 'BMOC-2024-0028', taskName: 'Carbon Impact validation',          type: 'Review + Approve',        assignedTo: 'Priya Sharma', dueDate: '07 Apr 2026', status: 'Rejected'    },
-  { id: 'BMOC-2024-0027-T02', reqId: 'BMOC-2024-0027', taskName: 'Addition documentation',            type: 'Review + Approve',        assignedTo: 'Priya Sharma', dueDate: '03 Apr 2026', status: 'Approved'    },
+  { id: 'MM-2024-0045-T02', reqId: 'MM-2024-0045', taskName: 'Raw Material validation approval',  type: 'Provide Input + Approve', assignedTo: 'Priya Sharma', dueDate: '20 Jun 2026', status: 'Assigned'    },
+  { id: 'MM-2024-0045-T05', reqId: 'MM-2024-0045', taskName: 'Compliance CHECK (REACH/TSCA/DSL)', type: 'Review',                  assignedTo: 'Priya Sharma', dueDate: '26 Jun 2026', status: 'In Progress' },
+  { id: 'MM-2024-0039-T03', reqId: 'MM-2024-0039', taskName: 'PSS Compliance CHECK',              type: 'Review',                  assignedTo: 'Priya Sharma', dueDate: '25 Jun 2026', status: 'Assigned'    },
+  { id: 'MM-2024-0030-T04', reqId: 'MM-2024-0030', taskName: 'Product Spec validation',           type: 'Review + Approve',        assignedTo: 'Priya Sharma', dueDate: '22 Jun 2026', status: 'Assigned'    },
+  { id: 'MM-2024-0031-T06', reqId: 'MM-2024-0031', taskName: 'Trade compliance Review',           type: 'Review',                  assignedTo: 'Priya Sharma', dueDate: '10 Jun 2026', status: 'Created'     },
+  { id: 'MM-2024-0033-T02', reqId: 'MM-2024-0033', taskName: 'Addition documentation',            type: 'Review + Approve',        assignedTo: 'Priya Sharma', dueDate: '02 Jul 2026', status: 'Created'     },
+  { id: 'MM-2024-0026-T04', reqId: 'MM-2024-0026', taskName: 'Trade compliance Review',           type: 'Review',                  assignedTo: 'Priya Sharma', dueDate: '05 Jul 2026', status: 'Created'     },
+  { id: 'MM-2024-0041-T03', reqId: 'MM-2024-0041', taskName: 'Assign Material Classification',    type: 'Classify',                assignedTo: 'Priya Sharma', dueDate: '08 Jul 2026', status: 'Created'     },
+  { id: 'MM-2024-0030-T08', reqId: 'MM-2024-0030', taskName: 'PSS Approval',                      type: 'Approve',                 assignedTo: 'Priya Sharma', dueDate: '10 Jul 2026', status: 'Created'     },
+  { id: 'MM-2024-0037-T05', reqId: 'MM-2024-0037', taskName: 'Carbon Impact validation',          type: 'Review + Approve',        assignedTo: 'Priya Sharma', dueDate: '12 Jul 2026', status: 'Created'     },
+  { id: 'MM-2024-0043-T09', reqId: 'MM-2024-0043', taskName: 'Product Spec validation',           type: 'Review + Approve',        assignedTo: 'Priya Sharma', dueDate: '05 Jun 2026', status: 'Approved'    },
+  { id: 'MM-2024-0040-T07', reqId: 'MM-2024-0040', taskName: 'RM code creation (cprm edition)',   type: 'Data Entry',              assignedTo: 'Priya Sharma', dueDate: '28 May 2026', status: 'Approved'    },
+  { id: 'MM-2024-0038-T04', reqId: 'MM-2024-0038', taskName: 'Raw Material validation approval',  type: 'Provide Input + Approve', assignedTo: 'Priya Sharma', dueDate: '20 May 2026', status: 'Approved'    },
+  { id: 'MM-2024-0035-T02', reqId: 'MM-2024-0035', taskName: 'Addition documentation',            type: 'Review + Approve',        assignedTo: 'Priya Sharma', dueDate: '10 May 2026', status: 'Rejected'    },
+  { id: 'MM-2024-0034-T05', reqId: 'MM-2024-0034', taskName: 'Compliance CHECK (REACH/TSCA/DSL)', type: 'Review',                  assignedTo: 'Priya Sharma', dueDate: '04 May 2026', status: 'Approved'    },
+  { id: 'MM-2024-0032-T03', reqId: 'MM-2024-0032', taskName: 'PSS Approval',                      type: 'Approve',                 assignedTo: 'Priya Sharma', dueDate: '26 Apr 2026', status: 'Approved'    },
+  { id: 'MM-2024-0031-T08', reqId: 'MM-2024-0031', taskName: 'Assign Material Classification',    type: 'Classify',                assignedTo: 'Priya Sharma', dueDate: '22 Apr 2026', status: 'Approved'    },
+  { id: 'MM-2024-0029-T06', reqId: 'MM-2024-0029', taskName: 'Supply chain (storage, logistics)', type: 'Provide Input',           assignedTo: 'Priya Sharma', dueDate: '12 Apr 2026', status: 'Approved'    },
+  { id: 'MM-2024-0028-T04', reqId: 'MM-2024-0028', taskName: 'Carbon Impact validation',          type: 'Review + Approve',        assignedTo: 'Priya Sharma', dueDate: '07 Apr 2026', status: 'Rejected'    },
+  { id: 'MM-2024-0027-T02', reqId: 'MM-2024-0027', taskName: 'Addition documentation',            type: 'Review + Approve',        assignedTo: 'Priya Sharma', dueDate: '03 Apr 2026', status: 'Approved'    },
 ];
 
 // ─── Workflow Task Master ─────────────────────────────────────────────────────
@@ -536,3 +536,4 @@ export function priorityColor(p: string): string {
 export function stageColor(s: string): string {
   return s === 'Pre Approval' ? '#314358' : s === 'Approvals' ? '#23476c' : '#16283e';
 }
+

@@ -36,12 +36,6 @@
   <div class="summary-priority-row">
     <span>Priority:</span>
     <span class="priority-option">
-      <span class="dot" style="background:#f5a900;"></span> P1
-    </span>
-    <span class="priority-option">
-      <span class="dot" style="background:#29b931;"></span> P2
-    </span>
-    <span class="priority-option">
       <span class="dot" style="background:#0f79c7;"></span> P3
     </span>
     <span style="color:#77858c; margin-left:8px;">Complete By: <strong>30 Jun 2026</strong></span>
@@ -96,18 +90,6 @@
           <label>Profit Centre:</label>
           <div class="val">{{ summaryProfitCenter() }}</div>
         </div>
-        <div class="info-item">
-          <label>Product Line:</label>
-          <div class="val">{{ summaryProductLine() }}</div>
-        </div>
-        <div class="info-item">
-          <label>Product Family Group:</label>
-          <div class="val">{{ summaryProductFamilyGroup() }}</div>
-        </div>
-        <div class="info-item">
-          <label>Product Family:</label>
-          <div class="val">{{ summaryProductFamily() }}</div>
-        </div>
       </div>
     </div>
   </div>
@@ -126,11 +108,11 @@
       <div *ngFor="let stage of STAGES_ORDER; let stageIdx = index" style="border-bottom: 1px solid #e0e5ec;">
         <!-- Stage Header -->
         <div style="background: #f6f8fb; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e0e5ec;">
-          <span style="font-size: 13px; font-weight: 700; color: #15273f;">{{ stage }}</span>
+          <span style="font-size: 13px; font-weight: 700; color: #15273f;">{{ formatWorkflowStageHeading(stage) }}</span>
           <span style="display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600;"
-            [style.color]="getGroupStatus(stage) === 'Approved' ? '#29b931' : getGroupStatus(stage) === 'Assigned' ? '#2795a8' : '#77858c'">
+            [style.color]="getGroupStatus(stage) === 'Completed' ? '#29b931' : getGroupStatus(stage) === 'Assigned' ? '#2795a8' : '#77858c'">
             <span style="width: 8px; height: 8px; border-radius: 50%; display: inline-block;"
-              [style.background]="getGroupStatus(stage) === 'Approved' ? '#29b931' : getGroupStatus(stage) === 'Assigned' ? '#2795a8' : '#77858c'"></span>
+              [style.background]="getGroupStatus(stage) === 'Completed' ? '#29b931' : getGroupStatus(stage) === 'Assigned' ? '#2795a8' : '#77858c'"></span>
             {{ getGroupStatus(stage) }}
           </span>
         </div>
@@ -152,7 +134,7 @@
               <td style="padding: 12px 20px; font-size: 13px; color: #15273f; font-weight: 500;">
                 <div style="display: flex; align-items: center; gap: 8px;">
                   <span style="width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex-shrink: 0;"
-                    [style.background]="t.status === 'Approved' ? '#29b931' : t.status === 'Assigned' ? '#2795a8' : '#77858c'">
+                    [style.background]="t.status === 'Completed' ? '#29b931' : t.status === 'Assigned' ? '#2795a8' : '#77858c'">
                   </span>
                   {{ t.name }}
                 </div>
@@ -435,7 +417,7 @@
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; margin-bottom: 16px; padding: 12px 14px; background-color: #f6f8fb; border: 1px solid #d2ddea;">
         <div style="display: flex; align-items: center; gap: 6px;">
           <span style="font-size: 12px; color: #77858c; min-width: 85px; flex-shrink: 0;">Request:</span>
-          <span style="font-size: 13px; color: #15273f; font-weight: 600;">BMOC-2024-0045</span>
+          <span style="font-size: 13px; color: #15273f; font-weight: 600;">MM-2024-0045</span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px;">
           <span style="font-size: 12px; color: #77858c; min-width: 85px; flex-shrink: 0;">Assigned To:</span>
@@ -448,9 +430,9 @@
         <div style="display: flex; align-items: center; gap: 6px;">
           <span style="font-size: 12px; color: #77858c; min-width: 85px; flex-shrink: 0;">Status:</span>
           <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600;"
-            [style.color]="getSelectedTask()?.status === 'Approved' ? '#29b931' : getSelectedTask()?.status === 'Assigned' ? '#2795a8' : '#77858c'">
+            [style.color]="getSelectedTask()?.status === 'Completed' ? '#29b931' : getSelectedTask()?.status === 'Assigned' ? '#2795a8' : '#77858c'">
             <span style="width: 8px; height: 8px; border-radius: 50%; display: inline-block;"
-              [style.background]="getSelectedTask()?.status === 'Approved' ? '#29b931' : getSelectedTask()?.status === 'Assigned' ? '#2795a8' : '#77858c'">
+              [style.background]="getSelectedTask()?.status === 'Completed' ? '#29b931' : getSelectedTask()?.status === 'Assigned' ? '#2795a8' : '#77858c'">
             </span>
             {{ getSelectedTask()?.status }}
           </span>
@@ -557,3 +539,4 @@
     </div>
   </div>
 </div>
+
