@@ -18,6 +18,7 @@ import {
 } from '../../../../core/constants/app.constants';
 import { Request, Task, AuditEntry } from '../../../../core/models/app.models';
 import { ToastService } from '../../../../core/services/toast.service';
+import { environment } from '../../../../../environments/environment';
 
 interface WorkflowGroup { stage: string; tasks: Task[]; }
 
@@ -50,9 +51,8 @@ export class RequestSummaryComponent implements OnInit {
   emailSubject = signal(' BMOC-2024-0045 — Action Required: New Waterproofing Compound WP-250');
 
   getExternalRequestSummaryUrl(reqId: string) {
-    // Must work both on localhost and on deployed domain.
-    const origin = typeof window !== 'undefined' ? window.location.origin : '';
-    return `${origin}/requests/${reqId}/summary`;
+    const appBaseUrl = environment.appBaseUrl.replace(/\/$/, '');
+    return `${appBaseUrl}/requests/${reqId}/summary`;
   }
 
   // Keep body as plain text (current UI binds with textarea [ngModel])

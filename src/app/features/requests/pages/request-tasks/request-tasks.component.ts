@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LucidePlus, LucideX, LucideMinus, LucideChevronUp, LucideChevronDown, LucideCheck } from '@lucide/angular';
+import { environment } from '../../../../../environments/environment';
 
 interface Task {
   title: string;
@@ -43,9 +44,8 @@ export class RequestTasksComponent {
   emailSubject = computed(() => `${this.reqId()} — Action Required: ${this.requestTitle()}`);
 
   getExternalRequestSummaryUrl(reqId: string) {
-    // Build a route that works on both local and deployed environments.
-    const origin = typeof window !== 'undefined' ? window.location.origin : '';
-    return `${origin}/requests/${reqId}/summary`;
+    const appBaseUrl = environment.appBaseUrl.replace(/\/$/, '');
+    return `${appBaseUrl}/requests/${reqId}/summary`;
   }
 
   emailBody = computed(() => {
